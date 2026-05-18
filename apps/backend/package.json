@@ -84,7 +84,8 @@
         ],
         "options": {
           "buildTarget": "@recipes/backend:build",
-          "runBuildTargetDependencies": false
+          "runBuildTargetDependencies": false,
+          "envFile": "docker-dev/.env"
         },
         "configurations": {
           "development": {
