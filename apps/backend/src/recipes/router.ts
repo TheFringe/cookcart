@@ -1,0 +1,51 @@
+import { Router, Request, Response, NextFunction, RequestHandler } from 'express';
+import { RecipeRepository } from './recipe.repository';
+
+const NOT_FOUND = { error: 'Receptet hittades inte' };
+
+function asyncHandler(fn: (req: Request, res: Response, next: NextFunction) => Promise<void>): RequestHandler {
+  return (req, res, next) => fn(req, res, next).catch(next);
+}
+
+export function createRecipesRouter(repo: RecipeRepository): Router {
+  const router = Router();
+
+  router.get('/', asyncHandler(async (_req, res) => {
+    const recipes = await repo.findAll();
+    res.json(recipes);
+  }));
+
+  router.post('/', asyncHandler(async (req, res) => {
+    const recipe = await repo.create(req.body);
+    res.status(201).json(recipe);
+  }));
+
+  router.get('/:id', asyncHandler(async (req, res) => {
+    const recipe = await repo.findById(Number(req.params.id));
+    if (!recipe) {
+      res.status(404).json(NOT_FOUND);
+      return;
+    }
+    res.json(recipe);
+  }));
+
+  router.put('/:id', asyncHandler(async (req, res) => {
+    const recipe = await repo.update(Number(req.params.id), req.body);
+    if (!recipe) {
+      res.status(404).json(NOT_FOUND);
+      return;
+    }
+    res.json(recipe);
+  }));
+
+  router.delete('/:id', asyncHandler(async (req, res) => {
+    const found = await repo.remove(Number(req.params.id));
+    if (!found) {
+      res.status(404).json(NOT_FOUND);
+      return;
+    }
+    res.status(204).send();
+  }));
+
+  return router;
+}
