@@ -8,10 +8,13 @@ import { RecipeDetail } from './recipes/RecipeDetail';
 function Home() {
   const { user, logout } = useAuth();
   return (
-    <div data-testid="home-page">
-      <header>
-        <span>Välkommen, {user?.name}!</span>
-        <button onClick={logout}>Logga ut</button>
+    <div data-testid="home-page" className="home-page">
+      <header className="app-header">
+        <span className="app-header__brand">Recept</span>
+        <div className="app-header__right">
+          <span className="app-header__user">{user?.name}</span>
+          <button onClick={logout} className="app-header__logout">Logga ut</button>
+        </div>
       </header>
       <RecipeList />
     </div>
