@@ -1,0 +1,152 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "CLAUDE.md",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "id": "claude_md",
+      "community": 0,
+      "norm_label": "claude.md"
+    },
+    {
+      "label": "CLAUDE.md",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "id": "10_05_recipes_claude_claude_md",
+      "community": 0,
+      "norm_label": "claude.md"
+    },
+    {
+      "label": "Stack",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L5",
+      "id": "10_05_recipes_claude_stack",
+      "community": 0,
+      "norm_label": "stack"
+    },
+    {
+      "label": "Common commands",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L12",
+      "id": "10_05_recipes_claude_common_commands",
+      "community": 1,
+      "norm_label": "common commands"
+    },
+    {
+      "label": "code:bash (# Install dependencies)",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L14",
+      "id": "10_05_recipes_claude_codeblock_1",
+      "community": 1,
+      "norm_label": "code:bash (# install dependencies)"
+    },
+    {
+      "label": "Nx project layout",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L40",
+      "id": "10_05_recipes_claude_nx_project_layout",
+      "community": 0,
+      "norm_label": "nx project layout"
+    },
+    {
+      "label": "Podman",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L44",
+      "id": "10_05_recipes_claude_podman",
+      "community": 2,
+      "norm_label": "podman"
+    },
+    {
+      "label": "code:bash (podman-compose up -d      # start backing services)",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L48",
+      "id": "10_05_recipes_claude_codeblock_2",
+      "community": 2,
+      "norm_label": "code:bash (podman-compose up -d      # start backing services)"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "claude_md",
+      "target": "10_05_recipes_claude_claude_md",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "10_05_recipes_claude_claude_md",
+      "target": "10_05_recipes_claude_stack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "10_05_recipes_claude_claude_md",
+      "target": "10_05_recipes_claude_common_commands",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "10_05_recipes_claude_claude_md",
+      "target": "10_05_recipes_claude_nx_project_layout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "10_05_recipes_claude_claude_md",
+      "target": "10_05_recipes_claude_podman",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "10_05_recipes_claude_common_commands",
+      "target": "10_05_recipes_claude_codeblock_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L48",
+      "weight": 1.0,
+      "source": "10_05_recipes_claude_podman",
+      "target": "10_05_recipes_claude_codeblock_2",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": []
+}

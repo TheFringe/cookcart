@@ -1,0 +1,28 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/recipes-e2e"
+    },
+    {
+      "path": "./apps/recipes"
+    },
+    {
+      "path": "./frontend-e2e"
+    },
+    {
+      "path": "./frontend"
+    },
+    {
+      "path": "./backend-e2e"
+    },
+    {
+      "path": "./backend"
+    },
+    {
+      "path": "./shared-ui"
+    }
+  ]
+}
