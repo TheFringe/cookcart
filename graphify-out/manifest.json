@@ -1,6 +1,122 @@
 {
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/jest.preset.js": {
+    "mtime": 1778763257.9483666,
+    "hash": "2da4313b9bfbafd4533a08756225df42"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/eslint.config.mjs": {
+    "mtime": 1778763257.9475815,
+    "hash": "3e043c510ae016353e64f38e96512928"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/jest.config.ts": {
+    "mtime": 1778763257.9484444,
+    "hash": "905e6ed6c5384b89d9e0266b311986a5"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/docker-dev/init.sql": {
+    "mtime": 1779096776.947651,
+    "hash": "99e08ae951c3893dd015b33455d079e3"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/libs/shared-ui/eslint.config.mjs": {
+    "mtime": 1779095960.6848648,
+    "hash": "4edcde3a4c567f6e8a2fe334aca5db27"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/libs/shared-ui/src/index.ts": {
+    "mtime": 1778763921.8649187,
+    "hash": "53406d8a8e19bfde77a74b67d9f1a510"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/libs/shared-ui/src/lib/shared-ui.ts": {
+    "mtime": 1778763921.8651454,
+    "hash": "1449b84472e6c69a6ba9c406799fac99"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/libs/shared-ui/src/lib/shared-ui.spec.ts": {
+    "mtime": 1778763921.865043,
+    "hash": "0b62f33a8c71bd304ee470a48c164b06"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/tmp/@recipes/backend/main-with-require-overrides.js": {
+    "mtime": 1778763761.1861966,
+    "hash": "d694d73a1f8a63bc6fe35ff81a129d34"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/recipes-frontend-e2e/playwright.config.ts": {
+    "mtime": 1779096187.273058,
+    "hash": "ca7a24d2a9441e768ab5fd285d2fd4d5"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/recipes-frontend-e2e/eslint.config.mjs": {
+    "mtime": 1778763257.9482973,
+    "hash": "0f1d803e920c7daa8bad5b7b4854f3fb"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/recipes-frontend-e2e/src/example.spec.ts": {
+    "mtime": 1778763257.9480264,
+    "hash": "5eef37c29e293b80beb38ca7250042a9"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/recipes-frontend/eslint.config.mjs": {
+    "mtime": 1778763257.9476602,
+    "hash": "7bc4f98cf09d67f89917f9c23e619015"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/recipes-frontend/src/main.tsx": {
+    "mtime": 1778763257.9469495,
+    "hash": "d666c5b7e04eaf3aa87b80b35611a293"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/recipes-frontend/src/app/app.tsx": {
+    "mtime": 1779096196.7324784,
+    "hash": "6a1ee239a05078d2defc8d2ff8c852d4"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/recipes-frontend/src/app/nx-welcome.tsx": {
+    "mtime": 1778763257.9471388,
+    "hash": "b63996fb15be2a078d276cda3bcadfbd"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/recipes-frontend/src/app/app.spec.tsx": {
+    "mtime": 1779096198.0520048,
+    "hash": "08053dfd8b88f1f5a5e408a7b156d73e"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/backend/eslint.config.mjs": {
+    "mtime": 1779095959.2712662,
+    "hash": "b390e6c76960d7db6a2e771a37e94b57"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/backend/src/main.ts": {
+    "mtime": 1778763731.5206342,
+    "hash": "e4364e0ba0895cb8e31a2993f51941a3"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/backend-e2e/eslint.config.mjs": {
+    "mtime": 1779095960.0041425,
+    "hash": "b390e6c76960d7db6a2e771a37e94b57"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/backend-e2e/src/backend/backend.spec.ts": {
+    "mtime": 1778763731.5224965,
+    "hash": "d0f4b7be4f90a82816d0aa83533dfdd4"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/backend-e2e/src/support/test-setup.ts": {
+    "mtime": 1778763731.5227964,
+    "hash": "12ec43179847b061c48f0cdb4309e611"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/backend-e2e/src/support/global-setup.ts": {
+    "mtime": 1778763731.5226226,
+    "hash": "730db1cd2caaf97a1e01258f96b31a9e"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/backend-e2e/src/support/global-teardown.ts": {
+    "mtime": 1778763731.5227213,
+    "hash": "fbf22fed6a6d10d081ca83f724466e6a"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/README.md": {
+    "mtime": 1778763221.2352629,
+    "hash": "704c25f5e8aef1134f31c3981eef8f27"
+  },
   "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/CLAUDE.md": {
-    "mtime": 1778754375.5207026,
-    "hash": "98a988c8513f3627e89011b5900438b2"
+    "mtime": 1779096204.8585641,
+    "hash": "dfabfa5424eb3fdc13a7b556a835610b"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/docker-dev/docker-dev.md": {
+    "mtime": 1779096785.6269472,
+    "hash": "5192838a40faf1b5b9aa1d2793aded9e"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/docker-dev/docker-compose.yml": {
+    "mtime": 1779096767.6569033,
+    "hash": "64548187e1d283ee484b1b80b3be7bd0"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/libs/shared-ui/README.md": {
+    "mtime": 1778763921.8652203,
+    "hash": "b84f6af9ce28a96c5b254ddc3958d7f9"
+  },
+  "/Users/ericlundgren/10-19_source/10_privat/10.05_recipes/apps/recipes-frontend/index.html": {
+    "mtime": 1778763257.9463935,
+    "hash": "d2698b31731e26ddffd116c4a7f34343"
   }
 }

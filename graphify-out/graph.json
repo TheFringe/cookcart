@@ -4,88 +4,630 @@
   "graph": {},
   "nodes": [
     {
-      "label": "CLAUDE.md",
+      "label": "docker-dev.md",
       "file_type": "document",
-      "source_file": "CLAUDE.md",
+      "source_file": "docker-dev.md",
       "source_location": "L1",
-      "id": "claude_md",
-      "community": 0,
-      "norm_label": "claude.md"
+      "id": "docker_dev_md",
+      "community": 2,
+      "norm_label": "docker-dev.md"
+    },
+    {
+      "label": "Docker dev",
+      "file_type": "document",
+      "source_file": "docker-dev.md",
+      "source_location": "L1",
+      "id": "docker_dev_docker_dev_docker_dev",
+      "community": 2,
+      "norm_label": "docker dev"
+    },
+    {
+      "label": "Kom ig\u00e5ng",
+      "file_type": "document",
+      "source_file": "docker-dev.md",
+      "source_location": "L6",
+      "id": "docker_dev_docker_dev_kom_ig_ng",
+      "community": 2,
+      "norm_label": "kom igang"
+    },
+    {
+      "label": "code:bash (cp docker-dev/.env.template docker-dev/.env)",
+      "file_type": "document",
+      "source_file": "docker-dev.md",
+      "source_location": "L10",
+      "id": "docker_dev_docker_dev_codeblock_1",
+      "community": 2,
+      "norm_label": "code:bash (cp docker-dev/.env.template docker-dev/.env)"
+    },
+    {
+      "label": "code:bash (podman-compose -f docker-dev/docker-compose.yml up -d)",
+      "file_type": "document",
+      "source_file": "docker-dev.md",
+      "source_location": "L16",
+      "id": "docker_dev_docker_dev_codeblock_2",
+      "community": 2,
+      "norm_label": "code:bash (podman-compose -f docker-dev/docker-compose.yml up -d)"
+    },
+    {
+      "label": "code:bash (yarn nx serve @recipes/recipes-frontend)",
+      "file_type": "document",
+      "source_file": "docker-dev.md",
+      "source_location": "L22",
+      "id": "docker_dev_docker_dev_codeblock_3",
+      "community": 2,
+      "norm_label": "code:bash (yarn nx serve @recipes/recipes-frontend)"
+    },
+    {
+      "label": "Tj\u00e4nster",
+      "file_type": "document",
+      "source_file": "docker-dev.md",
+      "source_location": "L27",
+      "id": "docker_dev_docker_dev_tj_nster",
+      "community": 3,
+      "norm_label": "tjanster"
+    },
+    {
+      "label": "Anslut pgAdmin till databasen",
+      "file_type": "document",
+      "source_file": "docker-dev.md",
+      "source_location": "L34",
+      "id": "docker_dev_docker_dev_anslut_pgadmin_till_databasen",
+      "community": 3,
+      "norm_label": "anslut pgadmin till databasen"
+    },
+    {
+      "label": "Anslutningsstr\u00e4ng f\u00f6r backend",
+      "file_type": "document",
+      "source_file": "docker-dev.md",
+      "source_location": "L43",
+      "id": "docker_dev_docker_dev_anslutningsstr_ng_f_r_backend",
+      "community": 3,
+      "norm_label": "anslutningsstrang for backend"
+    },
+    {
+      "label": "code:block4 (postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@localhost:5)",
+      "file_type": "document",
+      "source_file": "docker-dev.md",
+      "source_location": "L45",
+      "id": "docker_dev_docker_dev_codeblock_4",
+      "community": 3,
+      "norm_label": "code:block4 (postgresql://<postgres_user>:<postgres_password>@localhost:5)"
+    },
+    {
+      "label": "Stoppa",
+      "file_type": "document",
+      "source_file": "docker-dev.md",
+      "source_location": "L49",
+      "id": "docker_dev_docker_dev_stoppa",
+      "community": 2,
+      "norm_label": "stoppa"
+    },
+    {
+      "label": "code:bash (podman-compose -f docker-dev/docker-compose.yml down)",
+      "file_type": "document",
+      "source_file": "docker-dev.md",
+      "source_location": "L51",
+      "id": "docker_dev_docker_dev_codeblock_5",
+      "community": 2,
+      "norm_label": "code:bash (podman-compose -f docker-dev/docker-compose.yml down)"
     },
     {
       "label": "CLAUDE.md",
       "file_type": "document",
       "source_file": "CLAUDE.md",
       "source_location": "L1",
-      "id": "10_05_recipes_claude_claude_md",
       "community": 0,
-      "norm_label": "claude.md"
+      "norm_label": "claude.md",
+      "id": "claude_md"
+    },
+    {
+      "label": "CLAUDE.md",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "community": 0,
+      "norm_label": "claude.md",
+      "id": "10_05_recipes_claude_claude_md"
+    },
+    {
+      "label": "Project Overview",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L5",
+      "community": 0,
+      "norm_label": "project overview",
+      "id": "10_05_recipes_claude_project_overview"
     },
     {
       "label": "Stack",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L5",
-      "id": "10_05_recipes_claude_stack",
+      "source_location": "L11",
       "community": 0,
-      "norm_label": "stack"
+      "norm_label": "stack",
+      "id": "10_05_recipes_claude_stack"
     },
     {
       "label": "Common commands",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L12",
-      "id": "10_05_recipes_claude_common_commands",
-      "community": 1,
-      "norm_label": "common commands"
+      "source_location": "L19",
+      "community": 0,
+      "norm_label": "common commands",
+      "id": "10_05_recipes_claude_common_commands"
     },
     {
       "label": "code:bash (# Install dependencies)",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L14",
-      "id": "10_05_recipes_claude_codeblock_1",
-      "community": 1,
-      "norm_label": "code:bash (# install dependencies)"
+      "source_location": "L21",
+      "community": 0,
+      "norm_label": "code:bash (# install dependencies)",
+      "id": "10_05_recipes_claude_codeblock_1"
     },
     {
       "label": "Nx project layout",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L40",
-      "id": "10_05_recipes_claude_nx_project_layout",
+      "source_location": "L51",
       "community": 0,
-      "norm_label": "nx project layout"
+      "norm_label": "nx project layout",
+      "id": "10_05_recipes_claude_nx_project_layout"
     },
     {
       "label": "Podman",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L44",
-      "id": "10_05_recipes_claude_podman",
-      "community": 2,
-      "norm_label": "podman"
+      "source_location": "L55",
+      "community": 0,
+      "norm_label": "podman",
+      "id": "10_05_recipes_claude_podman"
     },
     {
       "label": "code:bash (podman-compose up -d      # start backing services)",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L48",
-      "id": "10_05_recipes_claude_codeblock_2",
-      "community": 2,
-      "norm_label": "code:bash (podman-compose up -d      # start backing services)"
+      "source_location": "L59",
+      "community": 0,
+      "norm_label": "code:bash (podman-compose up -d      # start backing services)",
+      "id": "10_05_recipes_claude_codeblock_2"
+    },
+    {
+      "label": "Context Navigation (Graphify)",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L65",
+      "community": 4,
+      "norm_label": "context navigation (graphify)",
+      "id": "10_05_recipes_claude_context_navigation_graphify"
+    },
+    {
+      "label": "3-Layer Query Rule",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L67",
+      "community": 4,
+      "norm_label": "3-layer query rule",
+      "id": "10_05_recipes_claude_3_layer_query_rule"
+    },
+    {
+      "label": "When to rebuild the graph",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L74",
+      "community": 4,
+      "norm_label": "when to rebuild the graph",
+      "id": "10_05_recipes_claude_when_to_rebuild_the_graph"
+    },
+    {
+      "label": "Do NOT",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L79",
+      "community": 4,
+      "norm_label": "do not",
+      "id": "10_05_recipes_claude_do_not"
+    },
+    {
+      "label": "Knowledge base",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L83",
+      "community": 0,
+      "norm_label": "knowledge base",
+      "id": "10_05_recipes_claude_knowledge_base"
+    },
+    {
+      "label": "eslint.config.mjs",
+      "file_type": "code",
+      "source_file": "apps/backend-e2e/eslint.config.mjs",
+      "source_location": "L1",
+      "community": 8,
+      "norm_label": "eslint.config.mjs",
+      "id": "apps_backend_e2e_eslint_config_mjs"
+    },
+    {
+      "label": "backend.spec.ts",
+      "file_type": "code",
+      "source_file": "apps/backend-e2e/src/backend/backend.spec.ts",
+      "source_location": "L1",
+      "community": 9,
+      "norm_label": "backend.spec.ts",
+      "id": "apps_backend_e2e_src_backend_backend_spec_ts"
+    },
+    {
+      "label": "global-setup.ts",
+      "file_type": "code",
+      "source_file": "apps/backend-e2e/src/support/global-setup.ts",
+      "source_location": "L1",
+      "community": 10,
+      "norm_label": "global-setup.ts",
+      "id": "apps_backend_e2e_src_support_global_setup_ts"
+    },
+    {
+      "label": "global-teardown.ts",
+      "file_type": "code",
+      "source_file": "apps/backend-e2e/src/support/global-teardown.ts",
+      "source_location": "L1",
+      "community": 11,
+      "norm_label": "global-teardown.ts",
+      "id": "apps_backend_e2e_src_support_global_teardown_ts"
+    },
+    {
+      "label": "test-setup.ts",
+      "file_type": "code",
+      "source_file": "apps/backend-e2e/src/support/test-setup.ts",
+      "source_location": "L1",
+      "community": 12,
+      "norm_label": "test-setup.ts",
+      "id": "apps_backend_e2e_src_support_test_setup_ts"
+    },
+    {
+      "label": "eslint.config.mjs",
+      "file_type": "code",
+      "source_file": "apps/backend/eslint.config.mjs",
+      "source_location": "L1",
+      "community": 13,
+      "norm_label": "eslint.config.mjs",
+      "id": "apps_backend_eslint_config_mjs"
+    },
+    {
+      "label": "main.ts",
+      "file_type": "code",
+      "source_file": "apps/backend/src/main.ts",
+      "source_location": "L1",
+      "community": 7,
+      "norm_label": "main.ts",
+      "id": "apps_backend_src_main_ts"
+    },
+    {
+      "label": "app",
+      "file_type": "code",
+      "source_file": "apps/backend/src/main.ts",
+      "source_location": "L6",
+      "community": 7,
+      "norm_label": "app",
+      "id": "src_main_app"
+    },
+    {
+      "label": "eslint.config.mjs",
+      "file_type": "code",
+      "source_file": "apps/recipes-frontend-e2e/eslint.config.mjs",
+      "source_location": "L1",
+      "community": 14,
+      "norm_label": "eslint.config.mjs",
+      "id": "apps_recipes_frontend_e2e_eslint_config_mjs"
+    },
+    {
+      "label": "playwright.config.ts",
+      "file_type": "code",
+      "source_file": "apps/recipes-frontend-e2e/playwright.config.ts",
+      "source_location": "L1",
+      "community": 15,
+      "norm_label": "playwright.config.ts",
+      "id": "apps_recipes_frontend_e2e_playwright_config_ts"
+    },
+    {
+      "label": "example.spec.ts",
+      "file_type": "code",
+      "source_file": "apps/recipes-frontend-e2e/src/example.spec.ts",
+      "source_location": "L1",
+      "community": 16,
+      "norm_label": "example.spec.ts",
+      "id": "apps_recipes_frontend_e2e_src_example_spec_ts"
+    },
+    {
+      "label": "eslint.config.mjs",
+      "file_type": "code",
+      "source_file": "apps/recipes-frontend/eslint.config.mjs",
+      "source_location": "L1",
+      "community": 17,
+      "norm_label": "eslint.config.mjs",
+      "id": "apps_recipes_frontend_eslint_config_mjs"
+    },
+    {
+      "label": "app.spec.tsx",
+      "file_type": "code",
+      "source_file": "apps/recipes-frontend/src/app/app.spec.tsx",
+      "source_location": "L1",
+      "community": 1,
+      "norm_label": "app.spec.tsx",
+      "id": "apps_recipes_frontend_src_app_app_spec_tsx"
+    },
+    {
+      "label": "{ baseElement }",
+      "file_type": "code",
+      "source_file": "apps/recipes-frontend/src/app/app.spec.tsx",
+      "source_location": "L8",
+      "community": 1,
+      "norm_label": "{ baseelement }",
+      "id": "app_app_spec_baseelement"
+    },
+    {
+      "label": "{ getAllByText }",
+      "file_type": "code",
+      "source_file": "apps/recipes-frontend/src/app/app.spec.tsx",
+      "source_location": "L17",
+      "community": 1,
+      "norm_label": "{ getallbytext }",
+      "id": "app_app_spec_getallbytext"
+    },
+    {
+      "label": "app.tsx",
+      "file_type": "code",
+      "source_file": "apps/recipes-frontend/src/app/app.tsx",
+      "source_location": "L1",
+      "community": 1,
+      "norm_label": "app.tsx",
+      "id": "apps_recipes_frontend_src_app_app_tsx"
+    },
+    {
+      "label": "App()",
+      "file_type": "code",
+      "source_file": "apps/recipes-frontend/src/app/app.tsx",
+      "source_location": "L7",
+      "community": 1,
+      "norm_label": "app()",
+      "id": "app_app_app"
+    },
+    {
+      "label": "nx-welcome.tsx",
+      "file_type": "code",
+      "source_file": "apps/recipes-frontend/src/app/nx-welcome.tsx",
+      "source_location": "L1",
+      "community": 1,
+      "norm_label": "nx-welcome.tsx",
+      "id": "apps_recipes_frontend_src_app_nx_welcome_tsx"
+    },
+    {
+      "label": "NxWelcome()",
+      "file_type": "code",
+      "source_file": "apps/recipes-frontend/src/app/nx-welcome.tsx",
+      "source_location": "L8",
+      "community": 1,
+      "norm_label": "nxwelcome()",
+      "id": "app_nx_welcome_nxwelcome"
+    },
+    {
+      "label": "main.tsx",
+      "file_type": "code",
+      "source_file": "apps/recipes-frontend/src/main.tsx",
+      "source_location": "L1",
+      "community": 1,
+      "norm_label": "main.tsx",
+      "id": "apps_recipes_frontend_src_main_tsx"
+    },
+    {
+      "label": "root",
+      "file_type": "code",
+      "source_file": "apps/recipes-frontend/src/main.tsx",
+      "source_location": "L6",
+      "community": 1,
+      "norm_label": "root",
+      "id": "src_main_root"
+    },
+    {
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "libs/shared-ui/README.md",
+      "source_location": "L1",
+      "community": 5,
+      "norm_label": "readme.md",
+      "id": "libs_shared_ui_readme_md"
+    },
+    {
+      "label": "shared-ui",
+      "file_type": "document",
+      "source_file": "libs/shared-ui/README.md",
+      "source_location": "L1",
+      "community": 5,
+      "norm_label": "shared-ui",
+      "id": "shared_ui_readme_shared_ui"
+    },
+    {
+      "label": "Building",
+      "file_type": "document",
+      "source_file": "libs/shared-ui/README.md",
+      "source_location": "L5",
+      "community": 5,
+      "norm_label": "building",
+      "id": "shared_ui_readme_building"
+    },
+    {
+      "label": "Running unit tests",
+      "file_type": "document",
+      "source_file": "libs/shared-ui/README.md",
+      "source_location": "L9",
+      "community": 5,
+      "norm_label": "running unit tests",
+      "id": "shared_ui_readme_running_unit_tests"
+    },
+    {
+      "label": "eslint.config.mjs",
+      "file_type": "code",
+      "source_file": "libs/shared-ui/eslint.config.mjs",
+      "source_location": "L1",
+      "community": 18,
+      "norm_label": "eslint.config.mjs",
+      "id": "libs_shared_ui_eslint_config_mjs"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "libs/shared-ui/src/index.ts",
+      "source_location": "L1",
+      "community": 19,
+      "norm_label": "index.ts",
+      "id": "libs_shared_ui_src_index_ts"
+    },
+    {
+      "label": "shared-ui.spec.ts",
+      "file_type": "code",
+      "source_file": "libs/shared-ui/src/lib/shared-ui.spec.ts",
+      "source_location": "L1",
+      "community": 6,
+      "norm_label": "shared-ui.spec.ts",
+      "id": "libs_shared_ui_src_lib_shared_ui_spec_ts"
+    },
+    {
+      "label": "shared-ui.ts",
+      "file_type": "code",
+      "source_file": "libs/shared-ui/src/lib/shared-ui.ts",
+      "source_location": "L1",
+      "community": 6,
+      "norm_label": "shared-ui.ts",
+      "id": "libs_shared_ui_src_lib_shared_ui_ts"
+    },
+    {
+      "label": "sharedUi()",
+      "file_type": "code",
+      "source_file": "libs/shared-ui/src/lib/shared-ui.ts",
+      "source_location": "L1",
+      "community": 6,
+      "norm_label": "sharedui()",
+      "id": "lib_shared_ui_sharedui"
     }
   ],
   "links": [
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "docker-dev.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "docker_dev_md",
+      "target": "docker_dev_docker_dev_docker_dev",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docker-dev.md",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "docker_dev_docker_dev_docker_dev",
+      "target": "docker_dev_docker_dev_kom_ig_ng",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docker-dev.md",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "docker_dev_docker_dev_docker_dev",
+      "target": "docker_dev_docker_dev_tj_nster",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docker-dev.md",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "docker_dev_docker_dev_docker_dev",
+      "target": "docker_dev_docker_dev_stoppa",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docker-dev.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "docker_dev_docker_dev_kom_ig_ng",
+      "target": "docker_dev_docker_dev_codeblock_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docker-dev.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "docker_dev_docker_dev_kom_ig_ng",
+      "target": "docker_dev_docker_dev_codeblock_2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docker-dev.md",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "docker_dev_docker_dev_kom_ig_ng",
+      "target": "docker_dev_docker_dev_codeblock_3",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docker-dev.md",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "docker_dev_docker_dev_tj_nster",
+      "target": "docker_dev_docker_dev_anslut_pgadmin_till_databasen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docker-dev.md",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "docker_dev_docker_dev_tj_nster",
+      "target": "docker_dev_docker_dev_anslutningsstr_ng_f_r_backend",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docker-dev.md",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "docker_dev_docker_dev_anslutningsstr_ng_f_r_backend",
+      "target": "docker_dev_docker_dev_codeblock_4",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docker-dev.md",
+      "source_location": "L51",
+      "weight": 1.0,
+      "source": "docker_dev_docker_dev_stoppa",
+      "target": "docker_dev_docker_dev_codeblock_5",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "CLAUDE.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "claude_md",
-      "target": "10_05_recipes_claude_claude_md",
-      "confidence_score": 1.0
+      "target": "10_05_recipes_claude_claude_md"
     },
     {
       "relation": "contains",
@@ -93,9 +635,19 @@
       "source_file": "CLAUDE.md",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "10_05_recipes_claude_claude_md",
-      "target": "10_05_recipes_claude_stack",
-      "confidence_score": 1.0
+      "target": "10_05_recipes_claude_project_overview"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "10_05_recipes_claude_claude_md",
+      "target": "10_05_recipes_claude_stack"
     },
     {
       "relation": "contains",
@@ -103,9 +655,9 @@
       "source_file": "CLAUDE.md",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "10_05_recipes_claude_claude_md",
-      "target": "10_05_recipes_claude_common_commands",
-      "confidence_score": 1.0
+      "target": "10_05_recipes_claude_common_commands"
     },
     {
       "relation": "contains",
@@ -113,9 +665,9 @@
       "source_file": "CLAUDE.md",
       "source_location": "L40",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "10_05_recipes_claude_claude_md",
-      "target": "10_05_recipes_claude_nx_project_layout",
-      "confidence_score": 1.0
+      "target": "10_05_recipes_claude_nx_project_layout"
     },
     {
       "relation": "contains",
@@ -123,9 +675,29 @@
       "source_file": "CLAUDE.md",
       "source_location": "L44",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "10_05_recipes_claude_claude_md",
-      "target": "10_05_recipes_claude_podman",
-      "confidence_score": 1.0
+      "target": "10_05_recipes_claude_podman"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L65",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "10_05_recipes_claude_claude_md",
+      "target": "10_05_recipes_claude_context_navigation_graphify"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L83",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "10_05_recipes_claude_claude_md",
+      "target": "10_05_recipes_claude_knowledge_base"
     },
     {
       "relation": "contains",
@@ -133,9 +705,9 @@
       "source_file": "CLAUDE.md",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "10_05_recipes_claude_common_commands",
-      "target": "10_05_recipes_claude_codeblock_1",
-      "confidence_score": 1.0
+      "target": "10_05_recipes_claude_codeblock_1"
     },
     {
       "relation": "contains",
@@ -143,10 +715,196 @@
       "source_file": "CLAUDE.md",
       "source_location": "L48",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "10_05_recipes_claude_podman",
-      "target": "10_05_recipes_claude_codeblock_2",
-      "confidence_score": 1.0
+      "target": "10_05_recipes_claude_codeblock_2"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L67",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "10_05_recipes_claude_context_navigation_graphify",
+      "target": "10_05_recipes_claude_3_layer_query_rule"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L74",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "10_05_recipes_claude_context_navigation_graphify",
+      "target": "10_05_recipes_claude_when_to_rebuild_the_graph"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L79",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "10_05_recipes_claude_context_navigation_graphify",
+      "target": "10_05_recipes_claude_do_not"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/backend/src/main.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "apps_backend_src_main_ts",
+      "target": "src_main_app"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/recipes-frontend/src/app/app.spec.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "apps_recipes_frontend_src_app_app_spec_tsx",
+      "target": "apps_recipes_frontend_src_app_app_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/recipes-frontend/src/app/app.spec.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "apps_recipes_frontend_src_app_app_spec_tsx",
+      "target": "app_app_spec_baseelement"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/recipes-frontend/src/app/app.spec.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "apps_recipes_frontend_src_app_app_spec_tsx",
+      "target": "app_app_spec_getallbytext"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/recipes-frontend/src/app/app.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "apps_recipes_frontend_src_app_app_tsx",
+      "target": "apps_recipes_frontend_src_app_nx_welcome_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/recipes-frontend/src/app/app.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "apps_recipes_frontend_src_app_app_tsx",
+      "target": "app_app_app"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/recipes-frontend/src/main.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "apps_recipes_frontend_src_main_tsx",
+      "target": "apps_recipes_frontend_src_app_app_tsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/recipes-frontend/src/app/nx-welcome.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "apps_recipes_frontend_src_app_nx_welcome_tsx",
+      "target": "app_nx_welcome_nxwelcome"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/recipes-frontend/src/main.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "apps_recipes_frontend_src_main_tsx",
+      "target": "src_main_root"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "libs/shared-ui/README.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "libs_shared_ui_readme_md",
+      "target": "shared_ui_readme_shared_ui"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "libs/shared-ui/README.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "shared_ui_readme_shared_ui",
+      "target": "shared_ui_readme_building"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "libs/shared-ui/README.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "shared_ui_readme_shared_ui",
+      "target": "shared_ui_readme_running_unit_tests"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "libs/shared-ui/src/lib/shared-ui.spec.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "libs_shared_ui_src_lib_shared_ui_spec_ts",
+      "target": "libs_shared_ui_src_lib_shared_ui_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "libs/shared-ui/src/lib/shared-ui.spec.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "libs_shared_ui_src_lib_shared_ui_spec_ts",
+      "target": "lib_shared_ui_sharedui"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "libs/shared-ui/src/lib/shared-ui.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "libs_shared_ui_src_lib_shared_ui_ts",
+      "target": "lib_shared_ui_sharedui"
     }
   ],
-  "hyperedges": []
+  "hyperedges": [],
+  "built_at_commit": "2c43d44d58e75b71d4aedd5328ceb1110679a253"
 }
