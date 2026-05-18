@@ -3,9 +3,15 @@ import { RecipeRepository } from './recipe.repository';
 
 const NOT_FOUND = { error: 'Receptet hittades inte' };
 const NAME_REQUIRED = { error: 'name krävs' };
+const INVALID_ID = { error: 'Ogiltigt id' };
 
 function asyncHandler(fn: (req: Request, res: Response, next: NextFunction) => Promise<void>): RequestHandler {
   return (req, res, next) => fn(req, res, next).catch(next);
+}
+
+function parseId(param: string): number | null {
+  const id = Number(param);
+  return isNaN(id) ? null : id;
 }
 
 export function createRecipesRouter(repo: RecipeRepository): Router {
@@ -26,7 +32,9 @@ export function createRecipesRouter(repo: RecipeRepository): Router {
   }));
 
   router.get('/:id', asyncHandler(async (req, res) => {
-    const recipe = await repo.findById(Number(req.params.id));
+    const id = parseId(req.params.id);
+    if (id === null) { res.status(400).json(INVALID_ID); return; }
+    const recipe = await repo.findById(id);
     if (!recipe) {
       res.status(404).json(NOT_FOUND);
       return;
@@ -35,11 +43,13 @@ export function createRecipesRouter(repo: RecipeRepository): Router {
   }));
 
   router.put('/:id', asyncHandler(async (req, res) => {
+    const id = parseId(req.params.id);
+    if (id === null) { res.status(400).json(INVALID_ID); return; }
     if (!req.body?.name) {
       res.status(400).json(NAME_REQUIRED);
       return;
     }
-    const recipe = await repo.update(Number(req.params.id), req.body);
+    const recipe = await repo.update(id, req.body);
     if (!recipe) {
       res.status(404).json(NOT_FOUND);
       return;
@@ -48,7 +58,9 @@ export function createRecipesRouter(repo: RecipeRepository): Router {
   }));
 
   router.delete('/:id', asyncHandler(async (req, res) => {
-    const found = await repo.remove(Number(req.params.id));
+    const id = parseId(req.params.id);
+    if (id === null) { res.status(400).json(INVALID_ID); return; }
+    const found = await repo.remove(id);
     if (!found) {
       res.status(404).json(NOT_FOUND);
       return;

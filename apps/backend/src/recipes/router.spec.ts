@@ -32,6 +32,12 @@ describe('GET /recipes', () => {
 });
 
 describe('GET /recipes/:id', () => {
+  it('returnerar 400 för icke-numeriskt id', async () => {
+    const res = await request(app).get('/recipes/abc');
+
+    expect(res.status).toBe(400);
+  });
+
   it('returnerar receptet när det finns', async () => {
     const recipe = { id: 1, name: 'Pasta', description: null, steps: [], servings: 2, cook_time_minutes: 20 };
     (mockRepo.findById as jest.Mock).mockResolvedValue(recipe);
