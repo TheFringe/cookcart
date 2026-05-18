@@ -24,4 +24,21 @@ describe('RecipeDetail', () => {
 
     expect(await screen.findByText('Pasta Carbonara')).toBeInTheDocument();
   });
+
+  it('visar en länk tillbaka till receptlistan', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: { id: 1, name: 'Pasta Carbonara', description: null, cook_time_minutes: null, servings: null, steps: [] },
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/recipes/1']}>
+        <Routes>
+          <Route path="/recipes/:id" element={<RecipeDetail />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await screen.findByText('Pasta Carbonara');
+    expect(screen.getByRole('link', { name: /tillbaka/i })).toHaveAttribute('href', '/');
+  });
 });

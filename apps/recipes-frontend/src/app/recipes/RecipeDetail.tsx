@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import type { Recipe } from './types';
@@ -18,6 +18,7 @@ export function RecipeDetail() {
 
   return (
     <div data-testid="recipe-detail">
+      <Link to="/">Tillbaka</Link>
       <h1>{recipe.name}</h1>
       {recipe.description && <p>{recipe.description}</p>}
       {recipe.cook_time_minutes && <span>{recipe.cook_time_minutes} min</span>}
