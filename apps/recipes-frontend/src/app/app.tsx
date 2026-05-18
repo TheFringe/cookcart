@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './auth/AuthContext';
 import { ProtectedRoute } from './auth/ProtectedRoute';
 import { LoginPage } from './auth/LoginPage';
 import { RecipeList } from './recipes/RecipeList';
+import { RecipeDetail } from './recipes/RecipeDetail';
 
 function Home() {
   const { user, logout } = useAuth();
@@ -22,6 +23,14 @@ export function App() {
     <AuthProvider>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/recipes/:id"
+          element={
+            <ProtectedRoute>
+              <RecipeDetail />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/*"
           element={

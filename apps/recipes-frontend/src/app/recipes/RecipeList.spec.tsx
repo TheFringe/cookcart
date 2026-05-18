@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
 import { RecipeList } from './RecipeList';
 
@@ -11,7 +12,7 @@ describe('RecipeList', () => {
   it('visar laddningsindikator medan recept hämtas', () => {
     mockedAxios.get.mockReturnValue(new Promise(() => {}));
 
-    render(<RecipeList />);
+    render(<MemoryRouter><RecipeList /></MemoryRouter>);
 
     expect(screen.getByText('Laddar recept...')).toBeInTheDocument();
   });
@@ -23,7 +24,7 @@ describe('RecipeList', () => {
     ];
     mockedAxios.get.mockResolvedValue({ data: recipes });
 
-    render(<RecipeList />);
+    render(<MemoryRouter><RecipeList /></MemoryRouter>);
 
     expect(await screen.findAllByTestId('recipe-item')).toHaveLength(2);
     expect(screen.getByText('Pasta Carbonara')).toBeInTheDocument();
@@ -36,8 +37,23 @@ describe('RecipeList', () => {
   it('visar meddelande när inga recept finns', async () => {
     mockedAxios.get.mockResolvedValue({ data: [] });
 
-    render(<RecipeList />);
+    render(<MemoryRouter><RecipeList /></MemoryRouter>);
 
     expect(await screen.findByText('Inga recept hittades')).toBeInTheDocument();
+  });
+
+  it('lenkar varje recept till dess detaljsida', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: [{ id: 42, name: 'Pasta', description: null, cook_time_minutes: null, servings: null }],
+    });
+
+    render(
+      <MemoryRouter>
+        <RecipeList />
+      </MemoryRouter>
+    );
+
+    const link = await screen.findByRole('link', { name: /Pasta/i });
+    expect(link).toHaveAttribute('href', '/recipes/42');
   });
 });
