@@ -6,7 +6,7 @@ import { LoginPage } from './auth/LoginPage';
 function Home() {
   const { user, logout } = useAuth();
   return (
-    <div>
+    <div data-testid="home-page">
       <p>Välkommen, {user?.name}!</p>
       <button onClick={logout}>Logga ut</button>
     </div>
