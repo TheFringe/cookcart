@@ -11,9 +11,9 @@ Use well known best practices when building components in the react frontend and
 ## Stack
 
 Nx monorepo with:
-- **Frontend**: React — `frontend/` (`@recipes/frontend`)
-- **Backend**: Node.js / Express — `backend/` (`@recipes/backend`)
-- **Shared UI**: component library — `shared-ui/` (`@recipes/shared-ui`)
+- **Frontend**: React — `apps/recipes-frontend/` (`@recipes/recipes-frontend`)
+- **Backend**: Node.js / Express — `apps/backend/` (`@recipes/backend`)
+- **Shared UI**: component library — `libs/shared-ui/` (`@recipes/shared-ui`)
 - **Containers**: Podman (replaces Docker for local dev and CI)
 
 ## Common commands
@@ -23,26 +23,26 @@ Nx monorepo with:
 yarn install
 
 # Serve frontend / backend in dev mode
-yarn nx serve @recipes/frontend
+yarn nx serve @recipes/recipes-frontend
 yarn nx serve @recipes/backend
 
 # Build
-yarn nx build @recipes/frontend
+yarn nx build @recipes/recipes-frontend
 yarn nx build @recipes/backend
 
 # Run all tests
 yarn nx run-many --target=test --all
 
 # Run tests for a single project
-yarn nx test @recipes/frontend
+yarn nx test @recipes/recipes-frontend
 yarn nx test @recipes/backend
 yarn nx test @recipes/shared-ui
 
 # Run a single test file
-yarn nx test @recipes/frontend --testFile=path/to/file.spec.ts
+yarn nx test @recipes/recipes-frontend --testFile=path/to/file.spec.ts
 
 # Lint a project
-yarn nx lint @recipes/frontend
+yarn nx lint @recipes/recipes-frontend
 
 # See the project dependency graph
 yarn nx graph
@@ -86,5 +86,5 @@ Project folder in vault: Recipes/
 Session logs path: Recipes/logs/
 
 Use /save to persist session decisions to the vault. **Session logs must be saved to `Recipes/logs/` — not the vault root `logs/`.**
-Use /resume to restore context from the vault at session start.
+Use /resume to restore context from the `Recipes/logs/` at session start.
 Use /graphify to generate a code graph for this project.
