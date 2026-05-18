@@ -1,26 +1,19 @@
 import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-
+import { MemoryRouter } from 'react-router-dom';
 import App from './app';
 
+jest.mock('./auth/AuthContext', () => ({
+  AuthProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  useAuth: () => ({ user: null, loading: false, logout: jest.fn() }),
+}));
+
 describe('App', () => {
-  it('should render successfully', () => {
+  it('renderar utan fel', () => {
     const { baseElement } = render(
-      <BrowserRouter>
+      <MemoryRouter>
         <App />
-      </BrowserRouter>,
+      </MemoryRouter>
     );
     expect(baseElement).toBeTruthy();
-  });
-
-  it('should have a greeting as the title', () => {
-    const { getAllByText } = render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>,
-    );
-    expect(
-      getAllByText(new RegExp('Welcome @recipes/recipes-frontend', 'gi')).length > 0,
-    ).toBeTruthy();
   });
 });

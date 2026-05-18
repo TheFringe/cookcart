@@ -48,3 +48,11 @@ CREATE TABLE shopping_list_items (
 );
 
 CREATE INDEX ON shopping_list_items(list_id);
+
+CREATE TABLE users (
+    id         SERIAL PRIMARY KEY,
+    google_id  TEXT        NOT NULL UNIQUE,
+    email      TEXT        NOT NULL,
+    name       TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
