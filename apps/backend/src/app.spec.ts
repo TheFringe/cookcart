@@ -11,7 +11,17 @@ jest.mock('express-session', () => () => (req: any, _res: any, next: any) => {
 });
 
 import request from 'supertest';
-import { app } from './app';
+import { app, isSecureCookie } from './app';
+
+describe('isSecureCookie', () => {
+  it('returnerar true i production', () => {
+    const original = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'production';
+    const result = isSecureCookie();
+    process.env.NODE_ENV = original;
+    expect(result).toBe(true);
+  });
+});
 
 describe('app routing', () => {
   it('exponerar GET /recipes', async () => {

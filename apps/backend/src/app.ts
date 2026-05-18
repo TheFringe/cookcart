@@ -11,6 +11,10 @@ import { createRecipesRouter } from './recipes/router';
 
 const PgSession = connectPg(session);
 
+export function isSecureCookie(): boolean {
+  return process.env.NODE_ENV === 'production';
+}
+
 export const app = express();
 
 app.use(cors({
@@ -25,7 +29,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET!,
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false, maxAge: 30 * 24 * 60 * 60 * 1000 },
+  cookie: { secure: isSecureCookie(), maxAge: 30 * 24 * 60 * 60 * 1000 },
 }) as unknown as RequestHandler);
 
 app.use(passport.initialize() as unknown as RequestHandler);
