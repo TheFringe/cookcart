@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction, RequestHandler } from 'express
 import { RecipeRepository } from './recipe.repository';
 
 const NOT_FOUND = { error: 'Receptet hittades inte' };
+const NAME_REQUIRED = { error: 'name krävs' };
 
 function asyncHandler(fn: (req: Request, res: Response, next: NextFunction) => Promise<void>): RequestHandler {
   return (req, res, next) => fn(req, res, next).catch(next);
@@ -16,6 +17,10 @@ export function createRecipesRouter(repo: RecipeRepository): Router {
   }));
 
   router.post('/', asyncHandler(async (req, res) => {
+    if (!req.body?.name) {
+      res.status(400).json(NAME_REQUIRED);
+      return;
+    }
     const recipe = await repo.create(req.body);
     res.status(201).json(recipe);
   }));
@@ -30,6 +35,10 @@ export function createRecipesRouter(repo: RecipeRepository): Router {
   }));
 
   router.put('/:id', asyncHandler(async (req, res) => {
+    if (!req.body?.name) {
+      res.status(400).json(NAME_REQUIRED);
+      return;
+    }
     const recipe = await repo.update(Number(req.params.id), req.body);
     if (!recipe) {
       res.status(404).json(NOT_FOUND);

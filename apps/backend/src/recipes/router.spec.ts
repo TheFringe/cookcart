@@ -18,6 +18,8 @@ app.use((err: Error, _req: any, res: any, _next: any) => {
   res.status(500).json({ error: err.message });
 });
 
+beforeEach(() => jest.clearAllMocks());
+
 describe('GET /recipes', () => {
   it('returnerar en tom lista', async () => {
     (mockRepo.findAll as jest.Mock).mockResolvedValue([]);
@@ -42,6 +44,14 @@ describe('GET /recipes/:id', () => {
 });
 
 describe('PUT /recipes/:id', () => {
+  it('returnerar 400 när name saknas', async () => {
+    const res = await request(app)
+      .put('/recipes/1')
+      .send({ steps: ['Koka'] });
+
+    expect(res.status).toBe(400);
+  });
+
   it('returnerar det uppdaterade receptet', async () => {
     const update = { name: 'Pasta Bolognese', steps: ['Koka pasta', 'Stek köttfärs'], servings: 4 };
     const updated = { id: 1, ...update, description: null, cook_time_minutes: null };
@@ -75,6 +85,12 @@ describe('error handling', () => {
 });
 
 describe('POST /recipes', () => {
+  it('returnerar 400 när name saknas', async () => {
+    const res = await request(app).post('/recipes').send({ steps: ['Koka'] });
+
+    expect(res.status).toBe(400);
+  });
+
   it('skapar ett recept och returnerar 201', async () => {
     const input = { name: 'Lasagne', steps: ['Koka pasta', 'Laga köttfärssås'], servings: 4 };
     const created = { id: 2, ...input, description: null, cook_time_minutes: null };
