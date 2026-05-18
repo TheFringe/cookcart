@@ -7,6 +7,7 @@ jest.mock('passport-google-oauth20', () => ({
 jest.mock('connect-pg-simple', () => () => class {});
 jest.mock('express-session', () => () => (req: any, _res: any, next: any) => {
   req.session = {};
+  req.user = { id: 1, email: 'test@example.com', name: 'Test' };
   next();
 });
 

@@ -6,6 +6,7 @@ import cors from 'cors';
 import { pool } from './db';
 import './auth/passport';
 import authRouter from './auth/router';
+import { requireAuth } from './auth/middleware';
 import { RecipeRepository } from './recipes/recipe.repository';
 import { createRecipesRouter } from './recipes/router';
 
@@ -36,4 +37,4 @@ app.use(passport.initialize() as unknown as RequestHandler);
 app.use(passport.session() as unknown as RequestHandler);
 
 app.use('/auth', authRouter);
-app.use('/recipes', createRecipesRouter(new RecipeRepository(pool)));
+app.use('/recipes', requireAuth, createRecipesRouter(new RecipeRepository(pool)));
