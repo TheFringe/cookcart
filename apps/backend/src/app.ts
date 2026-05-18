@@ -11,6 +11,7 @@ import { RecipeRepository } from './recipes/recipe.repository';
 import { createRecipesRouter } from './recipes/router';
 
 const PgSession = connectPg(session);
+const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
 export function isSecureCookie(): boolean {
   return process.env.NODE_ENV === 'production';
@@ -30,11 +31,20 @@ app.use(session({
   secret: process.env.SESSION_SECRET!,
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: isSecureCookie(), maxAge: 30 * 24 * 60 * 60 * 1000 },
+  cookie: { secure: isSecureCookie(), maxAge: THIRTY_DAYS_MS },
 }) as unknown as RequestHandler);
 
 app.use(passport.initialize() as unknown as RequestHandler);
 app.use(passport.session() as unknown as RequestHandler);
+
+app.get('/health', async (_req, res) => {
+  try {
+    await pool.query('SELECT 1');
+    res.json({ status: 'ok', db: 'ok' });
+  } catch {
+    res.status(503).json({ status: 'error', db: 'error' });
+  }
+});
 
 app.use('/auth', authRouter);
 app.use('/recipes', requireAuth, createRecipesRouter(new RecipeRepository(pool)));

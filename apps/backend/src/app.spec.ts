@@ -13,6 +13,12 @@ jest.mock('express-session', () => () => (req: any, _res: any, next: any) => {
 
 import request from 'supertest';
 import { app, isSecureCookie } from './app';
+import { pool } from './db';
+
+beforeEach(() => {
+  jest.resetAllMocks();
+  jest.mocked(pool.query).mockResolvedValue({ rows: [] } as any);
+});
 
 describe('isSecureCookie', () => {
   it('returnerar true i production', () => {
@@ -25,6 +31,20 @@ describe('isSecureCookie', () => {
 });
 
 describe('app routing', () => {
+  it('exponerar GET /health', async () => {
+    const res = await request(app).get('/health');
+
+    expect(res.status).toBe(200);
+  });
+
+  it('returnerar 503 när databasen är nere', async () => {
+    jest.mocked(pool.query).mockRejectedValueOnce(new Error('connection refused'));
+
+    const res = await request(app).get('/health');
+
+    expect(res.status).toBe(503);
+  });
+
   it('exponerar GET /recipes', async () => {
     const res = await request(app).get('/recipes');
 

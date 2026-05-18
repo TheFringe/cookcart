@@ -19,6 +19,26 @@ security:
 # ---------------------------------------------------------------------------
 paths:
 
+  # ── Hälsokontroll ──────────────────────────────────────────────────────
+
+  /health:
+    get:
+      summary: Hälsokontroll
+      operationId: healthCheck
+      tags: [System]
+      security: []
+      responses:
+        '200':
+          description: Tjänsten är igång
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
   # ── Recept ─────────────────────────────────────────────────────────────
 
   /recipes:
