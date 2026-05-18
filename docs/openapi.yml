@@ -1,0 +1,713 @@
+openapi: 3.1.0
+
+info:
+  title: Recipes API
+  version: 1.0.0
+  description: |
+    API för hantering av recept och inköpslistor.
+    Autentisering sker via sessions-cookie (Google OAuth).
+
+servers:
+  - url: http://localhost:3000
+    description: Lokal dev
+
+security:
+  - sessionCookie: []
+
+# ---------------------------------------------------------------------------
+# Paths
+# ---------------------------------------------------------------------------
+paths:
+
+  # ── Recept ─────────────────────────────────────────────────────────────
+
+  /recipes:
+    get:
+      summary: Hämta alla recept
+      operationId: listRecipes
+      tags: [Recept]
+      responses:
+        '200':
+          description: Lista med recept
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecipeSummary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Skapa nytt recept
+      operationId: createRecipe
+      tags: [Recept]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeWrite'
+      responses:
+        '201':
+          description: Receptet skapat
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /recipes/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+
+    get:
+      summary: Hämta ett recept med ingredienser
+      operationId: getRecipe
+      tags: [Recept]
+      responses:
+        '200':
+          description: Recept
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      summary: Uppdatera ett recept
+      operationId: updateRecipe
+      tags: [Recept]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeWrite'
+      responses:
+        '200':
+          description: Uppdaterat recept
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      summary: Ta bort ett recept
+      operationId: deleteRecipe
+      tags: [Recept]
+      responses:
+        '204':
+          description: Borttaget
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /recipes/{id}/ingredients:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+
+    post:
+      summary: Lägg till ingrediens på recept
+      operationId: addRecipeIngredient
+      tags: [Recept]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredientWrite'
+      responses:
+        '201':
+          description: Ingrediensen tillagd
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeIngredient'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /recipes/{id}/ingredients/{ingredientId}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+      - name: ingredientId
+        in: path
+        required: true
+        schema:
+          type: integer
+
+    put:
+      summary: Uppdatera ingrediens på recept (mängd/enhet)
+      operationId: updateRecipeIngredient
+      tags: [Recept]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredientWrite'
+      responses:
+        '200':
+          description: Uppdaterad ingrediens
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeIngredient'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      summary: Ta bort ingrediens från recept
+      operationId: removeRecipeIngredient
+      tags: [Recept]
+      responses:
+        '204':
+          description: Borttagen
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ── Ingredienser (global katalog) ──────────────────────────────────────
+
+  /ingredients:
+    get:
+      summary: Sök i ingredienskatalogen
+      operationId: listIngredients
+      tags: [Ingredienser]
+      parameters:
+        - name: q
+          in: query
+          description: Fritextsökning på namn
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista med ingredienser
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ingredient'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Skapa ny ingrediens
+      operationId: createIngredient
+      tags: [Ingredienser]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngredientWrite'
+      responses:
+        '201':
+          description: Ingrediensen skapad
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: Ingrediensen finns redan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # ── Inköpslistor ────────────────────────────────────────────────────────
+
+  /shopping-lists:
+    get:
+      summary: Hämta alla inköpslistor
+      operationId: listShoppingLists
+      tags: [Inköpslistor]
+      responses:
+        '200':
+          description: Lista med inköpslistor
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShoppingListSummary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Skapa ny inköpslista
+      operationId: createShoppingList
+      tags: [Inköpslistor]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShoppingListWrite'
+      responses:
+        '201':
+          description: Inköpslistan skapad
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /shopping-lists/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+
+    get:
+      summary: Hämta inköpslista med alla varor
+      operationId: getShoppingList
+      tags: [Inköpslistor]
+      responses:
+        '200':
+          description: Inköpslistan med varor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      summary: Byt namn på inköpslistan
+      operationId: updateShoppingList
+      tags: [Inköpslistor]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShoppingListWrite'
+      responses:
+        '200':
+          description: Uppdaterad inköpslista
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      summary: Ta bort inköpslista
+      operationId: deleteShoppingList
+      tags: [Inköpslistor]
+      responses:
+        '204':
+          description: Borttagen
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /shopping-lists/{id}/items:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+
+    post:
+      summary: Lägg till vara på inköpslistan
+      operationId: addShoppingListItem
+      tags: [Inköpslistor]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShoppingListItemWrite'
+      responses:
+        '201':
+          description: Varan tillagd
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingListItem'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /shopping-lists/{id}/items/{itemId}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: integer
+
+    patch:
+      summary: Uppdatera vara (mängd, enhet, eller markera som tagen)
+      operationId: updateShoppingListItem
+      tags: [Inköpslistor]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShoppingListItemPatch'
+      responses:
+        '200':
+          description: Uppdaterad vara
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingListItem'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      summary: Ta bort vara från inköpslistan
+      operationId: deleteShoppingListItem
+      tags: [Inköpslistor]
+      responses:
+        '204':
+          description: Borttagen
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /shopping-lists/{id}/recipes:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+
+    post:
+      summary: Lägg till recept på inköpslistan
+      description: |
+        Kopplar ett recept till listan. Receptets ingredienser läggs automatiskt
+        till som varor med `checked: false`.
+      operationId: addRecipeToShoppingList
+      tags: [Inköpslistor]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [recipeId]
+              properties:
+                recipeId:
+                  type: integer
+      responses:
+        '200':
+          description: Listan med de nytillagda varorna
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /shopping-lists/{id}/recipes/{recipeId}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+      - name: recipeId
+        in: path
+        required: true
+        schema:
+          type: integer
+
+    delete:
+      summary: Ta bort recept från inköpslistan
+      operationId: removeRecipeFromShoppingList
+      tags: [Inköpslistor]
+      responses:
+        '204':
+          description: Borttaget
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+# ---------------------------------------------------------------------------
+# Components
+# ---------------------------------------------------------------------------
+components:
+
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: connect.sid
+      description: Session-cookie satt av Express efter Google OAuth-inloggning
+
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+
+  responses:
+    Unauthorized:
+      description: Ej inloggad
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Ogiltiga parametrar
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resursen hittades inte
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+
+    # ── Ingredienser ──────────────────────────────────────────────────────
+
+    Ingredient:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        defaultUnit:
+          type: string
+          nullable: true
+
+    IngredientWrite:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        defaultUnit:
+          type: string
+
+    # ── Recept ────────────────────────────────────────────────────────────
+
+    RecipeIngredient:
+      type: object
+      required: [id, ingredient, quantity, unit]
+      properties:
+        id:
+          type: integer
+        ingredient:
+          $ref: '#/components/schemas/Ingredient'
+        quantity:
+          type: number
+          format: float
+        unit:
+          type: string
+
+    RecipeIngredientWrite:
+      type: object
+      required: [ingredientId, quantity, unit]
+      properties:
+        ingredientId:
+          type: integer
+        quantity:
+          type: number
+          format: float
+        unit:
+          type: string
+
+    RecipeSummary:
+      type: object
+      required: [id, name, createdAt, updatedAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        servings:
+          type: integer
+          nullable: true
+        cookTimeMinutes:
+          type: integer
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Recipe:
+      allOf:
+        - $ref: '#/components/schemas/RecipeSummary'
+        - type: object
+          required: [steps, ingredients]
+          properties:
+            steps:
+              type: array
+              items:
+                type: string
+              description: Tillagningssteg i ordning
+            ingredients:
+              type: array
+              items:
+                $ref: '#/components/schemas/RecipeIngredient'
+
+    RecipeWrite:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        steps:
+          type: array
+          items:
+            type: string
+          default: []
+        servings:
+          type: integer
+          minimum: 1
+        cookTimeMinutes:
+          type: integer
+          minimum: 0
+
+    # ── Inköpslistor ──────────────────────────────────────────────────────
+
+    ShoppingListItem:
+      type: object
+      required: [id, ingredient, quantity, unit, checked]
+      properties:
+        id:
+          type: integer
+        ingredient:
+          $ref: '#/components/schemas/Ingredient'
+        quantity:
+          type: number
+          format: float
+        unit:
+          type: string
+        checked:
+          type: boolean
+          description: Sant om varan är nedprickad/tagen
+
+    ShoppingListItemWrite:
+      type: object
+      required: [ingredientId, quantity, unit]
+      properties:
+        ingredientId:
+          type: integer
+        quantity:
+          type: number
+          format: float
+        unit:
+          type: string
+
+    ShoppingListItemPatch:
+      type: object
+      description: Alla fält är valfria — skicka bara det som ska ändras
+      properties:
+        quantity:
+          type: number
+          format: float
+        unit:
+          type: string
+        checked:
+          type: boolean
+
+    ShoppingListSummary:
+      type: object
+      required: [id, name, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        itemCount:
+          type: integer
+          description: Totalt antal varor
+        checkedCount:
+          type: integer
+          description: Antal nedprickade varor
+
+    ShoppingList:
+      allOf:
+        - $ref: '#/components/schemas/ShoppingListSummary'
+        - type: object
+          required: [items]
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ShoppingListItem'
+            recipes:
+              type: array
+              description: Recept kopplade till listan
+              items:
+                $ref: '#/components/schemas/RecipeSummary'
+
+    ShoppingListWrite:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
