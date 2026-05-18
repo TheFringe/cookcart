@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import axios from 'axios';
-
-const API = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+import { API_URL as API } from '../../config';
 
 type User = { id: number; email: string; name: string };
 type AuthCtx = { user: User | null; loading: boolean; logout: () => void };

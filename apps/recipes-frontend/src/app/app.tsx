@@ -2,13 +2,17 @@ import { Route, Routes } from 'react-router-dom';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { ProtectedRoute } from './auth/ProtectedRoute';
 import { LoginPage } from './auth/LoginPage';
+import { RecipeList } from './recipes/RecipeList';
 
 function Home() {
   const { user, logout } = useAuth();
   return (
     <div data-testid="home-page">
-      <p>Välkommen, {user?.name}!</p>
-      <button onClick={logout}>Logga ut</button>
+      <header>
+        <span>Välkommen, {user?.name}!</span>
+        <button onClick={logout}>Logga ut</button>
+      </header>
+      <RecipeList />
     </div>
   );
 }
