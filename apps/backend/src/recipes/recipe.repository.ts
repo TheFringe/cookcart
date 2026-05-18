@@ -8,17 +8,28 @@ export interface RecipeInput {
   cook_time_minutes?: number;
 }
 
+export interface Recipe {
+  id: number;
+  name: string;
+  description: string | null;
+  steps: string[];
+  servings: number | null;
+  cook_time_minutes: number | null;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export class RecipeRepository {
   constructor(private pool: Pool) {}
 
-  async findAll() {
+  async findAll(): Promise<Recipe[]> {
     const { rows } = await this.pool.query(
       'SELECT * FROM recipes ORDER BY created_at DESC'
     );
     return rows;
   }
 
-  async findById(id: number) {
+  async findById(id: number): Promise<Recipe | null> {
     const { rows } = await this.pool.query(
       'SELECT * FROM recipes WHERE id = $1',
       [id]
@@ -26,7 +37,7 @@ export class RecipeRepository {
     return rows[0] ?? null;
   }
 
-  async update(id: number, data: RecipeInput) {
+  async update(id: number, data: RecipeInput): Promise<Recipe | null> {
     const { rows } = await this.pool.query(
       `UPDATE recipes
        SET name = $1, description = $2, steps = $3, servings = $4, cook_time_minutes = $5, updated_at = NOW()
@@ -37,7 +48,7 @@ export class RecipeRepository {
     return rows[0] ?? null;
   }
 
-  async create(data: RecipeInput) {
+  async create(data: RecipeInput): Promise<Recipe> {
     const { rows } = await this.pool.query(
       `INSERT INTO recipes (name, description, steps, servings, cook_time_minutes)
        VALUES ($1, $2, $3, $4, $5)
@@ -47,7 +58,7 @@ export class RecipeRepository {
     return rows[0];
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<boolean> {
     const { rowCount } = await this.pool.query(
       'DELETE FROM recipes WHERE id = $1',
       [id]
@@ -55,7 +66,7 @@ export class RecipeRepository {
     return (rowCount ?? 0) > 0;
   }
 
-  private toParams(data: RecipeInput) {
+  private toParams(data: RecipeInput): (string | number | null)[] {
     return [
       data.name,
       data.description ?? null,

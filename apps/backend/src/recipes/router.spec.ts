@@ -9,7 +9,7 @@ const mockRepo = {
   create: jest.fn(),
   update: jest.fn(),
   remove: jest.fn(),
-} as unknown as RecipeRepository;
+} as unknown as jest.Mocked<RecipeRepository>;
 
 const app = express();
 app.use(express.json());
@@ -22,7 +22,7 @@ beforeEach(() => jest.clearAllMocks());
 
 describe('GET /recipes', () => {
   it('returnerar en tom lista', async () => {
-    (mockRepo.findAll as jest.Mock).mockResolvedValue([]);
+    mockRepo.findAll.mockResolvedValue([]);
 
     const res = await request(app).get('/recipes');
 
@@ -40,7 +40,7 @@ describe('GET /recipes/:id', () => {
 
   it('returnerar receptet när det finns', async () => {
     const recipe = { id: 1, name: 'Pasta', description: null, steps: [], servings: 2, cook_time_minutes: 20 };
-    (mockRepo.findById as jest.Mock).mockResolvedValue(recipe);
+    mockRepo.findById.mockResolvedValue(recipe);
 
     const res = await request(app).get('/recipes/1');
 
@@ -61,7 +61,7 @@ describe('PUT /recipes/:id', () => {
   it('returnerar det uppdaterade receptet', async () => {
     const update = { name: 'Pasta Bolognese', steps: ['Koka pasta', 'Stek köttfärs'], servings: 4 };
     const updated = { id: 1, ...update, description: null, cook_time_minutes: null };
-    (mockRepo.update as jest.Mock).mockResolvedValue(updated);
+    mockRepo.update.mockResolvedValue(updated);
 
     const res = await request(app).put('/recipes/1').send(update);
 
@@ -72,7 +72,7 @@ describe('PUT /recipes/:id', () => {
 
 describe('DELETE /recipes/:id', () => {
   it('returnerar 204 när receptet tas bort', async () => {
-    (mockRepo.remove as jest.Mock).mockResolvedValue(true);
+    mockRepo.remove.mockResolvedValue(true);
 
     const res = await request(app).delete('/recipes/1');
 
@@ -82,7 +82,7 @@ describe('DELETE /recipes/:id', () => {
 
 describe('error handling', () => {
   it('returnerar 500 när repository kastar', async () => {
-    (mockRepo.findAll as jest.Mock).mockRejectedValue(new Error('DB-fel'));
+    mockRepo.findAll.mockRejectedValue(new Error('DB-fel'));
 
     const res = await request(app).get('/recipes');
 
@@ -100,7 +100,7 @@ describe('POST /recipes', () => {
   it('skapar ett recept och returnerar 201', async () => {
     const input = { name: 'Lasagne', steps: ['Koka pasta', 'Laga köttfärssås'], servings: 4 };
     const created = { id: 2, ...input, description: null, cook_time_minutes: null };
-    (mockRepo.create as jest.Mock).mockResolvedValue(created);
+    mockRepo.create.mockResolvedValue(created);
 
     const res = await request(app).post('/recipes').send(input);
 
