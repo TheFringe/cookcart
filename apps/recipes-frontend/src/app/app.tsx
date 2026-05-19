@@ -5,6 +5,7 @@ import { LoginPage } from './auth/LoginPage';
 import { RecipeList } from './recipes/RecipeList';
 import { RecipeDetail } from './recipes/RecipeDetail';
 import { ShoppingListPage } from './shopping-lists/ShoppingListPage';
+import { ShoppingListDetail } from './shopping-lists/ShoppingListDetail';
 import { BottomNav } from './shared/BottomNav';
 
 function Home() {
@@ -42,6 +43,14 @@ export function App() {
           element={
             <AuthenticatedLayout>
               <ShoppingListPage />
+            </AuthenticatedLayout>
+          }
+        />
+        <Route
+          path="/shopping-lists/:id"
+          element={
+            <AuthenticatedLayout>
+              <ShoppingListDetail />
             </AuthenticatedLayout>
           }
         />

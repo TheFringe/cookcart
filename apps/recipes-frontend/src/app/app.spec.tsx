@@ -102,4 +102,21 @@ describe('App', () => {
 
     expect(screen.getByRole('navigation')).toBeInTheDocument();
   });
+
+  it('visar inköpslistans detaljsida på /shopping-lists/:id', async () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: 1, email: 'test@example.com', name: 'Test' },
+      loading: false,
+      logout: jest.fn(),
+    });
+    mockedAxios.get.mockResolvedValue({ data: { id: 1, name: 'ICA', items: [] } });
+
+    render(
+      <MemoryRouter initialEntries={['/shopping-lists/1']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(await screen.findByTestId('shopping-list-detail')).toBeInTheDocument();
+  });
 });
