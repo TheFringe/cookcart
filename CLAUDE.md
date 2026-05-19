@@ -6,7 +6,91 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **Recipes** is a full-stack recipes and shopping list management app.
 The project is Swedish-oriented (UI text, comments, and documentation are in Swedish).
 The project is used to learn react and the purpose of the documentation should consider that.
-Use well known best practices when building components in the react frontend and use well established patterns in the backend.
+Use well-known best practices when building components in the react frontend and use well-established patterns in the backend.
+
+## Guidelines
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+
+### 1. Think Before Coding
+
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
+
+Before implementing:
+- State your assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them - don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
+
+### 2. Simplicity First
+
+**Minimum code that solves the problem. Nothing speculative.**
+
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
+
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+
+### 3. Surgical Changes
+
+**Touch only what you must. Clean up only your own mess.**
+
+When editing existing code:
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it - don't delete it.
+
+When your changes create orphans:
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
+
+The test: Every changed line should trace directly to the user's request.
+
+### 4. Goal-Driven Execution
+
+**Define success criteria. Loop until verified.**
+
+Transform tasks into verifiable goals:
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+
+For multi-step tasks, state a brief plan:
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+```
+
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+### 5. Project-Specific Guidelines
+- **General:**
+- **Avoid use of `any` or `unknown`.**
+- **Frontend:**
+  - **React:**
+    - **Components:**
+      - **Use CSS modules for styling.**
+      - **Use TypeScript.**
+      - **Use React Router.**
+      - **Use React Query.**
+      - **Use React Testing Library.**
+- **Backend:**
+  - **Node.js:**
+    - **Use TypeScript.**
+    - **Use Express.**
+    - **Use Express Router.**
+    - **Use Express Query.**
+    - **Use Express Testing Library.**
+    - **Use PostgreSQL.**
+    - **Use Sequelize.**
+---
+
+**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+
 
 ## Stack
 
@@ -81,10 +165,13 @@ podman ps                 # list running containers
 - Don't re-read the entire codebase if the graph already has the information
 
 ## Knowledge base
-Vault path: ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/claud-memory
-Project folder in vault: Recipes/
-Session logs path: Recipes/logs/
+- Vault path: ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/claud-memory
+- Project folder in vault: Recipes/
+- Session logs path: Recipes/logs/
+- Learnings path in vault: Recipes/learnings/
 
 Use /save to persist session decisions to the vault. **Session logs must be saved to `Recipes/logs/` — not the vault root `logs/`.**
+
 Use /resume to restore context from the `Recipes/logs/` at session start.
+
 Use /graphify to generate a code graph for this project.
