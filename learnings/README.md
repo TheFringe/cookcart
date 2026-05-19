@@ -5,6 +5,7 @@ Kunskapsdokument för Recipes-projektet. Skrivet för att hjälpa dig förstå *
 ## Komponenter
 
 - [RecipeList och RecipeDetail](recipe-list-and-detail.md) — Hur receptlistan och detaljvyn fungerar, routing, dataflöde och gotchas
+- [Toast-komponenten](toast-component.md) — Tillfälliga felmeddelanden med auto-dismiss: useEffect, setTimeout och cleanup
 
 ## React Hooks
 
