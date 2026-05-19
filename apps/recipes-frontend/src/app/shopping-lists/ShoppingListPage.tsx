@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import { Toast } from '../shared/Toast';
@@ -28,9 +29,9 @@ export function ShoppingListPage() {
       </div>
       <div className="shopping-list__rows">
         {lists.map((list) => (
-          <div key={list.id} className="shopping-list__row">
+          <Link key={list.id} to={`/shopping-lists/${list.id}`} className="shopping-list__row">
             <span className="shopping-list__name">{list.name}</span>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

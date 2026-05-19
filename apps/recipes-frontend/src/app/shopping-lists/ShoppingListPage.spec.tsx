@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
 import { ShoppingListPage } from './ShoppingListPage';
 
@@ -16,9 +17,20 @@ describe('ShoppingListPage', () => {
       ],
     });
 
-    render(<ShoppingListPage />);
+    render(<MemoryRouter><ShoppingListPage /></MemoryRouter>);
 
     expect(await screen.findByText('ICA')).toBeInTheDocument();
+  });
+
+  it('varje lista är en länk till sin detaljsida', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: [{ id: 3, name: 'Hemköp' }],
+    });
+
+    render(<MemoryRouter><ShoppingListPage /></MemoryRouter>);
+
+    const link = await screen.findByRole('link', { name: /Hemköp/i });
+    expect(link).toHaveAttribute('href', '/shopping-lists/3');
   });
 
   it('visar en toast när hämtningen misslyckas', async () => {
