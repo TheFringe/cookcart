@@ -33,6 +33,17 @@ describe('RecipeForm — redigera', () => {
     expect(screen.getByTestId('input-steps')).toHaveValue('Koka vatten\nKoka pasta');
   });
 
+  it('visar en avbryt-länk som leder tillbaka till receptsidan', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: { id: 1, name: 'Pasta', steps: [], ingredients: [] },
+    });
+
+    renderForm('1');
+    await screen.findByDisplayValue('Pasta');
+
+    expect(screen.getByRole('link', { name: /avbryt/i })).toHaveAttribute('href', '/recipes/1');
+  });
+
   it('anropar PUT när formuläret skickas i redigera-läge', async () => {
     mockedAxios.get.mockResolvedValue({
       data: { id: 1, name: 'Pasta', steps: ['Koka vatten'], ingredients: [] },

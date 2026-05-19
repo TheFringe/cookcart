@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useParams } from 'react-router-dom';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { ProtectedRoute } from './auth/ProtectedRoute';
 import { LoginPage } from './auth/LoginPage';
@@ -23,6 +23,11 @@ function Home() {
       <RecipeList />
     </div>
   );
+}
+
+function RecipeEditPage() {
+  const { id } = useParams<{ id: string }>();
+  return <RecipeForm recipeId={id} />;
 }
 
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
@@ -67,7 +72,7 @@ export function App() {
           path="/recipes/:id/edit"
           element={
             <AuthenticatedLayout>
-              <RecipeForm recipeId="edit" />
+              <RecipeEditPage />
             </AuthenticatedLayout>
           }
         />

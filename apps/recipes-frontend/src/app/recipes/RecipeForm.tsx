@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import type { Recipe } from './types';
@@ -29,11 +29,34 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
   }
 
   return (
-    <div data-testid="recipe-form">
+    <div data-testid="recipe-form" className="recipe-form">
+      <h1 className="recipe-form__title">{recipeId ? 'Redigera recept' : 'Nytt recept'}</h1>
       <form onSubmit={handleSubmit}>
-        <input data-testid="input-name" value={name} onChange={(e) => setName(e.target.value)} />
-        <textarea data-testid="input-steps" value={stepsText} onChange={(e) => setStepsText(e.target.value)} />
-        <button data-testid="submit-btn" type="submit">Spara</button>
+        <div className="recipe-form__field">
+          <label className="recipe-form__label" htmlFor="recipe-name">Namn</label>
+          <input
+            id="recipe-name"
+            className="recipe-form__input"
+            data-testid="input-name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className="recipe-form__field">
+          <label className="recipe-form__label" htmlFor="recipe-steps">Steg</label>
+          <textarea
+            id="recipe-steps"
+            className="recipe-form__textarea"
+            data-testid="input-steps"
+            value={stepsText}
+            onChange={(e) => setStepsText(e.target.value)}
+            rows={10}
+          />
+        </div>
+        <div className="recipe-form__actions">
+          <button className="recipe-form__submit" data-testid="submit-btn" type="submit">Spara</button>
+          {recipeId && <Link to={`/recipes/${recipeId}`} className="recipe-form__cancel">Avbryt</Link>}
+        </div>
       </form>
     </div>
   );
