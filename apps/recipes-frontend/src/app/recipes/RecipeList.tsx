@@ -15,11 +15,11 @@ export function RecipeList() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p className="recipe-loading">Laddar recept...</p>;
-
   return (
     <div data-testid="recipe-list" className="recipe-list">
-      {recipes.length === 0 && <p className="recipe-empty">Inga recept hittades</p>}
+      <Link to="/recipes/new" className="recipe-list__new-btn">+ Nytt recept</Link>
+      {loading && <p className="recipe-loading">Laddar recept...</p>}
+      {!loading && recipes.length === 0 && <p className="recipe-empty">Inga recept hittades</p>}
       {recipes.map((r) => (
         <article key={r.id} data-testid="recipe-item" className="recipe-card">
           <div className="recipe-card__body">

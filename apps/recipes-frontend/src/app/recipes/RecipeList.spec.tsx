@@ -42,6 +42,14 @@ describe('RecipeList', () => {
     expect(await screen.findByText('Inga recept hittades')).toBeInTheDocument();
   });
 
+  it('visar en länk till att skapa nytt recept', () => {
+    mockedAxios.get.mockReturnValue(new Promise(() => {}));
+
+    render(<MemoryRouter><RecipeList /></MemoryRouter>);
+
+    expect(screen.getByRole('link', { name: /nytt recept/i })).toHaveAttribute('href', '/recipes/new');
+  });
+
   it('lenkar varje recept till dess detaljsida', async () => {
     mockedAxios.get.mockResolvedValue({
       data: [{ id: 42, name: 'Pasta', description: null, cook_time_minutes: null, servings: null }],

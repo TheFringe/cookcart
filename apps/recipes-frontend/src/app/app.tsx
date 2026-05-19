@@ -6,6 +6,7 @@ import { RecipeList } from './recipes/RecipeList';
 import { RecipeDetail } from './recipes/RecipeDetail';
 import { ShoppingListPage } from './shopping-lists/ShoppingListPage';
 import { ShoppingListDetail } from './shopping-lists/ShoppingListDetail';
+import { RecipeForm } from './recipes/RecipeForm';
 import { BottomNav } from './shared/BottomNav';
 
 function Home() {
@@ -51,6 +52,22 @@ export function App() {
           element={
             <AuthenticatedLayout>
               <ShoppingListDetail />
+            </AuthenticatedLayout>
+          }
+        />
+        <Route
+          path="/recipes/new"
+          element={
+            <AuthenticatedLayout>
+              <RecipeForm />
+            </AuthenticatedLayout>
+          }
+        />
+        <Route
+          path="/recipes/:id/edit"
+          element={
+            <AuthenticatedLayout>
+              <RecipeForm recipeId="edit" />
             </AuthenticatedLayout>
           }
         />

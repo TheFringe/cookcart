@@ -31,6 +31,7 @@ export function RecipeDetail() {
   return (
     <div data-testid="recipe-detail" className="recipe-detail">
       <Link to="/" className="recipe-detail__back">← Tillbaka</Link>
+      <Link to={`/recipes/${id}/edit`} className="recipe-detail__edit">Redigera</Link>
       <h1 className="recipe-detail__title">{recipe.name}</h1>
       {(recipe.cook_time_minutes || recipe.servings) && (
         <div className="recipe-detail__meta">

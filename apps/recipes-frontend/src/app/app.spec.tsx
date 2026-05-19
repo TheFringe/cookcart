@@ -103,6 +103,22 @@ describe('App', () => {
     expect(screen.getByRole('navigation')).toBeInTheDocument();
   });
 
+  it('visar receptformuläret på /recipes/new', () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: 1, email: 'test@example.com', name: 'Test' },
+      loading: false,
+      logout: jest.fn(),
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/recipes/new']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByTestId('recipe-form')).toBeInTheDocument();
+  });
+
   it('visar inköpslistans detaljsida på /shopping-lists/:id', async () => {
     mockUseAuth.mockReturnValue({
       user: { id: 1, email: 'test@example.com', name: 'Test' },

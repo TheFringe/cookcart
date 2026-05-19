@@ -71,6 +71,12 @@ describe('RecipeDetail', () => {
     expect(screen.getByRole('link', { name: /tillbaka/i })).toHaveAttribute('href', '/');
   });
 
+  it('visar en redigera-länk till redigeringssidan', async () => {
+    renderRecipeDetail(baseRecipe);
+    await screen.findByText('Pasta Carbonara');
+    expect(screen.getByRole('link', { name: /redigera/i })).toHaveAttribute('href', '/recipes/1/edit');
+  });
+
   it('visar en toast när fetch misslyckas', async () => {
     mockedAxios.get.mockRejectedValue(new Error('Network Error'));
     renderComponent();
