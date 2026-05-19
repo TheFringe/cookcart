@@ -301,3 +301,53 @@ INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
 ((SELECT id FROM recipes WHERE name = 'Chokladmousse'), (SELECT id FROM ingredients WHERE name = 'ägg'), 4, 'st'),
 ((SELECT id FROM recipes WHERE name = 'Chokladmousse'), (SELECT id FROM ingredients WHERE name = 'socker'), 50, 'g'),
 ((SELECT id FROM recipes WHERE name = 'Chokladmousse'), (SELECT id FROM ingredients WHERE name = 'vispgrädde'), 200, 'ml');
+
+-- ─── Inköpslistor ──────────────────────────────────────────────────────────────
+
+INSERT INTO shopping_lists (name) VALUES ('ICA'), ('Willys');
+
+-- ICA
+INSERT INTO shopping_list_items (list_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'kycklingfilé'),    800,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'lax'),            400,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'pasta'),          500,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'ägg'),             12,  'st'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'mjölk'),         1000,  'ml'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'smör'),           200,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'grädde'),         400,  'ml'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'parmesan'),       100,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'olivolja'),         5,  'msk'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'citron'),           3,  'st'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'tomat'),            6,  'st'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'lök'),              3,  'st'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'vitlök'),           4,  'klyfta'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'potatis'),        1000,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'morötter'),         4,  'st'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'spenat'),          200,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'krossade tomater'), 800, 'g'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'basilika'),         20,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'yoghurt'),         400,  'ml'),
+((SELECT id FROM shopping_lists WHERE name = 'ICA'), (SELECT id FROM ingredients WHERE name = 'broccoli'),        400,  'g');
+
+-- Willys
+INSERT INTO shopping_list_items (list_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'köttfärs'),        500,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'pasta'),          1000,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'krossade tomater'), 1600, 'g'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'ägg'),               6,  'st'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'mjölk'),          2000,  'ml'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'smör'),            250,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'potatis'),        1500,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'lök'),               4,  'st'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'vitlök'),            2,  'klyfta'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'morötter'),          6,  'st'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'grädde'),          200,  'ml'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'gräddfil'),        200,  'ml'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'ost'),             300,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'tomat'),             4,  'st'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'sallad'),           150,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'kycklingfilé'),    600,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'tacokryddor'),      60,  'g'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'tortillabröd'),      8,  'st'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'soja'),              4,  'msk'),
+((SELECT id FROM shopping_lists WHERE name = 'Willys'), (SELECT id FROM ingredients WHERE name = 'bröd'),              8,  'skiva');
