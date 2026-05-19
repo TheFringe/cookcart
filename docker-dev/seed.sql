@@ -21,3 +21,283 @@ INSERT INTO recipes (name, description, steps, servings, cook_time_minutes) VALU
 ('Sommarsoppa', 'Len svensk sommarsoppa med nylök, morötter och grädde.', '["Stek nylök i smör","Tillsätt tärnade morötter och potatis","Häll på hönsbuljong","Låt koka tills grönsakerna är mjuka","Tillsätt grädde och smaksätt med dill"]', 4, 30),
 ('Pulled Pork Bao', 'Ångade baobröd med slow-cooked pulled pork och picklade grönsaker.', '["Gnid in fläskköttet med kryddor","Baka i 120°C i 6 timmar","Dra isär köttet","Ångkoka baobröden","Fyll med kött, picklad gurka och sriracha-majonnäs"]', 4, 380),
 ('Chokladmousse', 'Luftig och rik chokladmousse på mörk choklad.', '["Smält mörk choklad i vattenbad","Vispa äggulor med socker tills vitt och pösigt","Vänd ner chokladen","Vispa grädde till mjuka toppar","Vänd försiktigt ihop och kyl 2 timmar"]', 6, 30);
+
+-- ─── Ingredienser ─────────────────────────────────────────────────────────────
+
+INSERT INTO ingredients (name, default_unit) VALUES
+('pasta', 'g'),
+('guanciale', 'g'),
+('ägg', 'st'),
+('pecorino', 'g'),
+('nötfärs', 'g'),
+('ströbröd', 'msk'),
+('lök', 'st'),
+('grädde', 'ml'),
+('smör', 'g'),
+('lingonsylt', 'g'),
+('kycklingfilé', 'g'),
+('paprika', 'st'),
+('broccoli', 'g'),
+('soja', 'msk'),
+('ingefära', 'cm'),
+('vitlök', 'klyfta'),
+('sesamolja', 'msk'),
+('lax', 'g'),
+('potatis', 'g'),
+('gräddfil', 'ml'),
+('dill', 'g'),
+('citron', 'st'),
+('mjöl', 'g'),
+('mjölk', 'ml'),
+('jordgubbssylt', 'g'),
+('vispgrädde', 'ml'),
+('köttfärs', 'g'),
+('tacokryddor', 'g'),
+('tortillabröd', 'st'),
+('sallad', 'g'),
+('tomat', 'st'),
+('ost', 'g'),
+('salsa', 'g'),
+('lasagneplattor', 'g'),
+('ricotta', 'g'),
+('spenat', 'g'),
+('krossade tomater', 'g'),
+('parmesan', 'g'),
+('vitfisk', 'g'),
+('lime', 'st'),
+('chili', 'st'),
+('rödlök', 'st'),
+('koriander', 'g'),
+('majschips', 'g'),
+('kikärtor', 'g'),
+('tahini', 'msk'),
+('olivolja', 'msk'),
+('spiskummin', 'tsk'),
+('arborio-ris', 'g'),
+('vitt vin', 'ml'),
+('schalottenlök', 'st'),
+('svamp', 'g'),
+('hönsbuljong', 'ml'),
+('grönsaksbuljong', 'ml'),
+('pitabröd', 'st'),
+('basilika', 'g'),
+('tomatpuré', 'msk'),
+('biff', 'g'),
+('fetaost', 'g'),
+('oliver', 'g'),
+('rödvinsvinäger', 'msk'),
+('oregano', 'tsk'),
+('yoghurt', 'ml'),
+('tikka masala-kryddor', 'msk'),
+('naan', 'st'),
+('gravlax', 'g'),
+('gräslök', 'g'),
+('bröd', 'skiva'),
+('aubergine', 'st'),
+('lammfärs', 'g'),
+('nylök', 'knippe'),
+('morötter', 'st'),
+('fläskkött', 'g'),
+('baobröd', 'st'),
+('picklad gurka', 'g'),
+('sriracha', 'msk'),
+('majonnäs', 'ml'),
+('mörk choklad', 'g'),
+('socker', 'g');
+
+-- ─── Recept–ingredienskopplingar ───────────────────────────────────────────────
+
+-- Pasta Carbonara
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Pasta Carbonara'), (SELECT id FROM ingredients WHERE name = 'pasta'), 400, 'g'),
+((SELECT id FROM recipes WHERE name = 'Pasta Carbonara'), (SELECT id FROM ingredients WHERE name = 'guanciale'), 150, 'g'),
+((SELECT id FROM recipes WHERE name = 'Pasta Carbonara'), (SELECT id FROM ingredients WHERE name = 'ägg'), 4, 'st'),
+((SELECT id FROM recipes WHERE name = 'Pasta Carbonara'), (SELECT id FROM ingredients WHERE name = 'pecorino'), 80, 'g');
+
+-- Köttbullar med gräddsås
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Köttbullar med gräddsås'), (SELECT id FROM ingredients WHERE name = 'nötfärs'), 500, 'g'),
+((SELECT id FROM recipes WHERE name = 'Köttbullar med gräddsås'), (SELECT id FROM ingredients WHERE name = 'ägg'), 1, 'st'),
+((SELECT id FROM recipes WHERE name = 'Köttbullar med gräddsås'), (SELECT id FROM ingredients WHERE name = 'ströbröd'), 3, 'msk'),
+((SELECT id FROM recipes WHERE name = 'Köttbullar med gräddsås'), (SELECT id FROM ingredients WHERE name = 'lök'), 1, 'st'),
+((SELECT id FROM recipes WHERE name = 'Köttbullar med gräddsås'), (SELECT id FROM ingredients WHERE name = 'grädde'), 300, 'ml'),
+((SELECT id FROM recipes WHERE name = 'Köttbullar med gräddsås'), (SELECT id FROM ingredients WHERE name = 'smör'), 50, 'g'),
+((SELECT id FROM recipes WHERE name = 'Köttbullar med gräddsås'), (SELECT id FROM ingredients WHERE name = 'lingonsylt'), 100, 'g'),
+((SELECT id FROM recipes WHERE name = 'Köttbullar med gräddsås'), (SELECT id FROM ingredients WHERE name = 'potatis'), 800, 'g');
+
+-- Kycklingwok med grönsaker
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Kycklingwok med grönsaker'), (SELECT id FROM ingredients WHERE name = 'kycklingfilé'), 400, 'g'),
+((SELECT id FROM recipes WHERE name = 'Kycklingwok med grönsaker'), (SELECT id FROM ingredients WHERE name = 'paprika'), 2, 'st'),
+((SELECT id FROM recipes WHERE name = 'Kycklingwok med grönsaker'), (SELECT id FROM ingredients WHERE name = 'broccoli'), 300, 'g'),
+((SELECT id FROM recipes WHERE name = 'Kycklingwok med grönsaker'), (SELECT id FROM ingredients WHERE name = 'soja'), 3, 'msk'),
+((SELECT id FROM recipes WHERE name = 'Kycklingwok med grönsaker'), (SELECT id FROM ingredients WHERE name = 'ingefära'), 2, 'cm'),
+((SELECT id FROM recipes WHERE name = 'Kycklingwok med grönsaker'), (SELECT id FROM ingredients WHERE name = 'vitlök'), 3, 'klyfta'),
+((SELECT id FROM recipes WHERE name = 'Kycklingwok med grönsaker'), (SELECT id FROM ingredients WHERE name = 'sesamolja'), 1, 'msk');
+
+-- Lax med dillsås
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Lax med dillsås'), (SELECT id FROM ingredients WHERE name = 'lax'), 600, 'g'),
+((SELECT id FROM recipes WHERE name = 'Lax med dillsås'), (SELECT id FROM ingredients WHERE name = 'potatis'), 800, 'g'),
+((SELECT id FROM recipes WHERE name = 'Lax med dillsås'), (SELECT id FROM ingredients WHERE name = 'gräddfil'), 200, 'ml'),
+((SELECT id FROM recipes WHERE name = 'Lax med dillsås'), (SELECT id FROM ingredients WHERE name = 'dill'), 20, 'g'),
+((SELECT id FROM recipes WHERE name = 'Lax med dillsås'), (SELECT id FROM ingredients WHERE name = 'citron'), 1, 'st');
+
+-- Pannkakor
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Pannkakor'), (SELECT id FROM ingredients WHERE name = 'mjöl'), 300, 'g'),
+((SELECT id FROM recipes WHERE name = 'Pannkakor'), (SELECT id FROM ingredients WHERE name = 'mjölk'), 600, 'ml'),
+((SELECT id FROM recipes WHERE name = 'Pannkakor'), (SELECT id FROM ingredients WHERE name = 'ägg'), 3, 'st'),
+((SELECT id FROM recipes WHERE name = 'Pannkakor'), (SELECT id FROM ingredients WHERE name = 'smör'), 50, 'g'),
+((SELECT id FROM recipes WHERE name = 'Pannkakor'), (SELECT id FROM ingredients WHERE name = 'jordgubbssylt'), 200, 'g'),
+((SELECT id FROM recipes WHERE name = 'Pannkakor'), (SELECT id FROM ingredients WHERE name = 'vispgrädde'), 200, 'ml');
+
+-- Tacos
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Tacos'), (SELECT id FROM ingredients WHERE name = 'köttfärs'), 500, 'g'),
+((SELECT id FROM recipes WHERE name = 'Tacos'), (SELECT id FROM ingredients WHERE name = 'lök'), 1, 'st'),
+((SELECT id FROM recipes WHERE name = 'Tacos'), (SELECT id FROM ingredients WHERE name = 'tacokryddor'), 30, 'g'),
+((SELECT id FROM recipes WHERE name = 'Tacos'), (SELECT id FROM ingredients WHERE name = 'tortillabröd'), 8, 'st'),
+((SELECT id FROM recipes WHERE name = 'Tacos'), (SELECT id FROM ingredients WHERE name = 'sallad'), 100, 'g'),
+((SELECT id FROM recipes WHERE name = 'Tacos'), (SELECT id FROM ingredients WHERE name = 'tomat'), 3, 'st'),
+((SELECT id FROM recipes WHERE name = 'Tacos'), (SELECT id FROM ingredients WHERE name = 'ost'), 150, 'g'),
+((SELECT id FROM recipes WHERE name = 'Tacos'), (SELECT id FROM ingredients WHERE name = 'gräddfil'), 200, 'ml'),
+((SELECT id FROM recipes WHERE name = 'Tacos'), (SELECT id FROM ingredients WHERE name = 'salsa'), 200, 'g');
+
+-- Vegetarisk lasagne
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Vegetarisk lasagne'), (SELECT id FROM ingredients WHERE name = 'lasagneplattor'), 250, 'g'),
+((SELECT id FROM recipes WHERE name = 'Vegetarisk lasagne'), (SELECT id FROM ingredients WHERE name = 'ricotta'), 500, 'g'),
+((SELECT id FROM recipes WHERE name = 'Vegetarisk lasagne'), (SELECT id FROM ingredients WHERE name = 'spenat'), 300, 'g'),
+((SELECT id FROM recipes WHERE name = 'Vegetarisk lasagne'), (SELECT id FROM ingredients WHERE name = 'krossade tomater'), 800, 'g'),
+((SELECT id FROM recipes WHERE name = 'Vegetarisk lasagne'), (SELECT id FROM ingredients WHERE name = 'parmesan'), 100, 'g'),
+((SELECT id FROM recipes WHERE name = 'Vegetarisk lasagne'), (SELECT id FROM ingredients WHERE name = 'ägg'), 2, 'st'),
+((SELECT id FROM recipes WHERE name = 'Vegetarisk lasagne'), (SELECT id FROM ingredients WHERE name = 'lök'), 1, 'st'),
+((SELECT id FROM recipes WHERE name = 'Vegetarisk lasagne'), (SELECT id FROM ingredients WHERE name = 'vitlök'), 3, 'klyfta');
+
+-- Ceviche
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Ceviche'), (SELECT id FROM ingredients WHERE name = 'vitfisk'), 400, 'g'),
+((SELECT id FROM recipes WHERE name = 'Ceviche'), (SELECT id FROM ingredients WHERE name = 'lime'), 6, 'st'),
+((SELECT id FROM recipes WHERE name = 'Ceviche'), (SELECT id FROM ingredients WHERE name = 'chili'), 1, 'st'),
+((SELECT id FROM recipes WHERE name = 'Ceviche'), (SELECT id FROM ingredients WHERE name = 'rödlök'), 1, 'st'),
+((SELECT id FROM recipes WHERE name = 'Ceviche'), (SELECT id FROM ingredients WHERE name = 'koriander'), 15, 'g'),
+((SELECT id FROM recipes WHERE name = 'Ceviche'), (SELECT id FROM ingredients WHERE name = 'majschips'), 100, 'g');
+
+-- Hummus
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Hummus'), (SELECT id FROM ingredients WHERE name = 'kikärtor'), 400, 'g'),
+((SELECT id FROM recipes WHERE name = 'Hummus'), (SELECT id FROM ingredients WHERE name = 'tahini'), 3, 'msk'),
+((SELECT id FROM recipes WHERE name = 'Hummus'), (SELECT id FROM ingredients WHERE name = 'citron'), 1, 'st'),
+((SELECT id FROM recipes WHERE name = 'Hummus'), (SELECT id FROM ingredients WHERE name = 'vitlök'), 2, 'klyfta'),
+((SELECT id FROM recipes WHERE name = 'Hummus'), (SELECT id FROM ingredients WHERE name = 'olivolja'), 3, 'msk'),
+((SELECT id FROM recipes WHERE name = 'Hummus'), (SELECT id FROM ingredients WHERE name = 'spiskummin'), 1, 'tsk');
+
+-- Risotto ai funghi
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Risotto ai funghi'), (SELECT id FROM ingredients WHERE name = 'arborio-ris'), 300, 'g'),
+((SELECT id FROM recipes WHERE name = 'Risotto ai funghi'), (SELECT id FROM ingredients WHERE name = 'svamp'), 300, 'g'),
+((SELECT id FROM recipes WHERE name = 'Risotto ai funghi'), (SELECT id FROM ingredients WHERE name = 'vitt vin'), 100, 'ml'),
+((SELECT id FROM recipes WHERE name = 'Risotto ai funghi'), (SELECT id FROM ingredients WHERE name = 'schalottenlök'), 2, 'st'),
+((SELECT id FROM recipes WHERE name = 'Risotto ai funghi'), (SELECT id FROM ingredients WHERE name = 'parmesan'), 80, 'g'),
+((SELECT id FROM recipes WHERE name = 'Risotto ai funghi'), (SELECT id FROM ingredients WHERE name = 'smör'), 60, 'g'),
+((SELECT id FROM recipes WHERE name = 'Risotto ai funghi'), (SELECT id FROM ingredients WHERE name = 'grönsaksbuljong'), 1000, 'ml');
+
+-- Falafelbröd
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Falafelbröd'), (SELECT id FROM ingredients WHERE name = 'kikärtor'), 400, 'g'),
+((SELECT id FROM recipes WHERE name = 'Falafelbröd'), (SELECT id FROM ingredients WHERE name = 'lök'), 1, 'st'),
+((SELECT id FROM recipes WHERE name = 'Falafelbröd'), (SELECT id FROM ingredients WHERE name = 'koriander'), 15, 'g'),
+((SELECT id FROM recipes WHERE name = 'Falafelbröd'), (SELECT id FROM ingredients WHERE name = 'vitlök'), 2, 'klyfta'),
+((SELECT id FROM recipes WHERE name = 'Falafelbröd'), (SELECT id FROM ingredients WHERE name = 'pitabröd'), 4, 'st'),
+((SELECT id FROM recipes WHERE name = 'Falafelbröd'), (SELECT id FROM ingredients WHERE name = 'tahini'), 3, 'msk'),
+((SELECT id FROM recipes WHERE name = 'Falafelbröd'), (SELECT id FROM ingredients WHERE name = 'sallad'), 80, 'g'),
+((SELECT id FROM recipes WHERE name = 'Falafelbröd'), (SELECT id FROM ingredients WHERE name = 'tomat'), 2, 'st');
+
+-- Tomatsoppa med basilika
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Tomatsoppa med basilika'), (SELECT id FROM ingredients WHERE name = 'krossade tomater'), 800, 'g'),
+((SELECT id FROM recipes WHERE name = 'Tomatsoppa med basilika'), (SELECT id FROM ingredients WHERE name = 'lök'), 1, 'st'),
+((SELECT id FROM recipes WHERE name = 'Tomatsoppa med basilika'), (SELECT id FROM ingredients WHERE name = 'vitlök'), 3, 'klyfta'),
+((SELECT id FROM recipes WHERE name = 'Tomatsoppa med basilika'), (SELECT id FROM ingredients WHERE name = 'olivolja'), 2, 'msk'),
+((SELECT id FROM recipes WHERE name = 'Tomatsoppa med basilika'), (SELECT id FROM ingredients WHERE name = 'grönsaksbuljong'), 500, 'ml'),
+((SELECT id FROM recipes WHERE name = 'Tomatsoppa med basilika'), (SELECT id FROM ingredients WHERE name = 'basilika'), 15, 'g');
+
+-- Biff Stroganoff
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Biff Stroganoff'), (SELECT id FROM ingredients WHERE name = 'biff'), 500, 'g'),
+((SELECT id FROM recipes WHERE name = 'Biff Stroganoff'), (SELECT id FROM ingredients WHERE name = 'svamp'), 300, 'g'),
+((SELECT id FROM recipes WHERE name = 'Biff Stroganoff'), (SELECT id FROM ingredients WHERE name = 'lök'), 1, 'st'),
+((SELECT id FROM recipes WHERE name = 'Biff Stroganoff'), (SELECT id FROM ingredients WHERE name = 'grädde'), 200, 'ml'),
+((SELECT id FROM recipes WHERE name = 'Biff Stroganoff'), (SELECT id FROM ingredients WHERE name = 'tomatpuré'), 2, 'msk'),
+((SELECT id FROM recipes WHERE name = 'Biff Stroganoff'), (SELECT id FROM ingredients WHERE name = 'smör'), 30, 'g'),
+((SELECT id FROM recipes WHERE name = 'Biff Stroganoff'), (SELECT id FROM ingredients WHERE name = 'pasta'), 300, 'g');
+
+-- Grekisk sallad
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Grekisk sallad'), (SELECT id FROM ingredients WHERE name = 'tomat'), 4, 'st'),
+((SELECT id FROM recipes WHERE name = 'Grekisk sallad'), (SELECT id FROM ingredients WHERE name = 'fetaost'), 200, 'g'),
+((SELECT id FROM recipes WHERE name = 'Grekisk sallad'), (SELECT id FROM ingredients WHERE name = 'oliver'), 100, 'g'),
+((SELECT id FROM recipes WHERE name = 'Grekisk sallad'), (SELECT id FROM ingredients WHERE name = 'rödlök'), 1, 'st'),
+((SELECT id FROM recipes WHERE name = 'Grekisk sallad'), (SELECT id FROM ingredients WHERE name = 'olivolja'), 3, 'msk'),
+((SELECT id FROM recipes WHERE name = 'Grekisk sallad'), (SELECT id FROM ingredients WHERE name = 'rödvinsvinäger'), 1, 'msk'),
+((SELECT id FROM recipes WHERE name = 'Grekisk sallad'), (SELECT id FROM ingredients WHERE name = 'oregano'), 1, 'tsk');
+
+-- Tikka Masala
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Tikka Masala'), (SELECT id FROM ingredients WHERE name = 'kycklingfilé'), 600, 'g'),
+((SELECT id FROM recipes WHERE name = 'Tikka Masala'), (SELECT id FROM ingredients WHERE name = 'yoghurt'), 200, 'ml'),
+((SELECT id FROM recipes WHERE name = 'Tikka Masala'), (SELECT id FROM ingredients WHERE name = 'krossade tomater'), 400, 'g'),
+((SELECT id FROM recipes WHERE name = 'Tikka Masala'), (SELECT id FROM ingredients WHERE name = 'grädde'), 100, 'ml'),
+((SELECT id FROM recipes WHERE name = 'Tikka Masala'), (SELECT id FROM ingredients WHERE name = 'lök'), 1, 'st'),
+((SELECT id FROM recipes WHERE name = 'Tikka Masala'), (SELECT id FROM ingredients WHERE name = 'ingefära'), 2, 'cm'),
+((SELECT id FROM recipes WHERE name = 'Tikka Masala'), (SELECT id FROM ingredients WHERE name = 'vitlök'), 3, 'klyfta'),
+((SELECT id FROM recipes WHERE name = 'Tikka Masala'), (SELECT id FROM ingredients WHERE name = 'tikka masala-kryddor'), 3, 'msk'),
+((SELECT id FROM recipes WHERE name = 'Tikka Masala'), (SELECT id FROM ingredients WHERE name = 'naan'), 4, 'st');
+
+-- Äggröra med lax
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Äggröra med lax'), (SELECT id FROM ingredients WHERE name = 'ägg'), 4, 'st'),
+((SELECT id FROM recipes WHERE name = 'Äggröra med lax'), (SELECT id FROM ingredients WHERE name = 'gravlax'), 100, 'g'),
+((SELECT id FROM recipes WHERE name = 'Äggröra med lax'), (SELECT id FROM ingredients WHERE name = 'mjölk'), 30, 'ml'),
+((SELECT id FROM recipes WHERE name = 'Äggröra med lax'), (SELECT id FROM ingredients WHERE name = 'smör'), 20, 'g'),
+((SELECT id FROM recipes WHERE name = 'Äggröra med lax'), (SELECT id FROM ingredients WHERE name = 'gräslök'), 10, 'g'),
+((SELECT id FROM recipes WHERE name = 'Äggröra med lax'), (SELECT id FROM ingredients WHERE name = 'bröd'), 4, 'skiva');
+
+-- Moussaka
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Moussaka'), (SELECT id FROM ingredients WHERE name = 'aubergine'), 2, 'st'),
+((SELECT id FROM recipes WHERE name = 'Moussaka'), (SELECT id FROM ingredients WHERE name = 'lammfärs'), 500, 'g'),
+((SELECT id FROM recipes WHERE name = 'Moussaka'), (SELECT id FROM ingredients WHERE name = 'krossade tomater'), 400, 'g'),
+((SELECT id FROM recipes WHERE name = 'Moussaka'), (SELECT id FROM ingredients WHERE name = 'lök'), 1, 'st'),
+((SELECT id FROM recipes WHERE name = 'Moussaka'), (SELECT id FROM ingredients WHERE name = 'vitlök'), 3, 'klyfta'),
+((SELECT id FROM recipes WHERE name = 'Moussaka'), (SELECT id FROM ingredients WHERE name = 'mjölk'), 500, 'ml'),
+((SELECT id FROM recipes WHERE name = 'Moussaka'), (SELECT id FROM ingredients WHERE name = 'mjöl'), 50, 'g'),
+((SELECT id FROM recipes WHERE name = 'Moussaka'), (SELECT id FROM ingredients WHERE name = 'smör'), 50, 'g'),
+((SELECT id FROM recipes WHERE name = 'Moussaka'), (SELECT id FROM ingredients WHERE name = 'parmesan'), 80, 'g'),
+((SELECT id FROM recipes WHERE name = 'Moussaka'), (SELECT id FROM ingredients WHERE name = 'ägg'), 2, 'st');
+
+-- Sommarsoppa
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Sommarsoppa'), (SELECT id FROM ingredients WHERE name = 'nylök'), 1, 'knippe'),
+((SELECT id FROM recipes WHERE name = 'Sommarsoppa'), (SELECT id FROM ingredients WHERE name = 'morötter'), 3, 'st'),
+((SELECT id FROM recipes WHERE name = 'Sommarsoppa'), (SELECT id FROM ingredients WHERE name = 'potatis'), 400, 'g'),
+((SELECT id FROM recipes WHERE name = 'Sommarsoppa'), (SELECT id FROM ingredients WHERE name = 'hönsbuljong'), 1000, 'ml'),
+((SELECT id FROM recipes WHERE name = 'Sommarsoppa'), (SELECT id FROM ingredients WHERE name = 'grädde'), 200, 'ml'),
+((SELECT id FROM recipes WHERE name = 'Sommarsoppa'), (SELECT id FROM ingredients WHERE name = 'smör'), 30, 'g'),
+((SELECT id FROM recipes WHERE name = 'Sommarsoppa'), (SELECT id FROM ingredients WHERE name = 'dill'), 15, 'g');
+
+-- Pulled Pork Bao
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Pulled Pork Bao'), (SELECT id FROM ingredients WHERE name = 'fläskkött'), 1000, 'g'),
+((SELECT id FROM recipes WHERE name = 'Pulled Pork Bao'), (SELECT id FROM ingredients WHERE name = 'baobröd'), 8, 'st'),
+((SELECT id FROM recipes WHERE name = 'Pulled Pork Bao'), (SELECT id FROM ingredients WHERE name = 'picklad gurka'), 100, 'g'),
+((SELECT id FROM recipes WHERE name = 'Pulled Pork Bao'), (SELECT id FROM ingredients WHERE name = 'sriracha'), 2, 'msk'),
+((SELECT id FROM recipes WHERE name = 'Pulled Pork Bao'), (SELECT id FROM ingredients WHERE name = 'majonnäs'), 100, 'ml');
+
+-- Chokladmousse
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+((SELECT id FROM recipes WHERE name = 'Chokladmousse'), (SELECT id FROM ingredients WHERE name = 'mörk choklad'), 200, 'g'),
+((SELECT id FROM recipes WHERE name = 'Chokladmousse'), (SELECT id FROM ingredients WHERE name = 'ägg'), 4, 'st'),
+((SELECT id FROM recipes WHERE name = 'Chokladmousse'), (SELECT id FROM ingredients WHERE name = 'socker'), 50, 'g'),
+((SELECT id FROM recipes WHERE name = 'Chokladmousse'), (SELECT id FROM ingredients WHERE name = 'vispgrädde'), 200, 'ml');

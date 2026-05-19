@@ -39,7 +39,7 @@ describe('GET /recipes/:id', () => {
   });
 
   it('returnerar receptet när det finns', async () => {
-    const recipe = { id: 1, name: 'Pasta', description: null, steps: [], servings: 2, cook_time_minutes: 20 };
+    const recipe = { id: 1, name: 'Pasta', description: null, steps: [], servings: 2, cook_time_minutes: 20, ingredients: [] };
     mockRepo.findById.mockResolvedValue(recipe);
 
     const res = await request(app).get('/recipes/1');

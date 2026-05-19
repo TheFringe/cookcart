@@ -1,5 +1,11 @@
 import { Pool } from 'pg';
 
+export interface Ingredient {
+  name: string;
+  quantity: number;
+  unit: string;
+}
+
 export interface RecipeInput {
   name: string;
   description?: string;
@@ -15,6 +21,7 @@ export interface Recipe {
   steps: string[];
   servings: number | null;
   cook_time_minutes: number | null;
+  ingredients: Ingredient[];
   created_at: Date;
   updated_at: Date;
 }
@@ -34,7 +41,17 @@ export class RecipeRepository {
       'SELECT * FROM recipes WHERE id = $1',
       [id]
     );
-    return rows[0] ?? null;
+    if (!rows[0]) return null;
+
+    const { rows: ingredientRows } = await this.pool.query(
+      `SELECT i.name, ri.quantity, ri.unit
+       FROM recipe_ingredients ri
+       JOIN ingredients i ON i.id = ri.ingredient_id
+       WHERE ri.recipe_id = $1`,
+      [id]
+    );
+
+    return { ...rows[0], ingredients: ingredientRows };
   }
 
   async update(id: number, data: RecipeInput): Promise<Recipe | null> {
