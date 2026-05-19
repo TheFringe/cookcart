@@ -19,8 +19,16 @@ function Home() {
         </div>
       </header>
       <RecipeList />
-      <BottomNav />
     </div>
+  );
+}
+
+function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <ProtectedRoute>
+      {children}
+      <BottomNav />
+    </ProtectedRoute>
   );
 }
 
@@ -32,25 +40,25 @@ export function App() {
         <Route
           path="/shopping-lists"
           element={
-            <ProtectedRoute>
+            <AuthenticatedLayout>
               <ShoppingListPage />
-            </ProtectedRoute>
+            </AuthenticatedLayout>
           }
         />
         <Route
           path="/recipes/:id"
           element={
-            <ProtectedRoute>
+            <AuthenticatedLayout>
               <RecipeDetail />
-            </ProtectedRoute>
+            </AuthenticatedLayout>
           }
         />
         <Route
           path="/*"
           element={
-            <ProtectedRoute>
+            <AuthenticatedLayout>
               <Home />
-            </ProtectedRoute>
+            </AuthenticatedLayout>
           }
         />
       </Routes>

@@ -1,7 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import axios from 'axios';
 import App from './app';
 import { useAuth } from './auth/AuthContext';
+
+jest.mock('axios');
+const mockedAxios = jest.mocked(axios);
 
 jest.mock('./auth/AuthContext', () => ({
   AuthProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
@@ -12,6 +16,7 @@ const mockUseAuth = jest.mocked(useAuth);
 
 beforeEach(() => {
   mockUseAuth.mockReturnValue({ user: null, loading: false, logout: jest.fn() });
+  mockedAxios.get.mockResolvedValue({ data: [] });
 });
 
 describe('App', () => {
@@ -64,6 +69,22 @@ describe('App', () => {
     );
 
     expect(screen.getByTestId('shopping-list-page')).toBeInTheDocument();
+  });
+
+  it('visar navigationsmenyn på /shopping-lists', () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: 1, email: 'test@example.com', name: 'Test' },
+      loading: false,
+      logout: jest.fn(),
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/shopping-lists']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByRole('navigation')).toBeInTheDocument();
   });
 
   it('visar navigationsmenyn när användaren är inloggad', () => {
