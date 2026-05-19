@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
 import { RecipeDetail } from './RecipeDetail';
-import type { Recipe } from './types';
+import type { Ingredient, Recipe } from './types';
 
 jest.mock('axios');
 const mockedAxios = jest.mocked(axios);
@@ -16,6 +16,7 @@ const baseRecipe: Recipe = {
   cook_time_minutes: null,
   servings: null,
   steps: [],
+  ingredients: [],
 };
 
 function renderRecipeDetail(recipe: Recipe) {
@@ -44,6 +45,20 @@ describe('RecipeDetail', () => {
     expect(items[0]).toHaveTextContent('Koka pastan.');
     expect(items[1]).toHaveTextContent('Stek bacon.');
     expect(items[2]).toHaveTextContent('Blanda ägg och ost.');
+  });
+
+  it('visar receptets ingredienser', async () => {
+    const ingredients: Ingredient[] = [
+      { name: 'pasta', quantity: 200, unit: 'g' },
+      { name: 'ägg', quantity: 2, unit: 'st' },
+    ];
+    renderRecipeDetail({ ...baseRecipe, ingredients });
+
+    await screen.findByText('Pasta Carbonara');
+
+    expect(screen.getByTestId('ingredients-list')).toBeInTheDocument();
+    expect(screen.getByText('200 g pasta')).toBeInTheDocument();
+    expect(screen.getByText('2 st ägg')).toBeInTheDocument();
   });
 
   it('visar en länk tillbaka till receptlistan', async () => {
