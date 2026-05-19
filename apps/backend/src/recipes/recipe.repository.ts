@@ -51,7 +51,13 @@ export class RecipeRepository {
       [id]
     );
 
-    return { ...rows[0], ingredients: ingredientRows };
+    const ingredients: Ingredient[] = ingredientRows.map((row) => ({
+      name: row.name,
+      unit: row.unit,
+      quantity: parseFloat(row.quantity),
+    }));
+
+    return { ...rows[0], ingredients };
   }
 
   async update(id: number, data: RecipeInput): Promise<Recipe | null> {

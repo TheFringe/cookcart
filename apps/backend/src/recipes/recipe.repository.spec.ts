@@ -8,6 +8,23 @@ function makePool(...results: object[]): jest.Mocked<Pool> {
 }
 
 describe('RecipeRepository.findById', () => {
+  it('returnerar quantity som number utan avslutande nollor', async () => {
+    const recipeRow = {
+      id: 1, name: 'Pasta Carbonara', description: null, steps: [],
+      servings: 4, cook_time_minutes: 25, created_at: new Date(), updated_at: new Date(),
+    };
+
+    const pool = makePool(
+      { rows: [recipeRow] },
+      { rows: [{ name: 'pasta', quantity: '1.50', unit: 'g' }] }
+    );
+    const repo = new RecipeRepository(pool);
+
+    const recipe = await repo.findById(1);
+
+    expect(recipe?.ingredients[0].quantity).toBe(1.5);
+  });
+
   it('returnerar receptet med ingredienser', async () => {
     const recipeRow = {
       id: 1,
