@@ -37,6 +37,13 @@ export function RecipeDetail() {
         </div>
       )}
       {recipe.description && <p className="recipe-detail__description">{recipe.description}</p>}
+      {recipe.steps.length > 0 && (
+        <ol className="recipe-detail__steps">
+          {recipe.steps.map((step, i) => (
+            <li key={i}>{step}</li>
+          ))}
+        </ol>
+      )}
     </div>
   );
 }
