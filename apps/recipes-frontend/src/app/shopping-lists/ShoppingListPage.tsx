@@ -20,11 +20,19 @@ export function ShoppingListPage() {
   }, []);
 
   return (
-    <div data-testid="shopping-list-page">
+    <div data-testid="shopping-list-page" className="shopping-list">
       {error && <Toast message={error} onDismiss={() => setError(null)} />}
-      {lists.map((list) => (
-        <div key={list.id}>{list.name}</div>
-      ))}
+      <div className="shopping-list__header">
+        <h1 className="shopping-list__title">Inköpslistor</h1>
+        <button className="shopping-list__new-btn" type="button">+ Ny lista</button>
+      </div>
+      <div className="shopping-list__rows">
+        {lists.map((list) => (
+          <div key={list.id} className="shopping-list__row">
+            <span className="shopping-list__name">{list.name}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

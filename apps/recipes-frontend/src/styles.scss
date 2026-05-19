@@ -443,6 +443,90 @@ button {
   }
 }
 
+// ─── Shopping List ─────────────────────────────────────────────────────────────
+
+.shopping-list {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 3rem 2rem 5rem;
+
+  &__rows {
+    counter-reset: list-index;
+  }
+
+  &__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  &__title {
+    font-family: var(--f-display);
+    font-size: 2rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--c-text);
+    line-height: 1.1;
+  }
+
+  &__new-btn {
+    font-family: var(--f-body);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--c-accent);
+    background: none;
+    border: 1px solid var(--c-border);
+    border-radius: 4px;
+    padding: 0.4em 0.9em;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+
+    &:hover {
+      border-color: var(--c-accent);
+    }
+  }
+
+  &__row {
+    counter-increment: list-index;
+    display: grid;
+    grid-template-columns: 2.75rem 1fr;
+    align-items: center;
+    gap: 0 1.5rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--c-border);
+    animation: fadeUp 0.5s var(--ease-out) both;
+
+    @for $i from 1 through 20 {
+      &:nth-child(#{$i}) { animation-delay: #{($i - 1) * 0.045}s; }
+    }
+
+    &:last-child {
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    &::before {
+      content: counter(list-index, decimal-leading-zero);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      color: var(--c-accent);
+      letter-spacing: 0.1em;
+      line-height: 1;
+    }
+  }
+
+  &__name {
+    font-family: var(--f-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--c-text);
+    line-height: 1.2;
+  }
+}
+
 // ─── Responsive ────────────────────────────────────────────────────────────────
 
 @media (max-width: 600px) {
@@ -453,4 +537,5 @@ button {
     &__meta { display: none; }
   }
   .recipe-detail { padding: 2rem 1.25rem 4rem; }
+  .shopping-list { padding: 2rem 1.25rem 5rem; }
 }
