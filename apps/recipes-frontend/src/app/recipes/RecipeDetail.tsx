@@ -2,19 +2,31 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
+import { Toast } from '../shared/Toast';
 import type { Recipe } from './types';
 
 export function RecipeDetail() {
   const { id } = useParams<{ id: string }>();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     axios
       .get<Recipe>(`${API_URL}/recipes/${id}`, { withCredentials: true })
-      .then((r) => setRecipe(r.data));
+      .then((r) => setRecipe(r.data))
+      .catch(() => setError('Kunde inte ladda receptet.'));
   }, [id]);
 
-  if (!recipe) return <p className="recipe-loading">Laddar recept...</p>;
+  if (!recipe) {
+    return (
+      <>
+        {error
+          ? <Toast message={error} onDismiss={() => setError(null)} />
+          : <p className="recipe-loading">Laddar recept...</p>
+        }
+      </>
+    );
+  }
 
   return (
     <div data-testid="recipe-detail" className="recipe-detail">

@@ -68,6 +68,11 @@ button {
   to   { opacity: 1; }
 }
 
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(110%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
 // ─── App Header ────────────────────────────────────────────────────────────────
 
 .app-header {
@@ -321,6 +326,24 @@ button {
       color: rgba(237, 229, 216, 0.78);
     }
   }
+}
+
+// ─── Toast ─────────────────────────────────────────────────────────────────────
+
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-left: 3px solid var(--c-accent);
+  color: var(--c-text);
+  font-size: 0.875rem;
+  padding: 0.875rem 1.25rem;
+  border-radius: 2px;
+  max-width: 22rem;
+  animation: slideIn 0.35s var(--ease-out) both;
 }
 
 // ─── Login Page ────────────────────────────────────────────────────────────────

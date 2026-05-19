@@ -19,8 +19,7 @@ const baseRecipe: Recipe = {
   ingredients: [],
 };
 
-function renderRecipeDetail(recipe: Recipe) {
-  mockedAxios.get.mockResolvedValue({ data: recipe });
+function renderComponent() {
   render(
     <MemoryRouter initialEntries={['/recipes/1']}>
       <Routes>
@@ -28,6 +27,11 @@ function renderRecipeDetail(recipe: Recipe) {
       </Routes>
     </MemoryRouter>
   );
+}
+
+function renderRecipeDetail(recipe: Recipe) {
+  mockedAxios.get.mockResolvedValue({ data: recipe });
+  renderComponent();
 }
 
 describe('RecipeDetail', () => {
@@ -65,5 +69,11 @@ describe('RecipeDetail', () => {
     renderRecipeDetail(baseRecipe);
     await screen.findByText('Pasta Carbonara');
     expect(screen.getByRole('link', { name: /tillbaka/i })).toHaveAttribute('href', '/');
+  });
+
+  it('visar en toast när fetch misslyckas', async () => {
+    mockedAxios.get.mockRejectedValue(new Error('Network Error'));
+    renderComponent();
+    expect(await screen.findByRole('status')).toHaveTextContent('Kunde inte ladda receptet.');
   });
 });
