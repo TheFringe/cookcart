@@ -1,6 +1,10 @@
+import { Pool } from 'pg';
+
 export class ShoppingListRepository {
-  findAll(): Promise<unknown[]> {
-    throw new Error('not implemented');
+  constructor(private _pool: Pool) {}
+  async findAll(): Promise<unknown[]> {
+    const result = await this._pool.query('SELECT id, name FROM shopping_lists');
+    return result.rows;
   }
 
   findById(_id: number): Promise<unknown> {

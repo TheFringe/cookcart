@@ -50,4 +50,10 @@ describe('app routing', () => {
 
     expect(res.status).toBe(200);
   });
+
+  it('exponerar GET /shopping-lists', async () => {
+    const res = await request(app).get('/shopping-lists');
+
+    expect(res.status).toBe(200);
+  });
 });

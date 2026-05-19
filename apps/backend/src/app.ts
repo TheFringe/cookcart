@@ -9,6 +9,8 @@ import authRouter from './auth/router';
 import { requireAuth } from './auth/middleware';
 import { RecipeRepository } from './recipes/recipe.repository';
 import { createRecipesRouter } from './recipes/router';
+import { ShoppingListRepository } from './shopping-lists/shopping-list.repository';
+import { createShoppingListsRouter } from './shopping-lists/router';
 
 const PgSession = connectPg(session);
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
@@ -48,3 +50,4 @@ app.get('/health', async (_req, res) => {
 
 app.use('/auth', authRouter);
 app.use('/recipes', requireAuth, createRecipesRouter(new RecipeRepository(pool)));
+app.use('/shopping-lists', requireAuth, createShoppingListsRouter(new ShoppingListRepository(pool)));
