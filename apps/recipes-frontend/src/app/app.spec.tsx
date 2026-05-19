@@ -49,4 +49,36 @@ describe('App', () => {
 
     screen.getByTestId('home-page');
   });
+
+  it('visar inköpslistesidan på /shopping-lists', () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: 1, email: 'test@example.com', name: 'Test' },
+      loading: false,
+      logout: jest.fn(),
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/shopping-lists']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByTestId('shopping-list-page')).toBeInTheDocument();
+  });
+
+  it('visar navigationsmenyn när användaren är inloggad', () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: 1, email: 'test@example.com', name: 'Test' },
+      loading: false,
+      logout: jest.fn(),
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByRole('navigation')).toBeInTheDocument();
+  });
 });

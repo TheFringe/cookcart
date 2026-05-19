@@ -4,6 +4,8 @@ import { ProtectedRoute } from './auth/ProtectedRoute';
 import { LoginPage } from './auth/LoginPage';
 import { RecipeList } from './recipes/RecipeList';
 import { RecipeDetail } from './recipes/RecipeDetail';
+import { ShoppingListPage } from './shopping-lists/ShoppingListPage';
+import { BottomNav } from './shared/BottomNav';
 
 function Home() {
   const { user, logout } = useAuth();
@@ -17,6 +19,7 @@ function Home() {
         </div>
       </header>
       <RecipeList />
+      <BottomNav />
     </div>
   );
 }
@@ -26,6 +29,14 @@ export function App() {
     <AuthProvider>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/shopping-lists"
+          element={
+            <ProtectedRoute>
+              <ShoppingListPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/recipes/:id"
           element={
