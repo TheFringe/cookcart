@@ -527,6 +527,75 @@ button {
   }
 }
 
+// ─── Shopping List Detail ──────────────────────────────────────────────────────
+
+.shopping-list-detail {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 2rem 6rem;
+  animation: fadeUp 0.5s var(--ease-out) both;
+
+  &__title {
+    font-family: var(--f-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--c-text);
+    margin-bottom: 2rem;
+    font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 0;
+  }
+
+  &__section-heading {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-muted);
+    margin: 2rem 0 0.75rem;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0.875rem 0;
+    border-top: 1px solid var(--c-border);
+    cursor: pointer;
+
+    &:last-child { border-bottom: 1px solid var(--c-border); }
+
+    input[type='checkbox'] {
+      appearance: none;
+      width: 1.125rem;
+      height: 1.125rem;
+      border: 1.5px solid var(--c-border);
+      border-radius: 50%;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s, border-color 0.2s;
+
+      &:checked {
+        background: var(--c-accent);
+        border-color: var(--c-accent);
+      }
+    }
+
+    &--checked .shopping-list-detail__name {
+      color: var(--c-muted);
+      text-decoration: line-through;
+    }
+  }
+
+  &__name {
+    font-size: 1.0625rem;
+    color: var(--c-text);
+    transition: color 0.2s;
+  }
+}
+
 // ─── Responsive ────────────────────────────────────────────────────────────────
 
 @media (max-width: 600px) {
@@ -538,4 +607,5 @@ button {
   }
   .recipe-detail { padding: 2rem 1.25rem 4rem; }
   .shopping-list { padding: 2rem 1.25rem 5rem; }
+  .shopping-list-detail { padding: 2rem 1.25rem 6rem; }
 }

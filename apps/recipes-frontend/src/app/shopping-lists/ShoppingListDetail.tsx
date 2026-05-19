@@ -50,15 +50,16 @@ export function ShoppingListDetail() {
   }
 
   function renderItem(item: ShoppingListItem) {
+    const cls = `shopping-list-detail__item${item.checked ? ' shopping-list-detail__item--checked' : ''}`;
     return (
-      <label key={item.id}>
+      <label key={item.id} className={cls}>
         <input
           type="checkbox"
           checked={item.checked}
           aria-label={item.ingredient.name}
           onChange={() => handleToggle(item)}
         />
-        <span>{item.ingredient.name}</span>
+        <span className="shopping-list-detail__name">{item.ingredient.name}</span>
       </label>
     );
   }
@@ -71,12 +72,15 @@ export function ShoppingListDetail() {
   const picked = list.items.filter((i) => i.checked);
 
   return (
-    <div data-testid="shopping-list-detail">
+    <div data-testid="shopping-list-detail" className="shopping-list-detail">
       {error && <Toast message={error} onDismiss={() => setError(null)} />}
-      <h1>{list.name}</h1>
+      <h1 className="shopping-list-detail__title">{list.name}</h1>
       <div data-testid="active-items">{active.map(renderItem)}</div>
       {picked.length > 0 && (
-        <div data-testid="picked-items">{picked.map(renderItem)}</div>
+        <div data-testid="picked-items">
+          <p className="shopping-list-detail__section-heading">Plockade varor</p>
+          {picked.map(renderItem)}
+        </div>
       )}
     </div>
   );
