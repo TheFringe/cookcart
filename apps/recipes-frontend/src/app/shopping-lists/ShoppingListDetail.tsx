@@ -78,7 +78,7 @@ export function ShoppingListDetail() {
       )
       .then((r) => {
         setList((prev) =>
-          prev ? { ...prev, items: [...prev.items, r.data] } : prev
+          prev ? { ...prev, items: [r.data, ...prev.items] } : prev
         );
         setNewItemName('');
         setNewItemQuantity('');

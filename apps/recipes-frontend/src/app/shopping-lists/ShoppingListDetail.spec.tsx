@@ -91,6 +91,23 @@ describe('ShoppingListDetail', () => {
     );
   });
 
+  it('ny vara hamnar överst i listan av aktiva varor', async () => {
+    mockedAxios.get.mockResolvedValue({ data: listData });
+    mockedAxios.post.mockResolvedValue({
+      data: { id: 99, ingredient: { id: 5, name: 'Smör' }, quantity: 1, unit: 'st', checked: false },
+    });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('Mjölk');
+
+    fireEvent.change(screen.getByTestId('add-item-name'), { target: { value: 'Smör' } });
+    fireEvent.click(screen.getByTestId('add-item-btn'));
+
+    await screen.findByText('Smör');
+    const [first] = screen.getAllByRole('checkbox');
+    expect(first).toHaveAccessibleName('Smör');
+  });
+
   it('kryssad vara visas i plockade varor-sektionen och inte i aktiva varor', async () => {
     mockedAxios.get.mockResolvedValue({ data: listData });
     mockedAxios.patch.mockResolvedValue({ data: {} });
