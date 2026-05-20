@@ -48,17 +48,33 @@ describe('ShoppingListRepository.addItem', () => {
 
     const result = await repo.addItem(1, { name: 'Mjölk', quantity: 2, unit: 'st' });
 
-    expect(result).toEqual({ ...itemRow, ingredient: { id: 5, name: 'Mjölk' } });
+    expect(result).toEqual({ ...itemRow, ingredient: { id: 5, name: 'mjölk' } });
     expect(pool.query).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining('INSERT INTO ingredients'),
-      ['Mjölk']
+      ['mjölk']
     );
     expect(pool.query).toHaveBeenNthCalledWith(
       2,
       expect.stringContaining('INSERT INTO shopping_list_items'),
       [1, 5, 2, 'st']
     );
+  });
+
+  it('behandlar KÖTTfärs och köttfärs som samma ingrediens', async () => {
+    const ingredientRow = { id: 7 };
+    const itemRow = { id: 100, quantity: 1, unit: 'kg', checked: false };
+    const pool = makePool({ rows: [ingredientRow] }, { rows: [itemRow] });
+    const repo = new ShoppingListRepository(pool);
+
+    const result = await repo.addItem(1, { name: 'KÖTTfärs', quantity: 1, unit: 'kg' });
+
+    expect(pool.query).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('INSERT INTO ingredients'),
+      ['köttfärs']
+    );
+    expect(result).toEqual({ ...itemRow, ingredient: { id: 7, name: 'köttfärs' } });
   });
 });
 

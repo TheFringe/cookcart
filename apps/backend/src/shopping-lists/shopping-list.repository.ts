@@ -49,11 +49,12 @@ export class ShoppingListRepository {
   }
 
   async addItem(listId: number, data: { name: string; quantity: number; unit: string }): Promise<unknown> {
+    const normalizedName = data.name.toLowerCase();
     const { rows: ingRows } = await this._pool.query(
       `INSERT INTO ingredients (name) VALUES ($1)
        ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
        RETURNING id`,
-      [data.name]
+      [normalizedName]
     );
     const { rows } = await this._pool.query(
       `INSERT INTO shopping_list_items (list_id, ingredient_id, quantity, unit)
@@ -61,7 +62,7 @@ export class ShoppingListRepository {
        RETURNING id, quantity, unit, checked`,
       [listId, ingRows[0].id, data.quantity, data.unit]
     );
-    return { ...rows[0], ingredient: { id: ingRows[0].id, name: data.name } };
+    return { ...rows[0], ingredient: { id: ingRows[0].id, name: normalizedName } };
   }
 
   async updateItem(listId: number, itemId: number, data: { quantity?: number; unit?: string; checked?: boolean }): Promise<unknown> {
