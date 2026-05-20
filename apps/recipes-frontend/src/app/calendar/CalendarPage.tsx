@@ -102,31 +102,33 @@ export function CalendarPage() {
           <button data-testid="close-picker-btn" onClick={() => setPickerDayIndex(null)}>Avbryt</button>
         </div>
       )}
-      {DAYS.map((day, i) => {
-        const date = new Date(monday);
-        date.setDate(monday.getDate() + i);
-        const dateStr = toISODate(date);
-        const dayEntries = entries.filter((e) => e.date === dateStr);
-        return (
-          <div key={day} data-testid={`calendar-day-${i}`} className="calendar-page__day">
-            <span className="calendar-page__day-name">{day}</span>
-            <span data-testid={`calendar-day-date-${i}`} className="calendar-page__day-date">
-              {date.getDate()}
-            </span>
-            {dayEntries.map((e) => (
-              <div key={e.id} data-testid={`meal-plan-entry-${e.id}`} className="calendar-page__entry">
-                {e.recipe.name}
-                <button data-testid={`remove-entry-${e.id}`} className="calendar-page__remove-btn" onClick={() => handleRemoveEntry(e.id)}>×</button>
-              </div>
-            ))}
-            <button
-              data-testid={`add-recipe-btn-${i}`}
-              className="calendar-page__add-btn"
-              onClick={() => setPickerDayIndex(i)}
-            >+</button>
-          </div>
-        );
-      })}
+      <div className="calendar-page__days">
+        {DAYS.map((day, i) => {
+          const date = new Date(monday);
+          date.setDate(monday.getDate() + i);
+          const dateStr = toISODate(date);
+          const dayEntries = entries.filter((e) => e.date === dateStr);
+          return (
+            <div key={day} data-testid={`calendar-day-${i}`} className="calendar-page__day">
+              <span className="calendar-page__day-name">{day}</span>
+              <span data-testid={`calendar-day-date-${i}`} className="calendar-page__day-date">
+                {date.getDate()}
+              </span>
+              {dayEntries.map((e) => (
+                <div key={e.id} data-testid={`meal-plan-entry-${e.id}`} className="calendar-page__entry">
+                  {e.recipe.name}
+                  <button data-testid={`remove-entry-${e.id}`} className="calendar-page__remove-btn" onClick={() => handleRemoveEntry(e.id)}>×</button>
+                </div>
+              ))}
+              <button
+                data-testid={`add-recipe-btn-${i}`}
+                className="calendar-page__add-btn"
+                onClick={() => setPickerDayIndex(i)}
+              >+</button>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
