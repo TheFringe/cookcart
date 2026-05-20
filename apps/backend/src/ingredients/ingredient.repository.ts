@@ -9,4 +9,10 @@ export class IngredientRepository {
     );
     return rows;
   }
+
+  async normalizeNames(): Promise<void> {
+    await this._pool.query(
+      `UPDATE ingredients SET name = LOWER(name) WHERE name != LOWER(name)`
+    );
+  }
 }
