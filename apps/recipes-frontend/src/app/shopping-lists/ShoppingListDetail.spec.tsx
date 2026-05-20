@@ -1,5 +1,10 @@
 import { render, screen, fireEvent, within } from '@testing-library/react';
-import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import { MemoryRouter, Routes, Route, useNavigate } from 'react-router-dom';
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: jest.fn(),
+}));
 import axios from 'axios';
 import { ShoppingListDetail } from './ShoppingListDetail';
 
@@ -211,6 +216,26 @@ describe('ShoppingListDetail', () => {
 
     expect(await screen.findByRole('status')).toBeInTheDocument();
     expect(screen.getByText('Mjölk')).toBeInTheDocument();
+  });
+
+  it('anropar DELETE och navigerar till listan när radera bekräftas', async () => {
+    const mockNavigate = jest.fn();
+    jest.mocked(useNavigate).mockReturnValue(mockNavigate);
+    mockedAxios.get.mockResolvedValue({ data: listData });
+    mockedAxios.delete.mockResolvedValue({});
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('ICA');
+
+    fireEvent.click(screen.getByTestId('delete-list-btn'));
+    fireEvent.click(screen.getByTestId('delete-list-confirm-btn'));
+
+    expect(mockedAxios.delete).toHaveBeenCalledWith(
+      expect.stringContaining('/shopping-lists/1'),
+      expect.any(Object)
+    );
+    await screen.findByText('ICA');
+    expect(mockNavigate).toHaveBeenCalledWith('/shopping-lists');
   });
 
   it('kryssad vara visas i plockade varor-sektionen och inte i aktiva varor', async () => {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import { Toast } from '../shared/Toast';
@@ -20,11 +20,13 @@ interface ShoppingListFull {
 
 export function ShoppingListDetail() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [list, setList] = useState<ShoppingListFull | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [draft, setDraft] = useState({ name: '', quantity: '', unit: '' });
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [confirmClear, setConfirmClear] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   useEffect(() => {
     axios
@@ -54,6 +56,12 @@ export function ShoppingListDetail() {
         patchChecked(item.id, item.checked);
         setError('Kunde inte uppdatera varan.');
       });
+  }
+
+  function handleDeleteList() {
+    axios
+      .delete(`${API_URL}/shopping-lists/${id}`, { withCredentials: true })
+      .then(() => navigate('/shopping-lists'));
   }
 
   function handleClearList() {
@@ -135,7 +143,20 @@ export function ShoppingListDetail() {
           className="shopping-list-detail__clear-btn"
           onClick={() => setConfirmClear(true)}
         >Töm lista</button>
+        <button
+          type="button"
+          data-testid="delete-list-btn"
+          className="shopping-list-detail__delete-list-btn"
+          onClick={() => setConfirmDelete(true)}
+        >Radera lista</button>
       </div>
+      {confirmDelete && (
+        <div data-testid="delete-list-confirm-dialog" className="shopping-list-detail__confirm">
+          <p>Är du säker på att du vill radera listan?</p>
+          <button data-testid="delete-list-confirm-btn" className="shopping-list-detail__confirm-yes" onClick={handleDeleteList}>Ja, radera</button>
+          <button data-testid="delete-list-cancel-btn" className="shopping-list-detail__confirm-no" onClick={() => setConfirmDelete(false)}>Avbryt</button>
+        </div>
+      )}
       {confirmClear && (
         <div data-testid="clear-confirm-dialog" className="shopping-list-detail__confirm">
           <p>Är du säker på att du vill tömma listan?</p>

@@ -997,7 +997,8 @@ button {
     }
   }
 
-  &__clear-btn {
+  &__clear-btn,
+  &__delete-list-btn {
     font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.05em;
