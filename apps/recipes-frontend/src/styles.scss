@@ -1195,6 +1195,13 @@ button {
     margin-bottom: 2rem;
   }
 
+  &__week-number {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--c-muted);
+  }
+
   &__nav-btn {
     font-size: 0.8125rem;
     font-weight: 500;

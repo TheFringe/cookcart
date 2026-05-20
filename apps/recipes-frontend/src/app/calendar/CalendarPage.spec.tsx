@@ -25,6 +25,17 @@ describe('CalendarPage', () => {
     expect(screen.getAllByTestId(/^calendar-day-\d+$/)).toHaveLength(7);
   });
 
+  it('visar korrekt veckonummer i headern', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20')); // vecka 21
+
+    renderCalendar();
+
+    expect(screen.getByTestId('week-number')).toHaveTextContent('21');
+
+    jest.useRealTimers();
+  });
+
   it('visar korrekta datum för varje dag i innevarande vecka', () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2026-05-20')); // onsdag

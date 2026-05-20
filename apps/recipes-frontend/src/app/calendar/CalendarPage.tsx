@@ -25,6 +25,14 @@ function getMondayOfCurrentWeek(): Date {
   return monday;
 }
 
+function getISOWeekNumber(date: Date): number {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+  const yearStart = new Date(d.getFullYear(), 0, 1);
+  return Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+}
+
 function toISODate(date: Date): string {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, '0');
@@ -88,6 +96,9 @@ export function CalendarPage() {
         <button data-testid="prev-week-btn" className="calendar-page__nav-btn" onClick={() => shiftWeek(-1)}>
           ← Föregående vecka
         </button>
+        <span data-testid="week-number" className="calendar-page__week-number">
+          V. {getISOWeekNumber(monday)}
+        </span>
         <button data-testid="next-week-btn" className="calendar-page__nav-btn" onClick={() => shiftWeek(1)}>
           Nästa vecka →
         </button>
