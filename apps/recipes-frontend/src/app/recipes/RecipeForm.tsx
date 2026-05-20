@@ -13,6 +13,8 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [stepsText, setStepsText] = useState('');
+  const [cookTime, setCookTime] = useState('');
+  const [servings, setServings] = useState('');
   const [ingredients, setIngredients] = useState<IngredientDraft[]>([]);
   const lastNameInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -28,6 +30,8 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
         setName(r.data.name);
         setDescription(r.data.description ?? '');
         setStepsText(r.data.steps.join('\n'));
+        setCookTime(r.data.cook_time_minutes != null ? String(r.data.cook_time_minutes) : '');
+        setServings(r.data.servings != null ? String(r.data.servings) : '');
         setIngredients(
           r.data.ingredients.map((ing) => ({
             quantity: String(ing.quantity ?? ''),
@@ -52,7 +56,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
       ...ing,
       quantity: ing.quantity.replace(',', '.'),
     }));
-    const body = { name, description, steps: stepsText.split('\n').filter((s) => s.trim()), ingredients: normalizedIngredients };
+    const body = { name, description, steps: stepsText.split('\n').filter((s) => s.trim()), cook_time_minutes: cookTime ? Number(cookTime) : null, servings: servings ? Number(servings) : null, ingredients: normalizedIngredients };
     const req = recipeId
       ? axios.put(`${API_URL}/recipes/${recipeId}`, body, { withCredentials: true })
       : axios.post(`${API_URL}/recipes`, body, { withCredentials: true });
@@ -82,6 +86,30 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
+          />
+        </div>
+        <div className="recipe-form__field">
+          <label className="recipe-form__label" htmlFor="recipe-servings">Portioner</label>
+          <input
+            id="recipe-servings"
+            className="recipe-form__input"
+            data-testid="input-servings"
+            type="number"
+            min="1"
+            value={servings}
+            onChange={(e) => setServings(e.target.value)}
+          />
+        </div>
+        <div className="recipe-form__field">
+          <label className="recipe-form__label" htmlFor="recipe-cook-time">Tillagningstid (min)</label>
+          <input
+            id="recipe-cook-time"
+            className="recipe-form__input"
+            data-testid="input-cook-time"
+            type="number"
+            min="0"
+            value={cookTime}
+            onChange={(e) => setCookTime(e.target.value)}
           />
         </div>
         <div className="recipe-form__field">

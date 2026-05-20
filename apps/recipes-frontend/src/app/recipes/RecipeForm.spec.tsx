@@ -21,6 +21,22 @@ function renderForm(recipeId?: string) {
   );
 }
 
+describe('RecipeForm — tillagningstid', () => {
+  it('renderar ett fält för tillagningstid', () => {
+    renderForm();
+
+    expect(screen.getByTestId('input-cook-time')).toBeInTheDocument();
+  });
+});
+
+describe('RecipeForm — portioner', () => {
+  it('renderar ett fält för portioner', () => {
+    renderForm();
+
+    expect(screen.getByTestId('input-servings')).toBeInTheDocument();
+  });
+});
+
 describe('RecipeForm — skapa (beskrivning)', () => {
   it('renderar ett fält för beskrivning', () => {
     renderForm();
