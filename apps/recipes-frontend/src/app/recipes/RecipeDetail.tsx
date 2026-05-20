@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import { Toast } from '../shared/Toast';
+import { AddToListPanel } from './AddToListPanel';
 import type { Recipe } from './types';
 
 export function RecipeDetail() {
@@ -11,6 +12,7 @@ export function RecipeDetail() {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [showAddToList, setShowAddToList] = useState(false);
 
   function handleDelete() {
     axios
@@ -71,11 +73,23 @@ export function RecipeDetail() {
       )}
       {recipe.description && <p className="recipe-detail__description">{recipe.description}</p>}
       {recipe.ingredients.length > 0 && (
-        <ul data-testid="ingredients-list" className="recipe-detail__ingredients">
-          {recipe.ingredients.map((ing, i) => (
-            <li key={i}>{ing.quantity} {ing.unit} {ing.name}</li>
-          ))}
-        </ul>
+        <>
+          <ul data-testid="ingredients-list" className="recipe-detail__ingredients">
+            {recipe.ingredients.map((ing, i) => (
+              <li key={i}>{ing.quantity} {ing.unit} {ing.name}</li>
+            ))}
+          </ul>
+          <button
+            data-testid="add-to-list-btn"
+            className="recipe-detail__add-to-list"
+            onClick={() => setShowAddToList(true)}
+          >
+            Lägg till i inköpslista
+          </button>
+          {showAddToList && (
+            <AddToListPanel recipe={recipe} onClose={() => setShowAddToList(false)} />
+          )}
+        </>
       )}
       {recipe.steps.length > 0 && (
         <ol className="recipe-detail__steps">

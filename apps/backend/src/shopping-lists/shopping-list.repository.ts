@@ -59,6 +59,8 @@ export class ShoppingListRepository {
     const { rows } = await this._pool.query(
       `INSERT INTO shopping_list_items (list_id, ingredient_id, quantity, unit)
        VALUES ($1, $2, $3, $4)
+       ON CONFLICT (list_id, ingredient_id)
+       DO UPDATE SET quantity = shopping_list_items.quantity + EXCLUDED.quantity
        RETURNING id, quantity, unit, checked`,
       [listId, ingRows[0].id, data.quantity, data.unit]
     );

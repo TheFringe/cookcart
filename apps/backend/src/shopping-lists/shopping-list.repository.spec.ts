@@ -78,6 +78,23 @@ describe('ShoppingListRepository.addItem', () => {
   });
 });
 
+describe('ShoppingListRepository.addItem — summering', () => {
+  it('använder ON CONFLICT för att summera quantity vid duplikat', async () => {
+    const ingredientRow = { id: 5 };
+    const itemRow = { id: 99, quantity: 4, unit: 'st', checked: false };
+    const pool = makePool({ rows: [ingredientRow] }, { rows: [itemRow] });
+    const repo = new ShoppingListRepository(pool);
+
+    await repo.addItem(1, { name: 'Mjölk', quantity: 2, unit: 'st' });
+
+    expect(pool.query).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('ON CONFLICT'),
+      expect.any(Array)
+    );
+  });
+});
+
 describe('ShoppingListRepository.removeItem', () => {
   it('tar bort en vara från listan', async () => {
     const pool = makePool({ rows: [], rowCount: 1 });
