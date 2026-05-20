@@ -1,6 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { API_URL } from '../../config';
 
 const DAYS = ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag', 'Söndag'];
+
+interface MealPlanEntry {
+  id: number;
+  date: string;
+  recipe: { id: number; name: string };
+}
 
 function getMondayOfCurrentWeek(): Date {
   const today = new Date();
@@ -12,8 +20,26 @@ function getMondayOfCurrentWeek(): Date {
   return monday;
 }
 
+function toISODate(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
 export function CalendarPage() {
   const [monday, setMonday] = useState(getMondayOfCurrentWeek);
+  const [entries, setEntries] = useState<MealPlanEntry[]>([]);
+
+  useEffect(() => {
+    axios
+      .get<MealPlanEntry[]>(`${API_URL}/meal-plan`, {
+        params: { week: toISODate(monday) },
+        withCredentials: true,
+      })
+      .then((r) => setEntries(r.data))
+      .catch(() => {});
+  }, [monday]);
 
   function shiftWeek(delta: number) {
     setMonday((prev) => {
@@ -36,12 +62,19 @@ export function CalendarPage() {
       {DAYS.map((day, i) => {
         const date = new Date(monday);
         date.setDate(monday.getDate() + i);
+        const dateStr = toISODate(date);
+        const dayEntries = entries.filter((e) => e.date === dateStr);
         return (
           <div key={day} data-testid={`calendar-day-${i}`} className="calendar-page__day">
             <span className="calendar-page__day-name">{day}</span>
             <span data-testid={`calendar-day-date-${i}`} className="calendar-page__day-date">
               {date.getDate()}
             </span>
+            {dayEntries.map((e) => (
+              <span key={e.id} data-testid={`meal-plan-entry-${e.id}`} className="calendar-page__entry">
+                {e.recipe.name}
+              </span>
+            ))}
           </div>
         );
       })}

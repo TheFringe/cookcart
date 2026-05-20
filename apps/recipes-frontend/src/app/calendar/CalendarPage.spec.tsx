@@ -1,8 +1,15 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import axios from 'axios';
 import { CalendarPage } from './CalendarPage';
 
+jest.mock('axios');
+const mockedAxios = jest.mocked(axios);
+
+beforeEach(() => jest.resetAllMocks());
+
 function renderCalendar() {
+  mockedAxios.get.mockResolvedValue({ data: [] });
   render(
     <MemoryRouter>
       <CalendarPage />
@@ -52,6 +59,22 @@ describe('CalendarPage', () => {
 
     expect(screen.getByTestId('calendar-day-date-0')).toHaveTextContent('11'); // mån v20
     expect(screen.getByTestId('calendar-day-date-6')).toHaveTextContent('17'); // sön v20
+
+    jest.useRealTimers();
+  });
+
+  it('visar planerat recept på rätt dag', async () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20')); // onsdag, v21: mån=18 maj
+
+    mockedAxios.get.mockResolvedValue({
+      data: [{ id: 1, date: '2026-05-18', recipe: { id: 42, name: 'Pasta Carbonara' } }],
+    });
+
+    render(<MemoryRouter><CalendarPage /></MemoryRouter>);
+
+    expect(await screen.findByText('Pasta Carbonara')).toBeInTheDocument();
+    expect(screen.getByTestId('calendar-day-0')).toHaveTextContent('Pasta Carbonara');
 
     jest.useRealTimers();
   });
