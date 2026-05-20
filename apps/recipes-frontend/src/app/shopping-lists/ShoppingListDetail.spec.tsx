@@ -124,6 +124,20 @@ describe('ShoppingListDetail', () => {
     expect(first).toHaveAccessibleName('Smör');
   });
 
+  it('visar ingrediensförslag i en datalist när komponenten laddas', async () => {
+    mockedAxios.get.mockImplementation((url: string) => {
+      if (url.includes('/ingredients')) return Promise.resolve({ data: [{ id: 1, name: 'Mjölk' }, { id: 2, name: 'Smör' }] });
+      return Promise.resolve({ data: listData });
+    });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('ICA');
+
+    const input = screen.getByTestId('add-item-name') as HTMLInputElement;
+    expect(input.getAttribute('list')).toBe('ingredients-suggestions');
+    expect(document.getElementById('ingredients-suggestions')).toBeInTheDocument();
+  });
+
   it('kryssad vara visas i plockade varor-sektionen och inte i aktiva varor', async () => {
     mockedAxios.get.mockResolvedValue({ data: listData });
     mockedAxios.patch.mockResolvedValue({ data: {} });

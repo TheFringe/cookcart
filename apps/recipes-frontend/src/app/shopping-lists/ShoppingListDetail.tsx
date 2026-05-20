@@ -23,12 +23,17 @@ export function ShoppingListDetail() {
   const [list, setList] = useState<ShoppingListFull | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [draft, setDraft] = useState({ name: '', quantity: '', unit: '' });
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
     axios
       .get<ShoppingListFull>(`${API_URL}/shopping-lists/${id}`, { withCredentials: true })
       .then((r) => setList(r.data))
       .catch(() => setError('Kunde inte ladda inköpslistan.'));
+    axios
+      .get<{ id: number; name: string }[]>(`${API_URL}/ingredients`, { withCredentials: true })
+      .then((r) => setSuggestions(r.data.map((i) => i.name)))
+      .catch(() => undefined);
   }, [id]);
 
   function patchChecked(itemId: number, checked: boolean) {
@@ -114,11 +119,15 @@ export function ShoppingListDetail() {
         <Link to={`/shopping-lists/${id}/edit`} className="shopping-list-detail__edit">Redigera</Link>
       </div>
       <h1 className="shopping-list-detail__title">{list.name}</h1>
+      <datalist id="ingredients-suggestions">
+        {suggestions.map((name) => <option key={name} value={name} />)}
+      </datalist>
       <form className="shopping-list-detail__add-form" onSubmit={handleAddItem}>
         <input
           className="shopping-list-detail__add-name"
           data-testid="add-item-name"
           placeholder="Vara"
+          list="ingredients-suggestions"
           value={draft.name}
           onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
         />
