@@ -48,7 +48,7 @@ describe('ShoppingListRepository.addItem', () => {
 
     const result = await repo.addItem(1, { name: 'Mjölk', quantity: 2, unit: 'st' });
 
-    expect(result).toEqual(itemRow);
+    expect(result).toEqual({ ...itemRow, ingredient: { id: 5, name: 'Mjölk' } });
     expect(pool.query).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining('INSERT INTO ingredients'),

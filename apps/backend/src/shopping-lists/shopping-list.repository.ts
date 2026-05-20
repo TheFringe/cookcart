@@ -61,7 +61,7 @@ export class ShoppingListRepository {
        RETURNING id, quantity, unit, checked`,
       [listId, ingRows[0].id, data.quantity, data.unit]
     );
-    return rows[0];
+    return { ...rows[0], ingredient: { id: ingRows[0].id, name: data.name } };
   }
 
   async updateItem(listId: number, itemId: number, data: { quantity?: number; unit?: string; checked?: boolean }): Promise<unknown> {
