@@ -15,6 +15,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
   const [stepsText, setStepsText] = useState('');
   const [cookTime, setCookTime] = useState('');
   const [servings, setServings] = useState('');
+  const [tagsText, setTagsText] = useState('');
   const [sourceName, setSourceName] = useState('');
   const [sourceUrl, setSourceUrl] = useState('');
   const [ingredients, setIngredients] = useState<IngredientDraft[]>([]);
@@ -34,6 +35,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
         setStepsText(r.data.steps.join('\n'));
         setCookTime(r.data.cook_time_minutes != null ? String(r.data.cook_time_minutes) : '');
         setServings(r.data.servings != null ? String(r.data.servings) : '');
+        setTagsText((r.data.tags ?? []).join(', '));
         setSourceName(r.data.source_name ?? '');
         setSourceUrl(r.data.source_url ?? '');
         setIngredients(
@@ -60,7 +62,8 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
       ...ing,
       quantity: ing.quantity.replace(',', '.'),
     }));
-    const body = { name, description, steps: stepsText.split('\n').filter((s) => s.trim()), cook_time_minutes: cookTime ? Number(cookTime) : null, servings: servings ? Number(servings) : null, source_name: sourceName || null, source_url: sourceUrl || null, ingredients: normalizedIngredients };
+    const tags = tagsText.split(',').map((t) => t.trim()).filter(Boolean);
+    const body = { name, description, steps: stepsText.split('\n').filter((s) => s.trim()), cook_time_minutes: cookTime ? Number(cookTime) : null, servings: servings ? Number(servings) : null, tags, source_name: sourceName || null, source_url: sourceUrl || null, ingredients: normalizedIngredients };
     const req = recipeId
       ? axios.put(`${API_URL}/recipes/${recipeId}`, body, { withCredentials: true })
       : axios.post(`${API_URL}/recipes`, body, { withCredentials: true });
@@ -90,6 +93,17 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
+          />
+        </div>
+        <div className="recipe-form__field">
+          <label className="recipe-form__label" htmlFor="recipe-tags">Kategorier</label>
+          <input
+            id="recipe-tags"
+            className="recipe-form__input"
+            data-testid="input-tags"
+            placeholder="t.ex. vegetariskt, pasta"
+            value={tagsText}
+            onChange={(e) => setTagsText(e.target.value)}
           />
         </div>
         <div className="recipe-form__field">

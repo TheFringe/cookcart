@@ -37,6 +37,29 @@ describe('RecipeForm — portioner', () => {
   });
 });
 
+describe('RecipeForm — taggar', () => {
+  it('renderar ett fält för taggar', () => {
+    renderForm();
+
+    expect(screen.getByTestId('input-tags')).toBeInTheDocument();
+  });
+
+  it('skickar tags som array i POST-bodyn vid submit', () => {
+    mockedAxios.post.mockResolvedValue({ data: { id: 1 } });
+
+    renderForm();
+    fireEvent.change(screen.getByTestId('input-name'), { target: { value: 'Pasta' } });
+    fireEvent.change(screen.getByTestId('input-tags'), { target: { value: 'vegetariskt, pasta' } });
+    fireEvent.click(screen.getByTestId('submit-btn'));
+
+    expect(mockedAxios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/recipes'),
+      expect.objectContaining({ tags: ['vegetariskt', 'pasta'] }),
+      expect.any(Object)
+    );
+  });
+});
+
 describe('RecipeForm — källa', () => {
   it('renderar fält för källans namn och url', () => {
     renderForm();

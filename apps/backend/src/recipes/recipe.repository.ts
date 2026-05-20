@@ -14,6 +14,7 @@ export interface RecipeInput {
   cook_time_minutes?: number;
   source_name?: string;
   source_url?: string;
+  tags?: string[];
   ingredients?: Ingredient[];
 }
 
@@ -26,6 +27,7 @@ export interface Recipe {
   cook_time_minutes: number | null;
   source_name: string | null;
   source_url: string | null;
+  tags: string[];
   ingredients: Ingredient[];
   created_at: Date;
   updated_at: Date;
@@ -69,8 +71,8 @@ export class RecipeRepository {
     const { rows } = await this.pool.query(
       `UPDATE recipes
        SET name = $1, description = $2, steps = $3, servings = $4, cook_time_minutes = $5,
-           source_name = $6, source_url = $7, updated_at = NOW()
-       WHERE id = $8
+           source_name = $6, source_url = $7, tags = $8, updated_at = NOW()
+       WHERE id = $9
        RETURNING *`,
       [...this.toParams(data), id]
     );
@@ -85,8 +87,8 @@ export class RecipeRepository {
 
   async create(data: RecipeInput): Promise<Recipe> {
     const { rows } = await this.pool.query(
-      `INSERT INTO recipes (name, description, steps, servings, cook_time_minutes, source_name, source_url)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
+      `INSERT INTO recipes (name, description, steps, servings, cook_time_minutes, source_name, source_url, tags)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
        RETURNING *`,
       this.toParams(data)
     );
@@ -118,7 +120,7 @@ export class RecipeRepository {
     }
   }
 
-  private toParams(data: RecipeInput): (string | number | null)[] {
+  private toParams(data: RecipeInput): (string | number | null | string[])[] {
     return [
       data.name,
       data.description ?? null,
@@ -127,6 +129,7 @@ export class RecipeRepository {
       data.cook_time_minutes ?? null,
       data.source_name ?? null,
       data.source_url ?? null,
+      data.tags ?? [],
     ];
   }
 }

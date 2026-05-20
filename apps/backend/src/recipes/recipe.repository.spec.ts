@@ -7,6 +7,28 @@ function makePool(...results: object[]): jest.Mocked<Pool> {
   return { query } as unknown as jest.Mocked<Pool>;
 }
 
+describe('RecipeRepository.create — taggar', () => {
+  it('sparar tags i recipes-tabellen', async () => {
+    const recipeRow = {
+      id: 10, name: 'Pasta', description: null, steps: [],
+      servings: null, cook_time_minutes: null,
+      source_name: null, source_url: null,
+      tags: ['vegetariskt', 'pasta'],
+      created_at: new Date(), updated_at: new Date(),
+    };
+
+    const pool = makePool({ rows: [recipeRow] });
+    const repo = new RecipeRepository(pool);
+
+    await repo.create({ name: 'Pasta', tags: ['vegetariskt', 'pasta'] });
+
+    expect(pool.query).toHaveBeenCalledWith(
+      expect.stringContaining('tags'),
+      expect.arrayContaining([['vegetariskt', 'pasta']])
+    );
+  });
+});
+
 describe('RecipeRepository.create — källa', () => {
   it('sparar source_name och source_url i recipes-tabellen', async () => {
     const recipeRow = {
