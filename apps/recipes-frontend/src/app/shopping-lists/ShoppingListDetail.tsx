@@ -61,7 +61,8 @@ export function ShoppingListDetail() {
   function handleDeleteList() {
     axios
       .delete(`${API_URL}/shopping-lists/${id}`, { withCredentials: true })
-      .then(() => navigate('/shopping-lists'));
+      .then(() => navigate('/shopping-lists'))
+      .catch(() => setError('Kunde inte radera inköpslistan.'));
   }
 
   function handleClearList() {

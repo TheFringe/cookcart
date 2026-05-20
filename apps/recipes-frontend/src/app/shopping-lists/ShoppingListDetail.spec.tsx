@@ -238,6 +238,19 @@ describe('ShoppingListDetail', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/shopping-lists');
   });
 
+  it('visar felmeddelande när radera inköpslista misslyckas', async () => {
+    mockedAxios.get.mockResolvedValue({ data: listData });
+    mockedAxios.delete.mockRejectedValue({ response: { status: 500 } });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('ICA');
+
+    fireEvent.click(screen.getByTestId('delete-list-btn'));
+    fireEvent.click(screen.getByTestId('delete-list-confirm-btn'));
+
+    expect(await screen.findByRole('status')).toBeInTheDocument();
+  });
+
   it('kryssad vara visas i plockade varor-sektionen och inte i aktiva varor', async () => {
     mockedAxios.get.mockResolvedValue({ data: listData });
     mockedAxios.patch.mockResolvedValue({ data: {} });
