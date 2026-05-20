@@ -87,6 +87,10 @@ export class ShoppingListRepository {
     );
   }
 
+  async clearItems(listId: number): Promise<void> {
+    await this._pool.query('DELETE FROM shopping_list_items WHERE list_id = $1', [listId]);
+  }
+
   async remove(id: number): Promise<void> {
     await this._pool.query('DELETE FROM shopping_lists WHERE id = $1', [id]);
   }

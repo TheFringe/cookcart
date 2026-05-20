@@ -41,6 +41,11 @@ export function createShoppingListsRouter(repo: ShoppingListRepository): Router 
     res.status(204).send();
   }));
 
+  router.delete('/:id/items', asyncHandler(async (req, res) => {
+    await repo.clearItems(Number(req.params.id));
+    res.status(204).send();
+  }));
+
   router.post('/:id/items', asyncHandler(async (req, res) => {
     const item = await repo.addItem(Number(req.params.id), req.body);
     res.status(201).json(item);

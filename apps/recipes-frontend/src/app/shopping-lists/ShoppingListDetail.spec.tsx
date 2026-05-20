@@ -156,6 +156,23 @@ describe('ShoppingListDetail', () => {
     expect(options).not.toContain('Mjölk');
   });
 
+  it('tömmer listan när töm-knappen klickas', async () => {
+    mockedAxios.get.mockResolvedValue({ data: listData });
+    mockedAxios.delete.mockResolvedValue({});
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('Mjölk');
+
+    fireEvent.click(screen.getByTestId('clear-list-btn'));
+
+    expect(mockedAxios.delete).toHaveBeenCalledWith(
+      expect.stringContaining('/shopping-lists/1/items'),
+      expect.any(Object)
+    );
+    expect(screen.queryByText('Mjölk')).not.toBeInTheDocument();
+    expect(screen.queryByText('Ägg')).not.toBeInTheDocument();
+  });
+
   it('kryssad vara visas i plockade varor-sektionen och inte i aktiva varor', async () => {
     mockedAxios.get.mockResolvedValue({ data: listData });
     mockedAxios.patch.mockResolvedValue({ data: {} });

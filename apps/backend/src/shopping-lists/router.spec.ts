@@ -12,6 +12,7 @@ const mockRepo = {
   addItem: jest.fn(),
   updateItem: jest.fn(),
   removeItem: jest.fn(),
+  clearItems: jest.fn(),
 } as unknown as jest.Mocked<ShoppingListRepository>;
 
 const app = express();
@@ -101,6 +102,17 @@ describe('PUT /shopping-lists/:id', () => {
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual(updated);
+  });
+});
+
+describe('DELETE /shopping-lists/:id/items', () => {
+  it('returnerar 204 när alla varor töms', async () => {
+    mockRepo.clearItems.mockResolvedValue(undefined);
+
+    const res = await request(app).delete('/shopping-lists/1/items');
+
+    expect(res.status).toBe(204);
+    expect(mockRepo.clearItems).toHaveBeenCalledWith(1);
   });
 });
 

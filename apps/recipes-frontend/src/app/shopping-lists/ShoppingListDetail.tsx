@@ -55,6 +55,17 @@ export function ShoppingListDetail() {
       });
   }
 
+  function handleClearList() {
+    const previous = list?.items ?? [];
+    setList((prev) => prev ? { ...prev, items: [] } : prev);
+    axios
+      .delete(`${API_URL}/shopping-lists/${id}/items`, { withCredentials: true })
+      .catch(() => {
+        setList((prev) => prev ? { ...prev, items: previous } : prev);
+        setError('Kunde inte tömma listan.');
+      });
+  }
+
   function handleDelete(itemId: number) {
     setList((prev) =>
       prev ? { ...prev, items: prev.items.filter((i) => i.id !== itemId) } : prev
@@ -117,6 +128,12 @@ export function ShoppingListDetail() {
       <div className="shopping-list-detail__nav">
         <Link to="/shopping-lists" className="shopping-list-detail__back">← Tillbaka</Link>
         <Link to={`/shopping-lists/${id}/edit`} className="shopping-list-detail__edit">Redigera</Link>
+        <button
+          type="button"
+          data-testid="clear-list-btn"
+          className="shopping-list-detail__clear-btn"
+          onClick={handleClearList}
+        >Töm lista</button>
       </div>
       <h1 className="shopping-list-detail__title">{list.name}</h1>
       <datalist id="ingredients-suggestions">

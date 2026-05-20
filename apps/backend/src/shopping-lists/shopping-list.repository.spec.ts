@@ -109,6 +109,20 @@ describe('ShoppingListRepository.removeItem', () => {
   });
 });
 
+describe('ShoppingListRepository.clearItems', () => {
+  it('tar bort alla varor från en lista', async () => {
+    const pool = makePool({ rows: [], rowCount: 3 });
+    const repo = new ShoppingListRepository(pool);
+
+    await repo.clearItems(1);
+
+    expect(pool.query).toHaveBeenCalledWith(
+      expect.stringContaining('DELETE FROM shopping_list_items'),
+      [1]
+    );
+  });
+});
+
 describe('ShoppingListRepository.remove', () => {
   it('tar bort en inköpslista', async () => {
     const pool = makePool({ rows: [], rowCount: 1 });
