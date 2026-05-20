@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import { Toast } from '../shared/Toast';
@@ -7,8 +7,16 @@ import type { Recipe } from './types';
 
 export function RecipeDetail() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  function handleDelete() {
+    axios
+      .delete(`${API_URL}/recipes/${id}`, { withCredentials: true })
+      .then(() => navigate('/'));
+  }
 
   useEffect(() => {
     axios
@@ -32,8 +40,18 @@ export function RecipeDetail() {
     <div data-testid="recipe-detail" className="recipe-detail">
       <div className="recipe-detail__nav">
         <Link to="/" className="recipe-detail__back">← Tillbaka</Link>
-        <Link to={`/recipes/${id}/edit`} className="recipe-detail__edit">Redigera</Link>
+        <div className="recipe-detail__nav-actions">
+          <Link to={`/recipes/${id}/edit`} className="recipe-detail__edit">Redigera</Link>
+          <button data-testid="delete-btn" className="recipe-detail__delete" onClick={() => setConfirmDelete(true)}>Radera</button>
+        </div>
       </div>
+      {confirmDelete && (
+        <div data-testid="delete-confirm-dialog" className="recipe-detail__confirm">
+          <p>Är du säker på att du vill radera receptet?</p>
+          <button data-testid="delete-confirm-btn" className="recipe-detail__confirm-yes" onClick={handleDelete}>Ja, radera</button>
+          <button data-testid="delete-cancel-btn" className="recipe-detail__confirm-no" onClick={() => setConfirmDelete(false)}>Avbryt</button>
+        </div>
+      )}
       <h1 className="recipe-detail__title">{recipe.name}</h1>
       {(recipe.cook_time_minutes || recipe.servings) && (
         <div className="recipe-detail__meta">

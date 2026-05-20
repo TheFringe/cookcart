@@ -1,5 +1,10 @@
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom';
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: jest.fn(),
+}));
 import axios from 'axios';
 import { RecipeDetail } from './RecipeDetail';
 import type { Ingredient, Recipe } from './types';
@@ -15,6 +20,9 @@ const baseRecipe: Recipe = {
   description: null,
   cook_time_minutes: null,
   servings: null,
+  source_name: null,
+  source_url: null,
+  tags: [],
   steps: [],
   ingredients: [],
 };
@@ -75,6 +83,50 @@ describe('RecipeDetail', () => {
     renderRecipeDetail(baseRecipe);
     await screen.findByText('Pasta Carbonara');
     expect(screen.getByRole('link', { name: /redigera/i })).toHaveAttribute('href', '/recipes/1/edit');
+  });
+
+  it('visar en radera-knapp', async () => {
+    renderRecipeDetail(baseRecipe);
+    await screen.findByText('Pasta Carbonara');
+
+    expect(screen.getByTestId('delete-btn')).toBeInTheDocument();
+  });
+
+  it('visar en bekräftelsedialog när radera-knappen klickas', async () => {
+    renderRecipeDetail(baseRecipe);
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.click(screen.getByTestId('delete-btn'));
+
+    expect(screen.getByTestId('delete-confirm-dialog')).toBeInTheDocument();
+  });
+
+  it('stänger dialogen när avbryt klickas', async () => {
+    renderRecipeDetail(baseRecipe);
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.click(screen.getByTestId('delete-btn'));
+    fireEvent.click(screen.getByTestId('delete-cancel-btn'));
+
+    expect(screen.queryByTestId('delete-confirm-dialog')).not.toBeInTheDocument();
+  });
+
+  it('anropar DELETE och navigerar till startsidan när bekräftelse klickas', async () => {
+    const mockNavigate = jest.fn();
+    jest.mocked(useNavigate).mockReturnValue(mockNavigate);
+    mockedAxios.delete.mockResolvedValue({});
+    renderRecipeDetail(baseRecipe);
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.click(screen.getByTestId('delete-btn'));
+    fireEvent.click(screen.getByTestId('delete-confirm-btn'));
+
+    expect(mockedAxios.delete).toHaveBeenCalledWith(
+      expect.stringContaining('/recipes/1'),
+      expect.any(Object)
+    );
+    await screen.findByText('Pasta Carbonara');
+    expect(mockNavigate).toHaveBeenCalledWith('/');
   });
 
   it('visar en toast när fetch misslyckas', async () => {
