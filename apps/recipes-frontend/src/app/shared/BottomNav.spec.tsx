@@ -26,4 +26,12 @@ describe('BottomNav', () => {
     expect(link).toBeInTheDocument();
     expect(within(link).getByTestId('nav-icon-inkopslista')).toBeInTheDocument();
   });
+
+  it('visar en navigeringslänk med text och ikon för kalender', () => {
+    renderNav();
+
+    const link = screen.getByRole('link', { name: /kalender/i });
+    expect(link).toBeInTheDocument();
+    expect(within(link).getByTestId('nav-icon-kalender')).toBeInTheDocument();
+  });
 });

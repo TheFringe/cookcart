@@ -9,6 +9,7 @@ import { ShoppingListDetail } from './shopping-lists/ShoppingListDetail';
 import { ShoppingListForm } from './shopping-lists/ShoppingListForm';
 import { RecipeForm } from './recipes/RecipeForm';
 import { BottomNav } from './shared/BottomNav';
+import { CalendarPage } from './calendar/CalendarPage';
 
 function Home() {
   const { user, logout } = useAuth();
@@ -103,6 +104,14 @@ export function App() {
           element={
             <AuthenticatedLayout>
               <RecipeDetail />
+            </AuthenticatedLayout>
+          }
+        />
+        <Route
+          path="/calendar"
+          element={
+            <AuthenticatedLayout>
+              <CalendarPage />
             </AuthenticatedLayout>
           }
         />
