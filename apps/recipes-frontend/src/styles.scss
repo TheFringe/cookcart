@@ -814,7 +814,7 @@ button {
 
   &__item {
     display: grid;
-    grid-template-columns: 1.5rem 1fr;
+    grid-template-columns: 1.5rem 1fr auto;
     align-items: center;
     gap: 0.875rem;
     padding: 0.875rem 0;
@@ -845,10 +845,26 @@ button {
     }
   }
 
+  &__item-label {
+    display: contents;
+    cursor: pointer;
+  }
+
   &__name {
     font-size: 1.0625rem;
     color: var(--c-text);
     transition: color 0.2s;
+  }
+
+  &__delete-btn {
+    font-size: 1.125rem;
+    line-height: 1;
+    color: var(--c-muted);
+    padding: 0.25rem 0.5rem;
+    border-radius: 2px;
+    transition: color 0.2s;
+
+    &:hover { color: var(--c-accent); }
   }
 }
 

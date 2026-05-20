@@ -37,6 +37,22 @@ describe('ShoppingListDetail', () => {
     expect(screen.getByText('Ägg')).toBeInTheDocument();
   });
 
+  it('tar bort en vara när ta bort-knappen klickas', async () => {
+    mockedAxios.get.mockResolvedValue({ data: listData });
+    mockedAxios.delete.mockResolvedValue({});
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('Mjölk');
+
+    fireEvent.click(screen.getByTestId('delete-item-10'));
+
+    expect(mockedAxios.delete).toHaveBeenCalledWith(
+      expect.stringContaining('/shopping-lists/1/items/10'),
+      expect.any(Object)
+    );
+    expect(screen.queryByText('Mjölk')).not.toBeInTheDocument();
+  });
+
   it('anropar PATCH när en vara kryssas i', async () => {
     mockedAxios.get.mockResolvedValue({ data: listData });
     mockedAxios.patch.mockResolvedValue({ data: {} });

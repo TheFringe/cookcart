@@ -22,9 +22,7 @@ export function ShoppingListDetail() {
   const { id } = useParams<{ id: string }>();
   const [list, setList] = useState<ShoppingListFull | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [newItemName, setNewItemName] = useState('');
-  const [newItemQuantity, setNewItemQuantity] = useState('');
-  const [newItemUnit, setNewItemUnit] = useState('');
+  const [draft, setDraft] = useState({ name: '', quantity: '', unit: '' });
 
   useEffect(() => {
     axios
@@ -52,37 +50,51 @@ export function ShoppingListDetail() {
       });
   }
 
+  function handleDelete(itemId: number) {
+    setList((prev) =>
+      prev ? { ...prev, items: prev.items.filter((i) => i.id !== itemId) } : prev
+    );
+    axios
+      .delete(`${API_URL}/shopping-lists/${id}/items/${itemId}`, { withCredentials: true })
+      .catch(() => setError('Kunde inte ta bort varan.'));
+  }
+
   function renderItem(item: ShoppingListItem) {
     const cls = `shopping-list-detail__item${item.checked ? ' shopping-list-detail__item--checked' : ''}`;
     return (
-      <label key={item.id} className={cls}>
-        <input
-          type="checkbox"
-          checked={item.checked}
-          aria-label={item.ingredient.name}
-          onChange={() => handleToggle(item)}
-        />
-        <span className="shopping-list-detail__name">{item.ingredient.name}</span>
-      </label>
+      <div key={item.id} className={cls}>
+        <label className="shopping-list-detail__item-label">
+          <input
+            type="checkbox"
+            checked={item.checked}
+            aria-label={item.ingredient.name}
+            onChange={() => handleToggle(item)}
+          />
+          <span className="shopping-list-detail__name">{item.ingredient.name}</span>
+        </label>
+        <button
+          type="button"
+          data-testid={`delete-item-${item.id}`}
+          className="shopping-list-detail__delete-btn"
+          aria-label={`Ta bort ${item.ingredient.name}`}
+          onClick={() => handleDelete(item.id)}
+        >×</button>
+      </div>
     );
   }
 
   function handleAddItem(e: React.FormEvent) {
     e.preventDefault();
-    if (!newItemName.trim()) return;
+    if (!draft.name.trim()) return;
     axios
       .post(
         `${API_URL}/shopping-lists/${id}/items`,
-        { name: newItemName.trim(), quantity: parseFloat(newItemQuantity.replace(',', '.')) || 1, unit: newItemUnit },
+        { name: draft.name.trim(), quantity: parseFloat(draft.quantity.replace(',', '.')) || 1, unit: draft.unit },
         { withCredentials: true }
       )
       .then((r) => {
-        setList((prev) =>
-          prev ? { ...prev, items: [r.data, ...prev.items] } : prev
-        );
-        setNewItemName('');
-        setNewItemQuantity('');
-        setNewItemUnit('');
+        setList((prev) => prev ? { ...prev, items: [r.data, ...prev.items] } : prev);
+        setDraft({ name: '', quantity: '', unit: '' });
       })
       .catch(() => setError('Kunde inte lägga till varan.'));
   }
@@ -107,22 +119,22 @@ export function ShoppingListDetail() {
           className="shopping-list-detail__add-name"
           data-testid="add-item-name"
           placeholder="Vara"
-          value={newItemName}
-          onChange={(e) => setNewItemName(e.target.value)}
+          value={draft.name}
+          onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
         />
         <input
           className="shopping-list-detail__add-quantity"
           data-testid="add-item-quantity"
           placeholder="Mängd"
-          value={newItemQuantity}
-          onChange={(e) => setNewItemQuantity(e.target.value)}
+          value={draft.quantity}
+          onChange={(e) => setDraft((d) => ({ ...d, quantity: e.target.value }))}
         />
         <input
           className="shopping-list-detail__add-unit"
           data-testid="add-item-unit"
           placeholder="Enhet"
-          value={newItemUnit}
-          onChange={(e) => setNewItemUnit(e.target.value)}
+          value={draft.unit}
+          onChange={(e) => setDraft((d) => ({ ...d, unit: e.target.value }))}
         />
         <button type="submit" data-testid="add-item-btn" className="shopping-list-detail__add-btn">+ Lägg till</button>
       </form>
