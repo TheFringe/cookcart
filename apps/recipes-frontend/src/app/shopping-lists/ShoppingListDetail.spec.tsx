@@ -138,6 +138,24 @@ describe('ShoppingListDetail', () => {
     expect(document.getElementById('ingredients-suggestions')).toBeInTheDocument();
   });
 
+  it('datalist visar bara förslag som börjar med det inmatade värdet', async () => {
+    mockedAxios.get.mockImplementation((url: string) => {
+      if (url.includes('/ingredients'))
+        return Promise.resolve({ data: [{ id: 1, name: 'Mjölk' }, { id: 2, name: 'Smör' }, { id: 3, name: 'Smörkräm' }] });
+      return Promise.resolve({ data: listData });
+    });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('ICA');
+
+    fireEvent.change(screen.getByTestId('add-item-name'), { target: { value: 'Sm' } });
+
+    const datalist = document.getElementById('ingredients-suggestions')!;
+    const options = Array.from(datalist.querySelectorAll('option')).map((o) => o.getAttribute('value'));
+    expect(options).toEqual(['Smör', 'Smörkräm']);
+    expect(options).not.toContain('Mjölk');
+  });
+
   it('kryssad vara visas i plockade varor-sektionen och inte i aktiva varor', async () => {
     mockedAxios.get.mockResolvedValue({ data: listData });
     mockedAxios.patch.mockResolvedValue({ data: {} });

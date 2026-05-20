@@ -120,7 +120,9 @@ export function ShoppingListDetail() {
       </div>
       <h1 className="shopping-list-detail__title">{list.name}</h1>
       <datalist id="ingredients-suggestions">
-        {suggestions.map((name) => <option key={name} value={name} />)}
+        {suggestions
+          .filter((name) => draft.name.length > 0 && name.toLowerCase().startsWith(draft.name.toLowerCase()))
+          .map((name) => <option key={name} value={name} />)}
       </datalist>
       <form className="shopping-list-detail__add-form" onSubmit={handleAddItem}>
         <input
