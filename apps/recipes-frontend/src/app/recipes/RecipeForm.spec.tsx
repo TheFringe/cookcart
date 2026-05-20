@@ -33,6 +33,24 @@ describe('RecipeForm — redigera', () => {
     expect(screen.getByTestId('input-steps')).toHaveValue('Koka vatten\nKoka pasta');
   });
 
+  it('förifylls med receptets ingredienser när recipeId skickas in', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: {
+        id: 1,
+        name: 'Pasta',
+        steps: [],
+        ingredients: [{ quantity: 2, unit: 'dl', name: 'mjöl' }],
+      },
+    });
+
+    renderForm('1');
+    await screen.findByDisplayValue('Pasta');
+
+    expect(screen.getByTestId('ingredient-quantity-0')).toHaveValue('2');
+    expect(screen.getByTestId('ingredient-unit-0')).toHaveValue('dl');
+    expect(screen.getByTestId('ingredient-name-0')).toHaveValue('mjöl');
+  });
+
   it('visar en avbryt-länk som leder tillbaka till receptsidan', async () => {
     mockedAxios.get.mockResolvedValue({
       data: { id: 1, name: 'Pasta', steps: [], ingredients: [] },
@@ -63,7 +81,64 @@ describe('RecipeForm — redigera', () => {
   });
 });
 
+describe('RecipeForm — ingredienser', () => {
+  it('visar labels kopplade till ingrediensfälten', () => {
+    renderForm();
+    fireEvent.click(screen.getByTestId('add-ingredient-btn'));
+
+    expect(screen.getByLabelText(/mängd/i)).toHaveAttribute('data-testid', 'ingredient-quantity-0');
+    expect(screen.getByLabelText(/enhet/i)).toHaveAttribute('data-testid', 'ingredient-unit-0');
+  });
+
+  it('visar en knapp för att lägga till ingrediens', () => {
+    renderForm();
+
+    expect(screen.getByTestId('add-ingredient-btn')).toBeInTheDocument();
+  });
+
+  it('visar ingrediensfälten i ordningen namn, mängd, enhet', () => {
+    renderForm();
+    fireEvent.click(screen.getByTestId('add-ingredient-btn'));
+
+    const row = screen.getByTestId('ingredient-name-0').closest('div')!;
+    const inputs = Array.from(row.querySelectorAll('input'));
+    expect(inputs[0]).toHaveAttribute('data-testid', 'ingredient-name-0');
+    expect(inputs[1]).toHaveAttribute('data-testid', 'ingredient-quantity-0');
+    expect(inputs[2]).toHaveAttribute('data-testid', 'ingredient-unit-0');
+  });
+
+  it('lägger till en ingrediensrad med fält för mängd, enhet och namn när knappen klickas', () => {
+    renderForm();
+
+    fireEvent.click(screen.getByTestId('add-ingredient-btn'));
+
+    expect(screen.getByTestId('ingredient-quantity-0')).toBeInTheDocument();
+    expect(screen.getByTestId('ingredient-unit-0')).toBeInTheDocument();
+    expect(screen.getByTestId('ingredient-name-0')).toBeInTheDocument();
+  });
+});
+
 describe('RecipeForm — skapa', () => {
+  it('skickar med ingredienser i POST-bodyn vid submit', () => {
+    mockedAxios.post.mockResolvedValue({ data: { id: 1 } });
+
+    renderForm();
+
+    fireEvent.click(screen.getByTestId('add-ingredient-btn'));
+    fireEvent.change(screen.getByTestId('ingredient-quantity-0'), { target: { value: '2' } });
+    fireEvent.change(screen.getByTestId('ingredient-unit-0'), { target: { value: 'dl' } });
+    fireEvent.change(screen.getByTestId('ingredient-name-0'), { target: { value: 'mjöl' } });
+    fireEvent.click(screen.getByTestId('submit-btn'));
+
+    expect(mockedAxios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/recipes'),
+      expect.objectContaining({
+        ingredients: [{ quantity: '2', unit: 'dl', name: 'mjöl' }],
+      }),
+      expect.any(Object)
+    );
+  });
+
   it('anropar POST med namn och steg splittade per radbrytning', async () => {
     mockedAxios.post.mockResolvedValue({ data: { id: 42 } });
 

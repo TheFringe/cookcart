@@ -4,10 +4,15 @@ import axios from 'axios';
 import { API_URL } from '../../config';
 import type { Recipe } from './types';
 
+type IngredientDraft = { quantity: string; unit: string; name: string };
+
+const EMPTY_INGREDIENT: IngredientDraft = { quantity: '', unit: '', name: '' };
+
 export function RecipeForm({ recipeId }: { recipeId?: string }) {
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [stepsText, setStepsText] = useState('');
+  const [ingredients, setIngredients] = useState<IngredientDraft[]>([]);
 
   useEffect(() => {
     if (!recipeId) return;
@@ -16,12 +21,27 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
       .then((r) => {
         setName(r.data.name);
         setStepsText(r.data.steps.join('\n'));
+        setIngredients(
+          r.data.ingredients.map((ing) => ({
+            quantity: String(ing.quantity ?? ''),
+            unit: ing.unit ?? '',
+            name: ing.name,
+          }))
+        );
       });
   }, [recipeId]);
 
+  function addIngredient() {
+    setIngredients((prev) => [...prev, EMPTY_INGREDIENT]);
+  }
+
+  function updateIngredient(i: number, field: keyof IngredientDraft, value: string) {
+    setIngredients((prev) => prev.map((x, j) => (j === i ? { ...x, [field]: value } : x)));
+  }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const body = { name, steps: stepsText.split('\n').filter((s) => s.trim()) };
+    const body = { name, steps: stepsText.split('\n').filter((s) => s.trim()), ingredients };
     const req = recipeId
       ? axios.put(`${API_URL}/recipes/${recipeId}`, body, { withCredentials: true })
       : axios.post(`${API_URL}/recipes`, body, { withCredentials: true });
@@ -53,6 +73,21 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
             rows={10}
           />
         </div>
+        {ingredients.length > 0 && (
+          <div className="recipe-form__ingredient-header">
+            <span>Namn</span>
+            <span>Mängd</span>
+            <span>Enhet</span>
+          </div>
+        )}
+        {ingredients.map((ing, i) => (
+          <div key={i} className="recipe-form__ingredient-row">
+            <input className="recipe-form__input" data-testid={`ingredient-name-${i}`} aria-label="Namn" value={ing.name} onChange={(e) => updateIngredient(i, 'name', e.target.value)} />
+            <input className="recipe-form__input" data-testid={`ingredient-quantity-${i}`} aria-label="Mängd" value={ing.quantity} onChange={(e) => updateIngredient(i, 'quantity', e.target.value)} />
+            <input className="recipe-form__input" data-testid={`ingredient-unit-${i}`} aria-label="Enhet" value={ing.unit} onChange={(e) => updateIngredient(i, 'unit', e.target.value)} />
+          </div>
+        ))}
+        <button className="recipe-form__add-ingredient" data-testid="add-ingredient-btn" type="button" onClick={addIngredient}>+ Lägg till ingrediens</button>
         <div className="recipe-form__actions">
           <button className="recipe-form__submit" data-testid="submit-btn" type="submit">Spara</button>
           {recipeId && <Link to={`/recipes/${recipeId}`} className="recipe-form__cancel">Avbryt</Link>}
