@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { CalendarPage } from './CalendarPage';
 
@@ -26,6 +26,32 @@ describe('CalendarPage', () => {
 
     expect(screen.getByTestId('calendar-day-date-0')).toHaveTextContent('18'); // mån
     expect(screen.getByTestId('calendar-day-date-6')).toHaveTextContent('24'); // sön
+
+    jest.useRealTimers();
+  });
+
+  it('visar nästa veckas datum när nästa-knappen klickas', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20')); // onsdag v21
+
+    renderCalendar();
+    fireEvent.click(screen.getByTestId('next-week-btn'));
+
+    expect(screen.getByTestId('calendar-day-date-0')).toHaveTextContent('25'); // mån v22
+    expect(screen.getByTestId('calendar-day-date-6')).toHaveTextContent('31'); // sön v22
+
+    jest.useRealTimers();
+  });
+
+  it('visar föregående veckas datum när föregående-knappen klickas', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20')); // onsdag v21
+
+    renderCalendar();
+    fireEvent.click(screen.getByTestId('prev-week-btn'));
+
+    expect(screen.getByTestId('calendar-day-date-0')).toHaveTextContent('11'); // mån v20
+    expect(screen.getByTestId('calendar-day-date-6')).toHaveTextContent('17'); // sön v20
 
     jest.useRealTimers();
   });
