@@ -75,4 +75,14 @@ describe('ShoppingListForm — skapa', () => {
       expect.any(Object)
     );
   });
+
+  it('visar ett felmeddelande om POST misslyckas', async () => {
+    mockedAxios.post.mockRejectedValue(new Error('Nätverksfel'));
+
+    renderForm();
+    fireEvent.change(screen.getByTestId('input-name'), { target: { value: 'ICA' } });
+    fireEvent.click(screen.getByTestId('submit-btn'));
+
+    expect(await screen.findByRole('status')).toBeInTheDocument();
+  });
 });

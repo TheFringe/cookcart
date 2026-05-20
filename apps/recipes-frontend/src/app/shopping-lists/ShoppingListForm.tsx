@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
+import { Toast } from '../shared/Toast';
 
 export function ShoppingListForm({ listId }: { listId?: string }) {
   const navigate = useNavigate();
   const [name, setName] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!listId) return;
@@ -20,11 +22,14 @@ export function ShoppingListForm({ listId }: { listId?: string }) {
     const req = listId
       ? axios.put(`${API_URL}/shopping-lists/${listId}`, body, { withCredentials: true })
       : axios.post(`${API_URL}/shopping-lists`, body, { withCredentials: true });
-    req.then((r) => navigate(`/shopping-lists/${r.data.id}`));
+    req
+      .then((r) => navigate(`/shopping-lists/${r.data.id}`))
+      .catch(() => setError('Kunde inte spara inköpslistan.'));
   }
 
   return (
     <div data-testid="shopping-list-form" className="shopping-list-form">
+      {error && <Toast message={error} onDismiss={() => setError(null)} />}
       <h1 className="shopping-list-form__title">{listId ? 'Redigera lista' : 'Ny inköpslista'}</h1>
       <form onSubmit={handleSubmit}>
         <div className="shopping-list-form__field">
