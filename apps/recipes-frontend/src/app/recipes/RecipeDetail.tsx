@@ -193,7 +193,7 @@ export function RecipeDetail() {
               ].filter(Boolean).join(' ')}
               onClick={mode === 'planning' ? () => handleIngredientClick(ing) : () => toggleCookingIngredient(ing.name)}
             >
-              {ing.quantity} {ing.unit} {ing.name}
+              {mode === 'planning' ? ing.quantity * scale : ing.quantity} {ing.unit} {ing.name}
               {mode === 'planning' && addedIngredients[ing.name] !== undefined && <span className="recipe-detail__ingredient-icon"> 🛒</span>}
             </li>
           ))}

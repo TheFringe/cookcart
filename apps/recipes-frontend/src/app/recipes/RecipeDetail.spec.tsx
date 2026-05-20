@@ -141,6 +141,16 @@ describe('RecipeDetail', () => {
     expect(screen.getByTestId('mode-toggle-cooking')).toBeInTheDocument();
   });
 
+  it('visar skalade mängder när skalfaktor ändras', async () => {
+    const ingredients = [{ name: 'pasta', quantity: 200, unit: 'g' }];
+    renderRecipeDetail({ ...baseRecipe, ingredients });
+    await screen.findByText('200 g pasta');
+
+    fireEvent.click(screen.getByTestId('scale-btn-2'));
+
+    expect(screen.getByText('400 g pasta')).toBeInTheDocument();
+  });
+
   it('visar skalfaktor-knappar i planeringsläge', async () => {
     renderRecipeDetail({ ...baseRecipe, ingredients: [{ name: 'pasta', quantity: 200, unit: 'g' }] });
     await screen.findByText('Pasta Carbonara');
