@@ -199,6 +199,20 @@ describe('ShoppingListDetail', () => {
     expect(screen.queryByText('Ägg')).not.toBeInTheDocument();
   });
 
+  it('visar felmeddelande när töm lista misslyckas', async () => {
+    mockedAxios.get.mockResolvedValue({ data: listData });
+    mockedAxios.delete.mockRejectedValue({ response: { status: 500 } });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('Mjölk');
+
+    fireEvent.click(screen.getByTestId('clear-list-btn'));
+    fireEvent.click(screen.getByTestId('clear-confirm-btn'));
+
+    expect(await screen.findByRole('status')).toBeInTheDocument();
+    expect(screen.getByText('Mjölk')).toBeInTheDocument();
+  });
+
   it('kryssad vara visas i plockade varor-sektionen och inte i aktiva varor', async () => {
     mockedAxios.get.mockResolvedValue({ data: listData });
     mockedAxios.patch.mockResolvedValue({ data: {} });
