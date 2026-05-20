@@ -10,6 +10,11 @@ interface MealPlanEntry {
   recipe: { id: number; name: string };
 }
 
+interface Recipe {
+  id: number;
+  name: string;
+}
+
 function getMondayOfCurrentWeek(): Date {
   const today = new Date();
   const day = today.getDay();
@@ -30,6 +35,15 @@ function toISODate(date: Date): string {
 export function CalendarPage() {
   const [monday, setMonday] = useState(getMondayOfCurrentWeek);
   const [entries, setEntries] = useState<MealPlanEntry[]>([]);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [pickerDayIndex, setPickerDayIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    axios
+      .get<Recipe[]>(`${API_URL}/recipes`, { withCredentials: true })
+      .then((r) => setRecipes(r.data))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     axios
@@ -40,6 +54,20 @@ export function CalendarPage() {
       .then((r) => setEntries(r.data))
       .catch(() => {});
   }, [monday]);
+
+  function handleSelectRecipe(recipe: Recipe) {
+    if (pickerDayIndex === null) return;
+    const date = new Date(monday);
+    date.setDate(monday.getDate() + pickerDayIndex);
+    const dateStr = toISODate(date);
+    axios
+      .post<MealPlanEntry>(`${API_URL}/meal-plan`, { recipeId: recipe.id, date: dateStr }, { withCredentials: true })
+      .then((r) => {
+        setEntries((prev) => [...prev, r.data]);
+        setPickerDayIndex(null);
+      })
+      .catch(() => {});
+  }
 
   function shiftWeek(delta: number) {
     setMonday((prev) => {
@@ -59,6 +87,16 @@ export function CalendarPage() {
           Nästa vecka →
         </button>
       </div>
+      {pickerDayIndex !== null && (
+        <div data-testid="recipe-picker" className="calendar-page__picker">
+          {recipes.map((r) => (
+            <button key={r.id} className="calendar-page__picker-item" onClick={() => handleSelectRecipe(r)}>
+              {r.name}
+            </button>
+          ))}
+          <button data-testid="close-picker-btn" onClick={() => setPickerDayIndex(null)}>Avbryt</button>
+        </div>
+      )}
       {DAYS.map((day, i) => {
         const date = new Date(monday);
         date.setDate(monday.getDate() + i);
@@ -75,6 +113,11 @@ export function CalendarPage() {
                 {e.recipe.name}
               </span>
             ))}
+            <button
+              data-testid={`add-recipe-btn-${i}`}
+              className="calendar-page__add-btn"
+              onClick={() => setPickerDayIndex(i)}
+            >+</button>
           </div>
         );
       })}
