@@ -151,6 +151,18 @@ describe('RecipeDetail', () => {
     expect(screen.getByText('400 g pasta')).toBeInTheDocument();
   });
 
+  it('visar skalfaktor-knappar och skalade mängder i tillagningsläge', async () => {
+    const ingredients = [{ name: 'pasta', quantity: 200, unit: 'g' }];
+    renderRecipeDetail({ ...baseRecipe, ingredients });
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.click(screen.getByTestId('scale-btn-2'));
+    fireEvent.click(screen.getByTestId('mode-toggle-cooking'));
+
+    expect(screen.getByTestId('scale-btn-2')).toBeInTheDocument();
+    expect(screen.getByText('400 g pasta')).toBeInTheDocument();
+  });
+
   it('visar skalfaktor-knappar i planeringsläge', async () => {
     renderRecipeDetail({ ...baseRecipe, ingredients: [{ name: 'pasta', quantity: 200, unit: 'g' }] });
     await screen.findByText('Pasta Carbonara');

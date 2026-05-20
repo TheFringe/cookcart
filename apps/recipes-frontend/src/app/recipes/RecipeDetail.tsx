@@ -154,7 +154,7 @@ export function RecipeDetail() {
         </div>
       )}
       {recipe.description && <p className="recipe-detail__description">{recipe.description}</p>}
-      {mode === 'planning' && recipe.ingredients.length > 0 && (
+      {recipe.ingredients.length > 0 && (
         <div className="recipe-detail__planning">
           <div className="recipe-detail__scales">
             {SCALES.map((s) => (
@@ -168,16 +168,18 @@ export function RecipeDetail() {
               </button>
             ))}
           </div>
-          <select
-            data-testid="planning-list-select"
-            className="recipe-detail__list-select"
-            value={selectedListId ?? ''}
-            onChange={(e) => setSelectedListId(Number(e.target.value))}
-          >
-            {lists.map((l) => (
-              <option key={l.id} value={l.id}>{l.name}</option>
-            ))}
-          </select>
+          {mode === 'planning' && (
+            <select
+              data-testid="planning-list-select"
+              className="recipe-detail__list-select"
+              value={selectedListId ?? ''}
+              onChange={(e) => setSelectedListId(Number(e.target.value))}
+            >
+              {lists.map((l) => (
+                <option key={l.id} value={l.id}>{l.name}</option>
+              ))}
+            </select>
+          )}
         </div>
       )}
       {recipe.ingredients.length > 0 && (
@@ -193,7 +195,7 @@ export function RecipeDetail() {
               ].filter(Boolean).join(' ')}
               onClick={mode === 'planning' ? () => handleIngredientClick(ing) : () => toggleCookingIngredient(ing.name)}
             >
-              {mode === 'planning' ? ing.quantity * scale : ing.quantity} {ing.unit} {ing.name}
+              {ing.quantity * scale} {ing.unit} {ing.name}
               {mode === 'planning' && addedIngredients[ing.name] !== undefined && <span className="recipe-detail__ingredient-icon"> 🛒</span>}
             </li>
           ))}
