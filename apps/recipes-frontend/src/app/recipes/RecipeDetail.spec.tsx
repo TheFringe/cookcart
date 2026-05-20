@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom';
 
 jest.mock('react-router-dom', () => ({
@@ -246,6 +246,31 @@ describe('RecipeDetail', () => {
       expect.objectContaining({ checked_ingredients: ['pasta'] }),
       expect.any(Object)
     );
+  });
+
+  it('visar ett felmeddelande när tillägg till inköpslista misslyckas', async () => {
+    const ingredients = [{ name: 'pasta', quantity: 200, unit: 'g' }];
+    mockedAxios.post.mockRejectedValue({ response: { status: 500 } });
+    renderRecipeDetail({ ...baseRecipe, ingredients }, [{ id: 3, name: 'ICA' }]);
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.click(screen.getByTestId('ingredient-pasta'));
+
+    expect(await screen.findByRole('status')).toBeInTheDocument();
+  });
+
+  it('visar ett felmeddelande när borttagning från inköpslista misslyckas', async () => {
+    const ingredients = [{ name: 'pasta', quantity: 200, unit: 'g' }];
+    mockedAxios.post.mockResolvedValue({ data: { id: 10, quantity: 200, unit: 'g', ingredient: { id: 5, name: 'pasta' } } });
+    mockedAxios.delete.mockRejectedValue({ response: { status: 500 } });
+    renderRecipeDetail({ ...baseRecipe, ingredients }, [{ id: 3, name: 'ICA' }]);
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.click(screen.getByTestId('ingredient-pasta'));
+    await waitFor(() => expect(screen.getByTestId('ingredient-pasta')).toHaveClass('recipe-detail__ingredient--added'));
+    fireEvent.click(screen.getByTestId('ingredient-pasta'));
+
+    expect(await screen.findByRole('status')).toBeInTheDocument();
   });
 
   it('visar en toast när fetch misslyckas', async () => {

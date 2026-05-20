@@ -51,13 +51,17 @@ export function RecipeDetail() {
       axios.delete(
         `${API_URL}/shopping-lists/${selectedListId}/items/${addedIngredients[ing.name]}`,
         { withCredentials: true }
-      ).then(() => setAddedIngredients((prev) => { const next = { ...prev }; delete next[ing.name]; return next; }));
+      )
+        .then(() => setAddedIngredients((prev) => { const next = { ...prev }; delete next[ing.name]; return next; }))
+        .catch(() => setError('Kunde inte ta bort ingrediensen från listan.'));
     } else {
       axios.post(
         `${API_URL}/shopping-lists/${selectedListId}/items`,
         { name: ing.name, quantity: ing.quantity * scale, unit: ing.unit },
         { withCredentials: true }
-      ).then((r) => setAddedIngredients((prev) => ({ ...prev, [ing.name]: r.data.id })));
+      )
+        .then((r) => setAddedIngredients((prev) => ({ ...prev, [ing.name]: r.data.id })))
+        .catch(() => setError('Kunde inte lägga till ingrediensen i listan.'));
     }
   }
 
@@ -109,6 +113,7 @@ export function RecipeDetail() {
 
   return (
     <div data-testid="recipe-detail" className="recipe-detail" data-mode={mode}>
+      {error && <Toast message={error} onDismiss={() => setError(null)} />}
       <div className="recipe-detail__nav">
         <Link to="/" className="recipe-detail__back">← Tillbaka</Link>
         <div className="recipe-detail__nav-actions">
