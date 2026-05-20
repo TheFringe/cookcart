@@ -4,7 +4,7 @@
 
 ## Kontext
 
-När `RecipeDetail` misslyckas med att hämta ett recept — för att backend är nere, nätverket strular eller URL:en innehåller ett ogiltigt id — händde tidigare ingenting. Användaren såg laddningstexten för evigt, utan att förstå varför.
+När `RecipeDetail` misslyckas med att hämta ett recept — för att backend är nere, nätverket strular eller URL:en innehåller ett ogiltigt id — hände tidigare ingenting. Användaren såg laddningstexten för evigt, utan att förstå varför.
 
 En toast löser det här på ett icke-intrusivt sätt: den dyker upp, ger information, och försvinner sedan. Användaren behöver inte interagera med den.
 
