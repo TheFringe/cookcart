@@ -108,6 +108,30 @@ describe('CalendarPage', () => {
     jest.useRealTimers();
   });
 
+  it('tar bort planerat recept när ta-bort-knappen klickas', async () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20'));
+
+    mockedAxios.get.mockImplementation((url: string) => {
+      if (url.includes('/recipes')) return Promise.resolve({ data: [] });
+      return Promise.resolve({ data: [{ id: 5, date: '2026-05-18', recipe: { id: 1, name: 'Pasta Carbonara' } }] });
+    });
+    mockedAxios.delete.mockResolvedValue({});
+
+    render(<MemoryRouter><CalendarPage /></MemoryRouter>);
+    expect(await screen.findByText('Pasta Carbonara')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId('remove-entry-5'));
+
+    expect(mockedAxios.delete).toHaveBeenCalledWith(
+      expect.stringContaining('/meal-plan/5'),
+      expect.any(Object)
+    );
+    expect(screen.queryByText('Pasta Carbonara')).not.toBeInTheDocument();
+
+    jest.useRealTimers();
+  });
+
   it('visar planerat recept på rätt dag', async () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2026-05-20')); // onsdag, v21: mån=18 maj

@@ -69,6 +69,11 @@ export function CalendarPage() {
       .catch(() => {});
   }
 
+  function handleRemoveEntry(id: number) {
+    setEntries((prev) => prev.filter((e) => e.id !== id));
+    axios.delete(`${API_URL}/meal-plan/${id}`, { withCredentials: true }).catch(() => {});
+  }
+
   function shiftWeek(delta: number) {
     setMonday((prev) => {
       const next = new Date(prev);
@@ -109,9 +114,10 @@ export function CalendarPage() {
               {date.getDate()}
             </span>
             {dayEntries.map((e) => (
-              <span key={e.id} data-testid={`meal-plan-entry-${e.id}`} className="calendar-page__entry">
+              <div key={e.id} data-testid={`meal-plan-entry-${e.id}`} className="calendar-page__entry">
                 {e.recipe.name}
-              </span>
+                <button data-testid={`remove-entry-${e.id}`} className="calendar-page__remove-btn" onClick={() => handleRemoveEntry(e.id)}>×</button>
+              </div>
             ))}
             <button
               data-testid={`add-recipe-btn-${i}`}
