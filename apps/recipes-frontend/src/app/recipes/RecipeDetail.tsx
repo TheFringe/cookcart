@@ -112,8 +112,9 @@ export function RecipeDetail() {
   }
 
   return (
-    <div data-testid="recipe-detail" className="recipe-detail" data-mode={mode}>
+    <>
       {error && <Toast message={error} onDismiss={() => setError(null)} />}
+      <div data-testid="recipe-detail" className="recipe-detail" data-mode={mode}>
       <div className="recipe-detail__nav">
         <Link to="/" className="recipe-detail__back">← Tillbaka</Link>
         <div className="recipe-detail__nav-actions">
@@ -222,5 +223,6 @@ export function RecipeDetail() {
         </button>
       )}
     </div>
+    </>
   );
 }
