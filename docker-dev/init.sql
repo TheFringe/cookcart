@@ -61,6 +61,14 @@ CREATE TABLE recipe_cooking_progress (
     checked_steps       INTEGER[] NOT NULL DEFAULT '{}'
 );
 
+CREATE TABLE meal_plan (
+    id         SERIAL PRIMARY KEY,
+    recipe_id  INTEGER NOT NULL REFERENCES recipes(id) ON DELETE CASCADE,
+    date       DATE    NOT NULL
+);
+
+CREATE INDEX ON meal_plan(date);
+
 CREATE TABLE users (
     id         SERIAL PRIMARY KEY,
     google_id  TEXT        NOT NULL UNIQUE,
