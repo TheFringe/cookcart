@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
 import { RecipeList } from './RecipeList';
@@ -48,6 +48,41 @@ describe('RecipeList', () => {
     render(<MemoryRouter><RecipeList /></MemoryRouter>);
 
     expect(screen.getByRole('link', { name: /nytt recept/i })).toHaveAttribute('href', '/recipes/new');
+  });
+
+  it('filtrerar recepten när en tagg väljs', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: [
+        { id: 1, name: 'Pasta', description: null, cook_time_minutes: null, servings: null, tags: ['vegetariskt'] },
+        { id: 2, name: 'Köttbullar', description: null, cook_time_minutes: null, servings: null, tags: ['kött'] },
+      ],
+    });
+
+    render(<MemoryRouter><RecipeList /></MemoryRouter>);
+    await screen.findAllByTestId('recipe-item');
+
+    fireEvent.click(screen.getByTestId('tag-filter-vegetariskt'));
+
+    expect(screen.getAllByTestId('recipe-item')).toHaveLength(1);
+    expect(screen.getByText('Pasta')).toBeInTheDocument();
+    expect(screen.queryByText('Köttbullar')).not.toBeInTheDocument();
+  });
+
+  it('avaktiverar filtret när aktiv tagg klickas igen', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: [
+        { id: 1, name: 'Pasta', description: null, cook_time_minutes: null, servings: null, tags: ['vegetariskt'] },
+        { id: 2, name: 'Köttbullar', description: null, cook_time_minutes: null, servings: null, tags: ['kött'] },
+      ],
+    });
+
+    render(<MemoryRouter><RecipeList /></MemoryRouter>);
+    await screen.findAllByTestId('recipe-item');
+
+    fireEvent.click(screen.getByTestId('tag-filter-vegetariskt'));
+    fireEvent.click(screen.getByTestId('tag-filter-vegetariskt'));
+
+    expect(screen.getAllByTestId('recipe-item')).toHaveLength(2);
   });
 
   it('lenkar varje recept till dess detaljsida', async () => {

@@ -7,6 +7,19 @@ function makePool(...results: object[]): jest.Mocked<Pool> {
   return { query } as unknown as jest.Mocked<Pool>;
 }
 
+describe('RecipeRepository.findAll', () => {
+  it('hämtar recept sorterade i bokstavsordning', async () => {
+    const pool = makePool({ rows: [] });
+    const repo = new RecipeRepository(pool);
+
+    await repo.findAll();
+
+    expect(pool.query).toHaveBeenCalledWith(
+      expect.stringMatching(/ORDER BY name/i)
+    );
+  });
+});
+
 describe('RecipeRepository.create — taggar', () => {
   it('sparar tags i recipes-tabellen', async () => {
     const recipeRow = {

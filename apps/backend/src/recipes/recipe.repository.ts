@@ -38,7 +38,7 @@ export class RecipeRepository {
 
   async findAll(): Promise<Recipe[]> {
     const { rows } = await this.pool.query(
-      'SELECT * FROM recipes ORDER BY created_at DESC'
+      'SELECT * FROM recipes ORDER BY name ASC'
     );
     return rows;
   }
