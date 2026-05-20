@@ -12,6 +12,7 @@ export interface RecipeInput {
   steps?: string[];
   servings?: number;
   cook_time_minutes?: number;
+  ingredients?: Ingredient[];
 }
 
 export interface Recipe {
@@ -68,7 +69,13 @@ export class RecipeRepository {
        RETURNING *`,
       [...this.toParams(data), id]
     );
-    return rows[0] ?? null;
+    if (!rows[0]) return null;
+    await this.pool.query(
+      'DELETE FROM recipe_ingredients WHERE recipe_id = $1',
+      [id]
+    );
+    await this.saveIngredients(id, data.ingredients ?? []);
+    return rows[0];
   }
 
   async create(data: RecipeInput): Promise<Recipe> {
@@ -78,6 +85,7 @@ export class RecipeRepository {
        RETURNING *`,
       this.toParams(data)
     );
+    await this.saveIngredients(rows[0].id, data.ingredients ?? []);
     return rows[0];
   }
 
@@ -87,6 +95,22 @@ export class RecipeRepository {
       [id]
     );
     return (rowCount ?? 0) > 0;
+  }
+
+  private async saveIngredients(recipeId: number, ingredients: Ingredient[]): Promise<void> {
+    for (const ing of ingredients) {
+      const { rows } = await this.pool.query(
+        `INSERT INTO ingredients (name) VALUES ($1)
+         ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
+         RETURNING id`,
+        [ing.name]
+      );
+      await this.pool.query(
+        `INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit)
+         VALUES ($1, $2, $3, $4)`,
+        [recipeId, rows[0].id, ing.quantity, ing.unit]
+      );
+    }
   }
 
   private toParams(data: RecipeInput): (string | number | null)[] {

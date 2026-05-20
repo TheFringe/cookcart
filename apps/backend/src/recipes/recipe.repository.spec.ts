@@ -7,6 +7,64 @@ function makePool(...results: object[]): jest.Mocked<Pool> {
   return { query } as unknown as jest.Mocked<Pool>;
 }
 
+describe('RecipeRepository.create', () => {
+  it('sparar ingredienser i recipe_ingredients när ett recept skapas', async () => {
+    const recipeRow = {
+      id: 10, name: 'Pasta', description: null, steps: [],
+      servings: null, cook_time_minutes: null, created_at: new Date(), updated_at: new Date(),
+    };
+    const ingredientRow = { id: 5 };
+
+    const pool = makePool(
+      { rows: [recipeRow] },
+      { rows: [ingredientRow] },
+      { rows: [] },
+    );
+    const repo = new RecipeRepository(pool);
+
+    await repo.create({ name: 'Pasta', ingredients: [{ name: 'mjöl', quantity: 2, unit: 'dl' }] });
+
+    expect(pool.query).toHaveBeenCalledTimes(3);
+    expect(pool.query).toHaveBeenNthCalledWith(
+      3,
+      expect.stringContaining('recipe_ingredients'),
+      [10, 5, 2, 'dl']
+    );
+  });
+});
+
+describe('RecipeRepository.update', () => {
+  it('ersätter ingredienser i recipe_ingredients när ett recept uppdateras', async () => {
+    const recipeRow = {
+      id: 10, name: 'Pasta', description: null, steps: [],
+      servings: null, cook_time_minutes: null, created_at: new Date(), updated_at: new Date(),
+    };
+    const ingredientRow = { id: 7 };
+
+    const pool = makePool(
+      { rows: [recipeRow] },   // UPDATE recipe
+      { rows: [] },            // DELETE recipe_ingredients
+      { rows: [ingredientRow] }, // upsert ingredient
+      { rows: [] },            // INSERT recipe_ingredient
+    );
+    const repo = new RecipeRepository(pool);
+
+    await repo.update(10, { name: 'Pasta', ingredients: [{ name: 'grädde', quantity: 1, unit: 'dl' }] });
+
+    expect(pool.query).toHaveBeenCalledTimes(4);
+    expect(pool.query).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('DELETE'),
+      [10]
+    );
+    expect(pool.query).toHaveBeenNthCalledWith(
+      4,
+      expect.stringContaining('recipe_ingredients'),
+      [10, 7, 1, 'dl']
+    );
+  });
+});
+
 describe('RecipeRepository.findById', () => {
   it('returnerar quantity som number utan avslutande nollor', async () => {
     const recipeRow = {
