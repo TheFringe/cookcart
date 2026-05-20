@@ -33,10 +33,18 @@ describe('ShoppingListPage', () => {
     expect(link).toHaveAttribute('href', '/shopping-lists/3');
   });
 
+  it('"Ny lista"-knappen är en länk till /shopping-lists/new', () => {
+    mockedAxios.get.mockResolvedValue({ data: [] });
+
+    render(<MemoryRouter><ShoppingListPage /></MemoryRouter>);
+
+    expect(screen.getByRole('link', { name: /ny lista/i })).toHaveAttribute('href', '/shopping-lists/new');
+  });
+
   it('visar en toast när hämtningen misslyckas', async () => {
     mockedAxios.get.mockRejectedValue(new Error('Network Error'));
 
-    render(<ShoppingListPage />);
+    render(<MemoryRouter><ShoppingListPage /></MemoryRouter>);
 
     expect(await screen.findByRole('status')).toHaveTextContent('Kunde inte ladda inköpslistorna.');
   });

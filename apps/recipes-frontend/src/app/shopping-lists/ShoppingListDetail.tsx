@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import { Toast } from '../shared/Toast';
@@ -22,6 +22,9 @@ export function ShoppingListDetail() {
   const { id } = useParams<{ id: string }>();
   const [list, setList] = useState<ShoppingListFull | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [newItemName, setNewItemName] = useState('');
+  const [newItemQuantity, setNewItemQuantity] = useState('');
+  const [newItemUnit, setNewItemUnit] = useState('');
 
   useEffect(() => {
     axios
@@ -64,6 +67,26 @@ export function ShoppingListDetail() {
     );
   }
 
+  function handleAddItem(e: React.FormEvent) {
+    e.preventDefault();
+    if (!newItemName.trim()) return;
+    axios
+      .post(
+        `${API_URL}/shopping-lists/${id}/items`,
+        { name: newItemName.trim(), quantity: parseFloat(newItemQuantity.replace(',', '.')) || 1, unit: newItemUnit },
+        { withCredentials: true }
+      )
+      .then((r) => {
+        setList((prev) =>
+          prev ? { ...prev, items: [...prev.items, r.data] } : prev
+        );
+        setNewItemName('');
+        setNewItemQuantity('');
+        setNewItemUnit('');
+      })
+      .catch(() => setError('Kunde inte lägga till varan.'));
+  }
+
   if (!list) {
     return error ? <Toast message={error} onDismiss={() => setError(null)} /> : <p>Laddar...</p>;
   }
@@ -74,7 +97,35 @@ export function ShoppingListDetail() {
   return (
     <div data-testid="shopping-list-detail" className="shopping-list-detail">
       {error && <Toast message={error} onDismiss={() => setError(null)} />}
+      <div className="shopping-list-detail__nav">
+        <Link to="/shopping-lists" className="shopping-list-detail__back">← Tillbaka</Link>
+        <Link to={`/shopping-lists/${id}/edit`} className="shopping-list-detail__edit">Redigera</Link>
+      </div>
       <h1 className="shopping-list-detail__title">{list.name}</h1>
+      <form className="shopping-list-detail__add-form" onSubmit={handleAddItem}>
+        <input
+          className="shopping-list-detail__add-name"
+          data-testid="add-item-name"
+          placeholder="Vara"
+          value={newItemName}
+          onChange={(e) => setNewItemName(e.target.value)}
+        />
+        <input
+          className="shopping-list-detail__add-quantity"
+          data-testid="add-item-quantity"
+          placeholder="Mängd"
+          value={newItemQuantity}
+          onChange={(e) => setNewItemQuantity(e.target.value)}
+        />
+        <input
+          className="shopping-list-detail__add-unit"
+          data-testid="add-item-unit"
+          placeholder="Enhet"
+          value={newItemUnit}
+          onChange={(e) => setNewItemUnit(e.target.value)}
+        />
+        <button type="submit" data-testid="add-item-btn" className="shopping-list-detail__add-btn">+ Lägg till</button>
+      </form>
       <div data-testid="active-items">{active.map(renderItem)}</div>
       {picked.length > 0 && (
         <div data-testid="picked-items">

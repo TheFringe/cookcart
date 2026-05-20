@@ -32,16 +32,36 @@ export class ShoppingListRepository {
     return result.rows[0] ?? null;
   }
 
-  create(_data: { name: string }): Promise<unknown> {
-    throw new Error('not implemented');
+  async create(data: { name: string }): Promise<unknown> {
+    const { rows } = await this._pool.query(
+      'INSERT INTO shopping_lists (name) VALUES ($1) RETURNING *',
+      [data.name]
+    );
+    return rows[0];
   }
 
-  update(_id: number, _data: { name: string }): Promise<unknown> {
-    throw new Error('not implemented');
+  async update(id: number, data: { name: string }): Promise<unknown> {
+    const { rows } = await this._pool.query(
+      'UPDATE shopping_lists SET name = $1 WHERE id = $2 RETURNING *',
+      [data.name, id]
+    );
+    return rows[0] ?? null;
   }
 
-  addItem(_listId: number, _data: { ingredientId: number; quantity: number; unit: string }): Promise<unknown> {
-    throw new Error('not implemented');
+  async addItem(listId: number, data: { name: string; quantity: number; unit: string }): Promise<unknown> {
+    const { rows: ingRows } = await this._pool.query(
+      `INSERT INTO ingredients (name) VALUES ($1)
+       ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
+       RETURNING id`,
+      [data.name]
+    );
+    const { rows } = await this._pool.query(
+      `INSERT INTO shopping_list_items (list_id, ingredient_id, quantity, unit)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id, quantity, unit, checked`,
+      [listId, ingRows[0].id, data.quantity, data.unit]
+    );
+    return rows[0];
   }
 
   async updateItem(listId: number, itemId: number, data: { quantity?: number; unit?: string; checked?: boolean }): Promise<unknown> {
@@ -57,11 +77,14 @@ export class ShoppingListRepository {
     return result.rows[0];
   }
 
-  removeItem(_listId: number, _itemId: number): Promise<void> {
-    throw new Error('not implemented');
+  async removeItem(listId: number, itemId: number): Promise<void> {
+    await this._pool.query(
+      'DELETE FROM shopping_list_items WHERE id = $1 AND list_id = $2',
+      [itemId, listId]
+    );
   }
 
-  remove(_id: number): Promise<void> {
-    throw new Error('not implemented');
+  async remove(id: number): Promise<void> {
+    await this._pool.query('DELETE FROM shopping_lists WHERE id = $1', [id]);
   }
 }

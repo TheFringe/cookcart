@@ -53,6 +53,44 @@ describe('ShoppingListDetail', () => {
     );
   });
 
+  it('visar en redigera-länk till redigeringssidan', async () => {
+    mockedAxios.get.mockResolvedValue({ data: listData });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('ICA');
+
+    expect(screen.getByRole('link', { name: /redigera/i })).toHaveAttribute('href', '/shopping-lists/1/edit');
+  });
+
+  it('visar ett formulär för att lägga till vara', async () => {
+    mockedAxios.get.mockResolvedValue({ data: listData });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('ICA');
+
+    expect(screen.getByTestId('add-item-name')).toBeInTheDocument();
+    expect(screen.getByTestId('add-item-btn')).toBeInTheDocument();
+  });
+
+  it('anropar POST när en vara läggs till via formuläret', async () => {
+    mockedAxios.get.mockResolvedValue({ data: listData });
+    mockedAxios.post.mockResolvedValue({
+      data: { id: 99, ingredient: { id: 5, name: 'Smör' }, quantity: 1, unit: 'st', checked: false },
+    });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('ICA');
+
+    fireEvent.change(screen.getByTestId('add-item-name'), { target: { value: 'Smör' } });
+    fireEvent.click(screen.getByTestId('add-item-btn'));
+
+    expect(mockedAxios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/shopping-lists/1/items'),
+      expect.objectContaining({ name: 'Smör' }),
+      expect.any(Object)
+    );
+  });
+
   it('kryssad vara visas i plockade varor-sektionen och inte i aktiva varor', async () => {
     mockedAxios.get.mockResolvedValue({ data: listData });
     mockedAxios.patch.mockResolvedValue({ data: {} });

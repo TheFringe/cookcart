@@ -25,7 +25,7 @@ export function ShoppingListPage() {
       {error && <Toast message={error} onDismiss={() => setError(null)} />}
       <div className="shopping-list__header">
         <h1 className="shopping-list__title">Inköpslistor</h1>
-        <button className="shopping-list__new-btn" type="button">+ Ny lista</button>
+        <Link to="/shopping-lists/new" className="shopping-list__new-btn">+ Ny lista</Link>
       </div>
       <div className="shopping-list__rows">
         {lists.map((list) => (

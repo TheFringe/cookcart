@@ -6,6 +6,7 @@ import { RecipeList } from './recipes/RecipeList';
 import { RecipeDetail } from './recipes/RecipeDetail';
 import { ShoppingListPage } from './shopping-lists/ShoppingListPage';
 import { ShoppingListDetail } from './shopping-lists/ShoppingListDetail';
+import { ShoppingListForm } from './shopping-lists/ShoppingListForm';
 import { RecipeForm } from './recipes/RecipeForm';
 import { BottomNav } from './shared/BottomNav';
 
@@ -30,6 +31,11 @@ function RecipeEditPage() {
   return <RecipeForm recipeId={id} />;
 }
 
+function ShoppingListEditPage() {
+  const { id } = useParams<{ id: string }>();
+  return <ShoppingListForm listId={id} />;
+}
+
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   return (
     <ProtectedRoute>
@@ -49,6 +55,22 @@ export function App() {
           element={
             <AuthenticatedLayout>
               <ShoppingListPage />
+            </AuthenticatedLayout>
+          }
+        />
+        <Route
+          path="/shopping-lists/new"
+          element={
+            <AuthenticatedLayout>
+              <ShoppingListForm />
+            </AuthenticatedLayout>
+          }
+        />
+        <Route
+          path="/shopping-lists/:id/edit"
+          element={
+            <AuthenticatedLayout>
+              <ShoppingListEditPage />
             </AuthenticatedLayout>
           }
         />
