@@ -108,7 +108,7 @@ export function RecipeDetail() {
   }
 
   return (
-    <div data-testid="recipe-detail" className="recipe-detail">
+    <div data-testid="recipe-detail" className="recipe-detail" data-mode={mode}>
       <div className="recipe-detail__nav">
         <Link to="/" className="recipe-detail__back">← Tillbaka</Link>
         <div className="recipe-detail__nav-actions">
@@ -164,6 +164,7 @@ export function RecipeDetail() {
           </div>
           <select
             data-testid="planning-list-select"
+            className="recipe-detail__list-select"
             value={selectedListId ?? ''}
             onChange={(e) => setSelectedListId(Number(e.target.value))}
           >

@@ -510,6 +510,152 @@ button {
       color: rgba(237, 229, 216, 0.78);
     }
   }
+
+  // ── Mode toggle ─────────────────────────────────────────────────────────────
+
+  &__mode-btn {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--c-muted);
+    background: transparent;
+    border: 1px solid var(--c-border);
+    border-radius: 2px;
+    padding: 0.375rem 0.875rem;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+
+    &:hover {
+      color: var(--c-text);
+      border-color: var(--c-border-hover);
+    }
+
+    &--active {
+      color: var(--c-accent);
+      border-color: var(--c-accent);
+      background: rgba(200, 144, 74, 0.08);
+    }
+  }
+
+  // ── Planning mode ───────────────────────────────────────────────────────────
+
+  &__planning {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    padding: 1.25rem 0;
+    margin-top: 2rem;
+    border-top: 1px solid var(--c-border);
+  }
+
+  &__scales {
+    display: flex;
+    gap: 0.375rem;
+  }
+
+  &__scale-btn {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--c-muted);
+    background: transparent;
+    border: 1px solid var(--c-border);
+    border-radius: 2px;
+    padding: 0.25rem 0.625rem;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+
+    &:hover {
+      color: var(--c-text);
+      border-color: var(--c-border-hover);
+    }
+
+    &--active {
+      color: var(--c-accent);
+      border-color: var(--c-accent);
+      background: rgba(200, 144, 74, 0.1);
+    }
+  }
+
+  &__list-select {
+    background: transparent;
+    color: var(--c-text);
+    border: 1px solid var(--c-border);
+    border-radius: 2px;
+    padding: 0.25rem 0.625rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--c-accent);
+    }
+
+    option {
+      background: #1a2033;
+    }
+  }
+
+  // ── Ingredient states ───────────────────────────────────────────────────────
+
+  &__ingredient {
+    cursor: pointer;
+    transition: opacity 0.2s, color 0.2s;
+
+    &--added {
+      color: rgba(200, 144, 74, 0.85);
+    }
+
+    &--checked {
+      opacity: 0.4;
+      text-decoration: line-through;
+      text-decoration-color: rgba(237, 229, 216, 0.3);
+    }
+
+    &-icon {
+      font-style: normal;
+      margin-left: 0.25rem;
+    }
+  }
+
+  // ── Step states ─────────────────────────────────────────────────────────────
+
+  &__step {
+    transition: opacity 0.2s;
+
+    &--checked {
+      opacity: 0.4;
+      text-decoration: line-through;
+      text-decoration-color: rgba(237, 229, 216, 0.3);
+    }
+  }
+
+  &[data-mode="cooking"] &__step {
+    cursor: pointer;
+  }
+
+  // ── Cooking controls ────────────────────────────────────────────────────────
+
+  &__clear-cooking {
+    margin-top: 2.5rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--c-muted);
+    background: transparent;
+    border: 1px solid var(--c-border);
+    border-radius: 2px;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+
+    &:hover {
+      color: var(--c-text);
+      border-color: var(--c-border-hover);
+    }
+  }
 }
 
 // ─── Toast ─────────────────────────────────────────────────────────────────────
