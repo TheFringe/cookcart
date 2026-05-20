@@ -156,7 +156,32 @@ describe('ShoppingListDetail', () => {
     expect(options).not.toContain('Mjölk');
   });
 
-  it('tömmer listan när töm-knappen klickas', async () => {
+  it('visar bekräftelsedialog när töm-knappen klickas', async () => {
+    mockedAxios.get.mockResolvedValue({ data: listData });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('Mjölk');
+
+    fireEvent.click(screen.getByTestId('clear-list-btn'));
+
+    expect(screen.getByTestId('clear-confirm-dialog')).toBeInTheDocument();
+    expect(mockedAxios.delete).not.toHaveBeenCalled();
+  });
+
+  it('stänger bekräftelsedialogens när avbryt klickas', async () => {
+    mockedAxios.get.mockResolvedValue({ data: listData });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('Mjölk');
+
+    fireEvent.click(screen.getByTestId('clear-list-btn'));
+    fireEvent.click(screen.getByTestId('clear-cancel-btn'));
+
+    expect(screen.queryByTestId('clear-confirm-dialog')).not.toBeInTheDocument();
+    expect(mockedAxios.delete).not.toHaveBeenCalled();
+  });
+
+  it('tömmer listan när bekräftelse klickas', async () => {
     mockedAxios.get.mockResolvedValue({ data: listData });
     mockedAxios.delete.mockResolvedValue({});
 
@@ -164,6 +189,7 @@ describe('ShoppingListDetail', () => {
     await screen.findByText('Mjölk');
 
     fireEvent.click(screen.getByTestId('clear-list-btn'));
+    fireEvent.click(screen.getByTestId('clear-confirm-btn'));
 
     expect(mockedAxios.delete).toHaveBeenCalledWith(
       expect.stringContaining('/shopping-lists/1/items'),

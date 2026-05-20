@@ -24,6 +24,7 @@ export function ShoppingListDetail() {
   const [error, setError] = useState<string | null>(null);
   const [draft, setDraft] = useState({ name: '', quantity: '', unit: '' });
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [confirmClear, setConfirmClear] = useState(false);
 
   useEffect(() => {
     axios
@@ -132,9 +133,16 @@ export function ShoppingListDetail() {
           type="button"
           data-testid="clear-list-btn"
           className="shopping-list-detail__clear-btn"
-          onClick={handleClearList}
+          onClick={() => setConfirmClear(true)}
         >Töm lista</button>
       </div>
+      {confirmClear && (
+        <div data-testid="clear-confirm-dialog" className="shopping-list-detail__confirm">
+          <p>Är du säker på att du vill tömma listan?</p>
+          <button data-testid="clear-confirm-btn" className="shopping-list-detail__confirm-yes" onClick={() => { handleClearList(); setConfirmClear(false); }}>Ja, töm</button>
+          <button data-testid="clear-cancel-btn" className="shopping-list-detail__confirm-no" onClick={() => setConfirmClear(false)}>Avbryt</button>
+        </div>
+      )}
       <h1 className="shopping-list-detail__title">{list.name}</h1>
       <datalist id="ingredients-suggestions">
         {suggestions
