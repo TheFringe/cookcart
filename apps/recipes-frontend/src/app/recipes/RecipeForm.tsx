@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
@@ -11,8 +11,14 @@ const EMPTY_INGREDIENT: IngredientDraft = { quantity: '', unit: '', name: '' };
 export function RecipeForm({ recipeId }: { recipeId?: string }) {
   const navigate = useNavigate();
   const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [stepsText, setStepsText] = useState('');
   const [ingredients, setIngredients] = useState<IngredientDraft[]>([]);
+  const lastNameInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    lastNameInputRef.current?.focus();
+  }, [ingredients.length]);
 
   useEffect(() => {
     if (!recipeId) return;
@@ -20,6 +26,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
       .get<Recipe>(`${API_URL}/recipes/${recipeId}`, { withCredentials: true })
       .then((r) => {
         setName(r.data.name);
+        setDescription(r.data.description ?? '');
         setStepsText(r.data.steps.join('\n'));
         setIngredients(
           r.data.ingredients.map((ing) => ({
@@ -45,7 +52,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
       ...ing,
       quantity: ing.quantity.replace(',', '.'),
     }));
-    const body = { name, steps: stepsText.split('\n').filter((s) => s.trim()), ingredients: normalizedIngredients };
+    const body = { name, description, steps: stepsText.split('\n').filter((s) => s.trim()), ingredients: normalizedIngredients };
     const req = recipeId
       ? axios.put(`${API_URL}/recipes/${recipeId}`, body, { withCredentials: true })
       : axios.post(`${API_URL}/recipes`, body, { withCredentials: true });
@@ -64,6 +71,17 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
             data-testid="input-name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className="recipe-form__field">
+          <label className="recipe-form__label" htmlFor="recipe-description">Beskrivning</label>
+          <textarea
+            id="recipe-description"
+            className="recipe-form__textarea"
+            data-testid="input-description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={3}
           />
         </div>
         <div className="recipe-form__field">
@@ -86,7 +104,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
         )}
         {ingredients.map((ing, i) => (
           <div key={i} className="recipe-form__ingredient-row">
-            <input className="recipe-form__input" data-testid={`ingredient-name-${i}`} aria-label="Namn" value={ing.name} onChange={(e) => updateIngredient(i, 'name', e.target.value)} />
+            <input className="recipe-form__input" data-testid={`ingredient-name-${i}`} aria-label="Namn" ref={i === ingredients.length - 1 ? lastNameInputRef : null} value={ing.name} onChange={(e) => updateIngredient(i, 'name', e.target.value)} />
             <input className="recipe-form__input" data-testid={`ingredient-quantity-${i}`} aria-label="Mängd" value={ing.quantity} onChange={(e) => updateIngredient(i, 'quantity', e.target.value)} />
             <input className="recipe-form__input" data-testid={`ingredient-unit-${i}`} aria-label="Enhet" value={ing.unit} onChange={(e) => updateIngredient(i, 'unit', e.target.value)} />
           </div>

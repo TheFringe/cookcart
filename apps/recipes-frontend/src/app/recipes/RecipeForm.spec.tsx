@@ -21,6 +21,29 @@ function renderForm(recipeId?: string) {
   );
 }
 
+describe('RecipeForm — skapa (beskrivning)', () => {
+  it('renderar ett fält för beskrivning', () => {
+    renderForm();
+
+    expect(screen.getByTestId('input-description')).toBeInTheDocument();
+  });
+
+  it('skickar med beskrivningen i POST-bodyn vid submit', () => {
+    mockedAxios.post.mockResolvedValue({ data: { id: 1 } });
+
+    renderForm();
+    fireEvent.change(screen.getByTestId('input-name'), { target: { value: 'Pasta' } });
+    fireEvent.change(screen.getByTestId('input-description'), { target: { value: 'En klassiker' } });
+    fireEvent.click(screen.getByTestId('submit-btn'));
+
+    expect(mockedAxios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/recipes'),
+      expect.objectContaining({ description: 'En klassiker' }),
+      expect.any(Object)
+    );
+  });
+});
+
 describe('RecipeForm — redigera', () => {
   it('förifylls med receptets namn och steg när recipeId skickas in', async () => {
     mockedAxios.get.mockResolvedValue({
@@ -31,6 +54,17 @@ describe('RecipeForm — redigera', () => {
 
     expect(await screen.findByDisplayValue('Pasta')).toBeInTheDocument();
     expect(screen.getByTestId('input-steps')).toHaveValue('Koka vatten\nKoka pasta');
+  });
+
+  it('förifylls med receptets beskrivning när recipeId skickas in', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: { id: 1, name: 'Pasta', description: 'En god pastarätt', steps: [], ingredients: [] },
+    });
+
+    renderForm('1');
+    await screen.findByDisplayValue('Pasta');
+
+    expect(screen.getByTestId('input-description')).toHaveValue('En god pastarätt');
   });
 
   it('förifylls med receptets ingredienser när recipeId skickas in', async () => {
@@ -106,6 +140,14 @@ describe('RecipeForm — ingredienser', () => {
 
     expect(screen.getByLabelText(/mängd/i)).toHaveAttribute('data-testid', 'ingredient-quantity-0');
     expect(screen.getByLabelText(/enhet/i)).toHaveAttribute('data-testid', 'ingredient-unit-0');
+  });
+
+  it('sätter fokus på namnfältet när en ingrediensrad läggs till', () => {
+    renderForm();
+
+    fireEvent.click(screen.getByTestId('add-ingredient-btn'));
+
+    expect(screen.getByTestId('ingredient-name-0')).toHaveFocus();
   });
 
   it('visar en knapp för att lägga till ingrediens', () => {
