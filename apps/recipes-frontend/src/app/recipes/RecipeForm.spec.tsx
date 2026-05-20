@@ -82,6 +82,24 @@ describe('RecipeForm — redigera', () => {
 });
 
 describe('RecipeForm — ingredienser', () => {
+  it('normaliserar komma till punkt i mängd vid submit', () => {
+    mockedAxios.post.mockResolvedValue({ data: { id: 1 } });
+
+    renderForm();
+    fireEvent.click(screen.getByTestId('add-ingredient-btn'));
+    fireEvent.change(screen.getByTestId('ingredient-quantity-0'), { target: { value: '1,5' } });
+    fireEvent.change(screen.getByTestId('ingredient-name-0'), { target: { value: 'grädde' } });
+    fireEvent.click(screen.getByTestId('submit-btn'));
+
+    expect(mockedAxios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/recipes'),
+      expect.objectContaining({
+        ingredients: [expect.objectContaining({ quantity: '1.5' })],
+      }),
+      expect.any(Object)
+    );
+  });
+
   it('visar labels kopplade till ingrediensfälten', () => {
     renderForm();
     fireEvent.click(screen.getByTestId('add-ingredient-btn'));

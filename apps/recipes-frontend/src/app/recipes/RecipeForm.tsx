@@ -41,7 +41,11 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const body = { name, steps: stepsText.split('\n').filter((s) => s.trim()), ingredients };
+    const normalizedIngredients = ingredients.map((ing) => ({
+      ...ing,
+      quantity: ing.quantity.replace(',', '.'),
+    }));
+    const body = { name, steps: stepsText.split('\n').filter((s) => s.trim()), ingredients: normalizedIngredients };
     const req = recipeId
       ? axios.put(`${API_URL}/recipes/${recipeId}`, body, { withCredentials: true })
       : axios.post(`${API_URL}/recipes`, body, { withCredentials: true });
