@@ -121,6 +121,46 @@ describe('RecipeRepository.update', () => {
   });
 });
 
+describe('RecipeRepository.findCookingProgress', () => {
+  it('returnerar sparad progress för ett recept', async () => {
+    const progressRow = { recipe_id: 1, checked_ingredients: ['pasta'], checked_steps: [0] };
+    const pool = makePool({ rows: [progressRow] });
+    const repo = new RecipeRepository(pool);
+
+    const result = await repo.findCookingProgress(1);
+
+    expect(result).toEqual({ checked_ingredients: ['pasta'], checked_steps: [0] });
+  });
+});
+
+describe('RecipeRepository.upsertCookingProgress', () => {
+  it('sparar progress med upsert', async () => {
+    const pool = makePool({ rows: [] });
+    const repo = new RecipeRepository(pool);
+
+    await repo.upsertCookingProgress(1, { checked_ingredients: ['pasta'], checked_steps: [0, 2] });
+
+    expect(pool.query).toHaveBeenCalledWith(
+      expect.stringMatching(/ON CONFLICT/i),
+      [1, ['pasta'], [0, 2]]
+    );
+  });
+});
+
+describe('RecipeRepository.clearCookingProgress', () => {
+  it('tar bort progress för ett recept', async () => {
+    const pool = makePool({ rows: [] });
+    const repo = new RecipeRepository(pool);
+
+    await repo.clearCookingProgress(1);
+
+    expect(pool.query).toHaveBeenCalledWith(
+      expect.stringContaining('DELETE'),
+      [1]
+    );
+  });
+});
+
 describe('RecipeRepository.findById', () => {
   it('returnerar quantity som number utan avslutande nollor', async () => {
     const recipeRow = {

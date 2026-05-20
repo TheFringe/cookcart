@@ -34,6 +34,26 @@ Receptlistan visar alla recept i bokstavsordning och kan filtreras på kategori.
 
 Innan ett recept tas bort visas en bekräftelsedialog som varnar användaren om att åtgärden inte kan ångras.
 
+### Receptdetalj — två lägen
+
+Receptdetaljvyn har två lägen som användaren kan växla mellan:
+
+**Planeringsläge (standardläge)**
+
+- En skalfaktor väljs bland förinställda alternativ: 0.5×, 1×, 2×, 3×, 4×
+- En inköpslista väljs från en dropdown
+- Kontrollerna visas under beskrivningen, ovanför ingredienslistan
+- Klick på en ingrediens lägger till den i vald lista med skalad mängd och markerar den med en listikon
+- Klick igen tar bort ingrediensen från listan och tar bort markeringen
+- Om en ingrediens redan finns i listan summeras mängderna
+
+**Tillagningsläge**
+
+- Klick på en ingrediens markerar den som "tagen"
+- Klick på ett steg markerar det som "utfört"
+- Tillståndet sparas persistent och återställs nästa gång man öppnar receptet
+- Knappen "Avmarkera allt" återställer alla markeringar
+
 ## 4. Inköpslistor
 
 Användare kan skapa och hantera flera namngivna inköpslistor (t.ex. en per butik). Varje lista innehåller varor med namn, mängd och enhet.

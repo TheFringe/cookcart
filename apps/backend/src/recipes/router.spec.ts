@@ -9,6 +9,9 @@ const mockRepo = {
   create: jest.fn(),
   update: jest.fn(),
   remove: jest.fn(),
+  findCookingProgress: jest.fn(),
+  upsertCookingProgress: jest.fn(),
+  clearCookingProgress: jest.fn(),
 } as unknown as jest.Mocked<RecipeRepository>;
 
 const app = express();
@@ -87,6 +90,45 @@ describe('error handling', () => {
     const res = await request(app).get('/recipes');
 
     expect(res.status).toBe(500);
+  });
+});
+
+describe('GET /recipes/:id/cooking-progress', () => {
+  it('returnerar sparad progress', async () => {
+    const progress = { checked_ingredients: ['pasta'], checked_steps: [0] };
+    mockRepo.findCookingProgress.mockResolvedValue(progress);
+
+    const res = await request(app).get('/recipes/1/cooking-progress');
+
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual(progress);
+  });
+});
+
+describe('PUT /recipes/:id/cooking-progress', () => {
+  it('sparar progress och returnerar 204', async () => {
+    mockRepo.upsertCookingProgress.mockResolvedValue(undefined);
+
+    const res = await request(app)
+      .put('/recipes/1/cooking-progress')
+      .send({ checked_ingredients: ['pasta'], checked_steps: [0] });
+
+    expect(res.status).toBe(204);
+    expect(mockRepo.upsertCookingProgress).toHaveBeenCalledWith(1, {
+      checked_ingredients: ['pasta'],
+      checked_steps: [0],
+    });
+  });
+});
+
+describe('DELETE /recipes/:id/cooking-progress', () => {
+  it('tar bort progress och returnerar 204', async () => {
+    mockRepo.clearCookingProgress.mockResolvedValue(undefined);
+
+    const res = await request(app).delete('/recipes/1/cooking-progress');
+
+    expect(res.status).toBe(204);
+    expect(mockRepo.clearCookingProgress).toHaveBeenCalledWith(1);
   });
 });
 

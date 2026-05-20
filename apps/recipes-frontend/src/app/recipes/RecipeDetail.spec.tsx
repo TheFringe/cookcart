@@ -12,7 +12,7 @@ import type { Ingredient, Recipe } from './types';
 jest.mock('axios');
 const mockedAxios = jest.mocked(axios);
 
-beforeEach(() => jest.clearAllMocks());
+beforeEach(() => jest.resetAllMocks());
 
 const baseRecipe: Recipe = {
   id: 1,
@@ -37,8 +37,13 @@ function renderComponent() {
   );
 }
 
-function renderRecipeDetail(recipe: Recipe) {
-  mockedAxios.get.mockResolvedValue({ data: recipe });
+const emptyProgress = { checked_ingredients: [], checked_steps: [] };
+
+function renderRecipeDetail(recipe: Recipe, lists: { id: number; name: string }[] = []) {
+  mockedAxios.get
+    .mockResolvedValueOnce({ data: recipe })
+    .mockResolvedValueOnce({ data: lists })
+    .mockResolvedValueOnce({ data: emptyProgress });
   renderComponent();
 }
 
@@ -127,6 +132,120 @@ describe('RecipeDetail', () => {
     );
     await screen.findByText('Pasta Carbonara');
     expect(mockNavigate).toHaveBeenCalledWith('/');
+  });
+
+  it('visar en lägesknapp för att växla till tillagningsläge', async () => {
+    renderRecipeDetail(baseRecipe);
+    await screen.findByText('Pasta Carbonara');
+
+    expect(screen.getByTestId('mode-toggle-cooking')).toBeInTheDocument();
+  });
+
+  it('visar skalfaktor-knappar i planeringsläge', async () => {
+    renderRecipeDetail({ ...baseRecipe, ingredients: [{ name: 'pasta', quantity: 200, unit: 'g' }] });
+    await screen.findByText('Pasta Carbonara');
+
+    expect(screen.getByTestId('scale-btn-0.5')).toBeInTheDocument();
+    expect(screen.getByTestId('scale-btn-1')).toBeInTheDocument();
+    expect(screen.getByTestId('scale-btn-2')).toBeInTheDocument();
+    expect(screen.getByTestId('scale-btn-3')).toBeInTheDocument();
+    expect(screen.getByTestId('scale-btn-4')).toBeInTheDocument();
+  });
+
+  it('visar en listväljare i planeringsläge med hämtade listor', async () => {
+    mockedAxios.get
+      .mockResolvedValueOnce({ data: { ...baseRecipe, ingredients: [{ name: 'pasta', quantity: 200, unit: 'g' }] } })
+      .mockResolvedValueOnce({ data: [{ id: 1, name: 'ICA' }, { id: 2, name: 'Willys' }] })
+      .mockResolvedValueOnce({ data: emptyProgress });
+
+    renderComponent();
+
+    expect(await screen.findByRole('option', { name: 'ICA' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'Willys' })).toBeInTheDocument();
+  });
+
+  it('lägger till ingrediens i vald lista när den klickas i planeringsläge', async () => {
+    const ingredients = [{ name: 'pasta', quantity: 200, unit: 'g' }];
+    mockedAxios.post.mockResolvedValue({ data: { id: 10, quantity: 200, unit: 'g', ingredient: { id: 5, name: 'pasta' } } });
+    renderRecipeDetail({ ...baseRecipe, servings: 4, ingredients }, [{ id: 3, name: 'ICA' }]);
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.click(screen.getByTestId('ingredient-pasta'));
+
+    expect(mockedAxios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/shopping-lists/3/items'),
+      expect.objectContaining({ name: 'pasta', quantity: 200, unit: 'g' }),
+      expect.any(Object)
+    );
+  });
+
+  it('markerar en ingrediens som tagen i tillagningsläge', async () => {
+    const ingredients = [{ name: 'pasta', quantity: 200, unit: 'g' }];
+    mockedAxios.put.mockResolvedValue({});
+    renderRecipeDetail({ ...baseRecipe, ingredients });
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.click(screen.getByTestId('mode-toggle-cooking'));
+    fireEvent.click(screen.getByTestId('ingredient-pasta'));
+
+    expect(screen.getByTestId('ingredient-pasta')).toHaveClass('recipe-detail__ingredient--checked');
+  });
+
+  it('markerar ett steg som utfört i tillagningsläge', async () => {
+    mockedAxios.put.mockResolvedValue({});
+    renderRecipeDetail({ ...baseRecipe, steps: ['Koka pastan.'] });
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.click(screen.getByTestId('mode-toggle-cooking'));
+    fireEvent.click(screen.getByTestId('step-0'));
+
+    expect(screen.getByTestId('step-0')).toHaveClass('recipe-detail__step--checked');
+  });
+
+  it('avmarkerar allt vid klick på "Avmarkera allt"', async () => {
+    const ingredients = [{ name: 'pasta', quantity: 200, unit: 'g' }];
+    mockedAxios.put.mockResolvedValue({});
+    mockedAxios.delete.mockResolvedValue({});
+    renderRecipeDetail({ ...baseRecipe, ingredients, steps: ['Koka.'] });
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.click(screen.getByTestId('mode-toggle-cooking'));
+    fireEvent.click(screen.getByTestId('ingredient-pasta'));
+    fireEvent.click(screen.getByTestId('step-0'));
+    fireEvent.click(screen.getByTestId('clear-cooking-btn'));
+
+    expect(screen.getByTestId('ingredient-pasta')).not.toHaveClass('recipe-detail__ingredient--checked');
+    expect(screen.getByTestId('step-0')).not.toHaveClass('recipe-detail__step--checked');
+  });
+
+  it('laddar och visar sparad cooking progress vid montering', async () => {
+    const ingredients = [{ name: 'pasta', quantity: 200, unit: 'g' }];
+    mockedAxios.get
+      .mockResolvedValueOnce({ data: { ...baseRecipe, ingredients, steps: ['Koka.'] } })
+      .mockResolvedValueOnce({ data: [] })
+      .mockResolvedValueOnce({ data: { checked_ingredients: ['pasta'], checked_steps: [0] } });
+
+    renderComponent();
+    fireEvent.click(await screen.findByTestId('mode-toggle-cooking'));
+
+    expect(await screen.findByTestId('ingredient-pasta')).toHaveClass('recipe-detail__ingredient--checked');
+    expect(screen.getByTestId('step-0')).toHaveClass('recipe-detail__step--checked');
+  });
+
+  it('sparar cooking progress till backend när en ingrediens markeras', async () => {
+    const ingredients = [{ name: 'pasta', quantity: 200, unit: 'g' }];
+    mockedAxios.put.mockResolvedValue({});
+    renderRecipeDetail({ ...baseRecipe, ingredients });
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.click(screen.getByTestId('mode-toggle-cooking'));
+    fireEvent.click(screen.getByTestId('ingredient-pasta'));
+
+    expect(mockedAxios.put).toHaveBeenCalledWith(
+      expect.stringContaining('/recipes/1/cooking-progress'),
+      expect.objectContaining({ checked_ingredients: ['pasta'] }),
+      expect.any(Object)
+    );
   });
 
   it('visar en toast när fetch misslyckas', async () => {

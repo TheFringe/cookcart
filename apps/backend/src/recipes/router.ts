@@ -68,5 +68,26 @@ export function createRecipesRouter(repo: RecipeRepository): Router {
     res.status(204).send();
   }));
 
+  router.get('/:id/cooking-progress', asyncHandler(async (req, res) => {
+    const id = parseId(req.params.id);
+    if (id === null) { res.status(400).json(INVALID_ID); return; }
+    const progress = await repo.findCookingProgress(id);
+    res.json(progress);
+  }));
+
+  router.put('/:id/cooking-progress', asyncHandler(async (req, res) => {
+    const id = parseId(req.params.id);
+    if (id === null) { res.status(400).json(INVALID_ID); return; }
+    await repo.upsertCookingProgress(id, req.body);
+    res.status(204).send();
+  }));
+
+  router.delete('/:id/cooking-progress', asyncHandler(async (req, res) => {
+    const id = parseId(req.params.id);
+    if (id === null) { res.status(400).json(INVALID_ID); return; }
+    await repo.clearCookingProgress(id);
+    res.status(204).send();
+  }));
+
   return router;
 }

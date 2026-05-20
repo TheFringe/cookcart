@@ -96,6 +96,33 @@ export class RecipeRepository {
     return rows[0];
   }
 
+  async findCookingProgress(recipeId: number): Promise<{ checked_ingredients: string[]; checked_steps: number[] }> {
+    const { rows } = await this.pool.query(
+      'SELECT checked_ingredients, checked_steps FROM recipe_cooking_progress WHERE recipe_id = $1',
+      [recipeId]
+    );
+    if (!rows[0]) return { checked_ingredients: [], checked_steps: [] };
+    const { checked_ingredients, checked_steps } = rows[0];
+    return { checked_ingredients, checked_steps };
+  }
+
+  async upsertCookingProgress(recipeId: number, data: { checked_ingredients: string[]; checked_steps: number[] }): Promise<void> {
+    await this.pool.query(
+      `INSERT INTO recipe_cooking_progress (recipe_id, checked_ingredients, checked_steps)
+       VALUES ($1, $2, $3)
+       ON CONFLICT (recipe_id)
+       DO UPDATE SET checked_ingredients = EXCLUDED.checked_ingredients, checked_steps = EXCLUDED.checked_steps`,
+      [recipeId, data.checked_ingredients, data.checked_steps]
+    );
+  }
+
+  async clearCookingProgress(recipeId: number): Promise<void> {
+    await this.pool.query(
+      'DELETE FROM recipe_cooking_progress WHERE recipe_id = $1',
+      [recipeId]
+    );
+  }
+
   async remove(id: number): Promise<boolean> {
     const { rowCount } = await this.pool.query(
       'DELETE FROM recipes WHERE id = $1',
