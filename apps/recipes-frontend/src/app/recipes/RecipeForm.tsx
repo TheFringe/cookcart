@@ -15,6 +15,8 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
   const [stepsText, setStepsText] = useState('');
   const [cookTime, setCookTime] = useState('');
   const [servings, setServings] = useState('');
+  const [sourceName, setSourceName] = useState('');
+  const [sourceUrl, setSourceUrl] = useState('');
   const [ingredients, setIngredients] = useState<IngredientDraft[]>([]);
   const lastNameInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -32,6 +34,8 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
         setStepsText(r.data.steps.join('\n'));
         setCookTime(r.data.cook_time_minutes != null ? String(r.data.cook_time_minutes) : '');
         setServings(r.data.servings != null ? String(r.data.servings) : '');
+        setSourceName(r.data.source_name ?? '');
+        setSourceUrl(r.data.source_url ?? '');
         setIngredients(
           r.data.ingredients.map((ing) => ({
             quantity: String(ing.quantity ?? ''),
@@ -56,7 +60,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
       ...ing,
       quantity: ing.quantity.replace(',', '.'),
     }));
-    const body = { name, description, steps: stepsText.split('\n').filter((s) => s.trim()), cook_time_minutes: cookTime ? Number(cookTime) : null, servings: servings ? Number(servings) : null, ingredients: normalizedIngredients };
+    const body = { name, description, steps: stepsText.split('\n').filter((s) => s.trim()), cook_time_minutes: cookTime ? Number(cookTime) : null, servings: servings ? Number(servings) : null, source_name: sourceName || null, source_url: sourceUrl || null, ingredients: normalizedIngredients };
     const req = recipeId
       ? axios.put(`${API_URL}/recipes/${recipeId}`, body, { withCredentials: true })
       : axios.post(`${API_URL}/recipes`, body, { withCredentials: true });
@@ -121,6 +125,29 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
             value={stepsText}
             onChange={(e) => setStepsText(e.target.value)}
             rows={10}
+          />
+        </div>
+        <div className="recipe-form__field">
+          <label className="recipe-form__label" htmlFor="recipe-source-name">Källa</label>
+          <input
+            id="recipe-source-name"
+            className="recipe-form__input"
+            data-testid="input-source-name"
+            placeholder="t.ex. Koket"
+            value={sourceName}
+            onChange={(e) => setSourceName(e.target.value)}
+          />
+        </div>
+        <div className="recipe-form__field">
+          <label className="recipe-form__label" htmlFor="recipe-source-url">Käll-URL</label>
+          <input
+            id="recipe-source-url"
+            className="recipe-form__input"
+            data-testid="input-source-url"
+            type="url"
+            placeholder="https://..."
+            value={sourceUrl}
+            onChange={(e) => setSourceUrl(e.target.value)}
           />
         </div>
         {ingredients.length > 0 && (

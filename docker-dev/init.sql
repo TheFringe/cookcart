@@ -5,6 +5,8 @@ CREATE TABLE recipes (
     steps       JSONB       NOT NULL DEFAULT '[]',
     servings    INTEGER,
     cook_time_minutes INTEGER,
+    source_name TEXT,
+    source_url  TEXT,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

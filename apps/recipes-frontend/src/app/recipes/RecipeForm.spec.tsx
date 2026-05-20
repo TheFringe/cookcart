@@ -37,6 +37,31 @@ describe('RecipeForm — portioner', () => {
   });
 });
 
+describe('RecipeForm — källa', () => {
+  it('renderar fält för källans namn och url', () => {
+    renderForm();
+
+    expect(screen.getByTestId('input-source-name')).toBeInTheDocument();
+    expect(screen.getByTestId('input-source-url')).toBeInTheDocument();
+  });
+
+  it('skickar source_name och source_url i POST-bodyn vid submit', () => {
+    mockedAxios.post.mockResolvedValue({ data: { id: 1 } });
+
+    renderForm();
+    fireEvent.change(screen.getByTestId('input-name'), { target: { value: 'Pasta' } });
+    fireEvent.change(screen.getByTestId('input-source-name'), { target: { value: 'Koket' } });
+    fireEvent.change(screen.getByTestId('input-source-url'), { target: { value: 'https://koket.se/pasta' } });
+    fireEvent.click(screen.getByTestId('submit-btn'));
+
+    expect(mockedAxios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/recipes'),
+      expect.objectContaining({ source_name: 'Koket', source_url: 'https://koket.se/pasta' }),
+      expect.any(Object)
+    );
+  });
+});
+
 describe('RecipeForm — skapa (beskrivning)', () => {
   it('renderar ett fält för beskrivning', () => {
     renderForm();

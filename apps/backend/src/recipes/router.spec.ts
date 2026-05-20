@@ -107,4 +107,18 @@ describe('POST /recipes', () => {
     expect(res.status).toBe(201);
     expect(res.body).toEqual(created);
   });
+
+  it('skickar källa (source_name och source_url) till repository', async () => {
+    const input = { name: 'Pasta', source_name: 'Koket', source_url: 'https://koket.se/pasta' };
+    const created = { id: 3, ...input, description: null, steps: [], cook_time_minutes: null, servings: null };
+    mockRepo.create.mockResolvedValue(created);
+
+    const res = await request(app).post('/recipes').send(input);
+
+    expect(res.status).toBe(201);
+    expect(mockRepo.create).toHaveBeenCalledWith(expect.objectContaining({
+      source_name: 'Koket',
+      source_url: 'https://koket.se/pasta',
+    }));
+  });
 });

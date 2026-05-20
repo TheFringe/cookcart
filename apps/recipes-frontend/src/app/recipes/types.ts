@@ -10,6 +10,8 @@ export type Recipe = {
   description: string | null;
   cook_time_minutes: number | null;
   servings: number | null;
+  source_name: string | null;
+  source_url: string | null;
   steps: string[];
   ingredients: Ingredient[];
 };

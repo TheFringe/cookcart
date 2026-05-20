@@ -7,6 +7,27 @@ function makePool(...results: object[]): jest.Mocked<Pool> {
   return { query } as unknown as jest.Mocked<Pool>;
 }
 
+describe('RecipeRepository.create — källa', () => {
+  it('sparar source_name och source_url i recipes-tabellen', async () => {
+    const recipeRow = {
+      id: 10, name: 'Pasta', description: null, steps: [],
+      servings: null, cook_time_minutes: null,
+      source_name: 'Koket', source_url: 'https://koket.se/pasta',
+      created_at: new Date(), updated_at: new Date(),
+    };
+
+    const pool = makePool({ rows: [recipeRow] });
+    const repo = new RecipeRepository(pool);
+
+    await repo.create({ name: 'Pasta', source_name: 'Koket', source_url: 'https://koket.se/pasta' });
+
+    expect(pool.query).toHaveBeenCalledWith(
+      expect.stringContaining('source_name'),
+      expect.arrayContaining(['Koket', 'https://koket.se/pasta'])
+    );
+  });
+});
+
 describe('RecipeRepository.create', () => {
   it('sparar ingredienser i recipe_ingredients när ett recept skapas', async () => {
     const recipeRow = {
