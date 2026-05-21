@@ -149,6 +149,104 @@ describe('CalendarPage', () => {
     jest.useRealTimers();
   });
 
+  it('månadsvy kan navigera till föregående månad', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20'));
+
+    renderCalendar();
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+    fireEvent.click(screen.getByTestId('prev-month-btn'));
+
+    expect(screen.getByTestId('month-title')).toHaveTextContent('April 2026');
+
+    jest.useRealTimers();
+  });
+
+  it('månadsvy kan navigera till nästa månad', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20'));
+
+    renderCalendar();
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+    fireEvent.click(screen.getByTestId('next-month-btn'));
+
+    expect(screen.getByTestId('month-title')).toHaveTextContent('Juni 2026');
+
+    jest.useRealTimers();
+  });
+
+  it('månadsvy visar planerat recept på rätt dag', async () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20'));
+
+    mockedAxios.get.mockImplementation((url: string) => {
+      if (url.includes('/recipes')) return Promise.resolve({ data: [] });
+      return Promise.resolve({ data: [{ id: 7, date: '2026-05-18', recipe: { id: 1, name: 'Lasagne' } }] });
+    });
+
+    render(<MemoryRouter><CalendarPage /></MemoryRouter>);
+    await screen.findByTestId('calendar-page');
+
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+
+    expect(screen.getByTestId('month-day-18')).toHaveTextContent('Lasagne');
+
+    jest.useRealTimers();
+  });
+
+  it('månadsvy visar månadens namn och år i headern', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20'));
+
+    renderCalendar();
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+
+    expect(screen.getByTestId('month-title')).toHaveTextContent('Maj 2026');
+
+    jest.useRealTimers();
+  });
+
+  it('månadsvy visar alla dagar i månaden', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20')); // maj har 31 dagar
+
+    renderCalendar();
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+
+    expect(screen.getAllByTestId(/^month-day-\d+$/)).toHaveLength(31);
+
+    jest.useRealTimers();
+  });
+
+  it('veckans navigeringsknappar visas inte i månadsvy', () => {
+    renderCalendar();
+
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+
+    expect(screen.queryByTestId('prev-week-btn')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('next-week-btn')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('week-number')).not.toBeInTheDocument();
+  });
+
+  it('månadsvy-knappen växlar tillbaka till veckovy', () => {
+    renderCalendar();
+
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+
+    expect(screen.getByTestId('calendar-days')).toBeInTheDocument();
+    expect(screen.queryByTestId('month-view')).not.toBeInTheDocument();
+  });
+
+  it('byter till månadsvy när månadsvy-knappen klickas', () => {
+    renderCalendar();
+
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+
+    expect(screen.getByTestId('month-view')).toBeInTheDocument();
+    expect(screen.queryByTestId('calendar-days')).not.toBeInTheDocument();
+  });
+
   it('visar planerat recept på rätt dag', async () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2026-05-20')); // onsdag, v21: mån=18 maj
