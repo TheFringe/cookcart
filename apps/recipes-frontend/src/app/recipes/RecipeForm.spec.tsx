@@ -243,6 +243,12 @@ describe('RecipeForm — ingredienser', () => {
 });
 
 describe('RecipeForm — skapa', () => {
+  it('visar en avbryt-länk som leder till receptlistan', () => {
+    renderForm();
+
+    expect(screen.getByRole('link', { name: /avbryt/i })).toHaveAttribute('href', '/');
+  });
+
   it('skickar med ingredienser i POST-bodyn vid submit', () => {
     mockedAxios.post.mockResolvedValue({ data: { id: 1 } });
 

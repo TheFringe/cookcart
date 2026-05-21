@@ -181,7 +181,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
         <button className="recipe-form__add-ingredient" data-testid="add-ingredient-btn" type="button" onClick={addIngredient}>+ Lägg till ingrediens</button>
         <div className="recipe-form__actions">
           <button className="recipe-form__submit" data-testid="submit-btn" type="submit">Spara</button>
-          {recipeId && <Link to={`/recipes/${recipeId}`} className="recipe-form__cancel">Avbryt</Link>}
+          <Link to={recipeId ? `/recipes/${recipeId}` : '/'} className="recipe-form__cancel">Avbryt</Link>
         </div>
       </form>
     </div>
