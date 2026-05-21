@@ -18,6 +18,30 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+// Nord Polar Night (dark)
+[data-theme='nord-dark'] {
+  --c-bg:           #2E3440;
+  --c-surface:      #3B4252;
+  --c-border:       #434C5E;
+  --c-border-hover: #4C566A;
+  --c-text:         #ECEFF4;
+  --c-muted:        #7B88A1;
+  --c-accent:       #88C0D0;
+  --c-accent-dim:   rgba(136, 192, 208, 0.10);
+}
+
+// Nord Snow Storm (light)
+[data-theme='nord-light'] {
+  --c-bg:           #ECEFF4;
+  --c-surface:      #E5E9F0;
+  --c-border:       #D8DEE9;
+  --c-border-hover: #C0C8D8;
+  --c-text:         #2E3440;
+  --c-muted:        #4C566A;
+  --c-accent:       #5E81AC;
+  --c-accent-dim:   rgba(94, 129, 172, 0.10);
+}
+
 // ─── Reset & Base ──────────────────────────────────────────────────────────────
 
 *, *::before, *::after {
@@ -141,7 +165,8 @@ button {
     max-width: 900px;
   }
 
-  &__item {
+  &__item,
+  &__theme-toggle {
     flex: 1;
     display: flex;
     flex-direction: column;
