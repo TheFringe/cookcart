@@ -8,40 +8,42 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 
 ## Sammanfattning
 
-| ID | Beskrivning | Status |
-|---|---|---|
-| US-001 | Logga in med Google OAuth | ✅ |
-| US-002 | Delade data för alla inloggade användare | ✅ |
-| US-003 | Skapa recept | ✅ |
-| US-004 | Redigera recept | ✅ |
-| US-005 | Ta bort recept med bekräftelsedialog | ✅ |
-| US-006 | Visa receptlista i bokstavsordning | ✅ |
-| US-007 | Filtrera receptlista på kategori | ✅ |
-| US-008 | Visa receptdetalj med ingredienser och instruktioner | ✅ |
-| US-009 | Välj skalfaktor i planeringsläge | ✅ |
-| US-010 | Välj inköpslista i planeringsläge | ✅ |
-| US-011 | Lägg till / ta bort ingrediens i inköpslista från recept | ✅ |
-| US-012 | Summera mängder om ingrediens redan finns i listan | ⬜ |
-| US-013 | Välj dag för tillagning via datepicker i receptvy | ⬜ |
+| ID     | Beskrivning                                               | Status |
+|--------|-----------------------------------------------------------|---|
+| US-001 | Logga in med Google OAuth                                 | ✅ |
+| US-002 | Delade data för alla inloggade användare                  | ✅ |
+| US-003 | Skapa recept                                              | ✅ |
+| US-004 | Redigera recept                                           | ✅ |
+| US-005 | Ta bort recept med bekräftelsedialog                      | ✅ |
+| US-006 | Visa receptlista i bokstavsordning                        | ✅ |
+| US-007 | Filtrera receptlista på kategori                          | ✅ |
+| US-008 | Visa receptdetalj med ingredienser och instruktioner      | ✅ |
+| US-009 | Välj skalfaktor i planeringsläge                          | ✅ |
+| US-010 | Välj inköpslista i planeringsläge                         | ✅ |
+| US-011 | Lägg till / ta bort ingrediens i inköpslista från recept  | ✅ |
+| US-012 | Summera mängder om ingrediens redan finns i listan        | ✅ |
+| US-013 | Välj dag för tillagning via datepicker i receptvy         | ✅ |
 | US-014 | Markera ingredienser och steg som klara i tillagningsläge | ✅ |
-| US-015 | Spara tillagningsprogress persistent | ✅ |
-| US-016 | Återställ alla markeringar med "Avmarkera allt" | ✅ |
-| US-017 | Skapa inköpslista | ✅ |
-| US-018 | Byta namn på inköpslista | ⬜ |
-| US-019 | Ta bort inköpslista | ✅ |
-| US-020 | Lägga till varor manuellt i inköpslista | ✅ |
-| US-021 | Redigera vara i inköpslista | ✅ |
-| US-022 | Ta bort vara från inköpslista | ✅ |
-| US-023 | Bocka av vara (persistent) | ✅ |
-| US-024 | Töm lista — återställ avbockningsstatus | ✅ |
-| US-025 | Veckovy i kalender | ✅ |
-| US-026 | Månadsvy i kalender | ✅ |
-| US-027 | Lägg till maträtt på en dag | ✅ |
-| US-028 | Ta bort maträtt från en dag | ✅ |
-| US-029 | Klick på maträtt navigerar till recept | ✅ |
-| US-030 | Navigera framåt och bakåt i kalender | ✅ |
-| US-031 | Listvy för veckans matsedel | ✅ |
-| US-032 | Import av recept via URL | ⬜ |
+| US-015 | Spara tillagningsprogress persistent                      | ✅ |
+| US-016 | Återställ alla markeringar med "Avmarkera allt"           | ✅ |
+| US-017 | Skapa inköpslista                                         | ✅ |
+| US-018 | Byta namn på inköpslista                                  | ⬜ |
+| US-019 | Ta bort inköpslista                                       | ✅ |
+| US-020 | Lägga till varor manuellt i inköpslista                   | ✅ |
+| US-021 | Redigera vara i inköpslista                               | ✅ |
+| US-022 | Ta bort vara från inköpslista                             | ✅ |
+| US-023 | Bocka av vara (persistent)                                | ✅ |
+| US-024 | Töm lista — återställ avbockningsstatus                   | ✅ |
+| US-025 | Veckovy i kalender                                        | ✅ |
+| US-026 | Månadsvy i kalender                                       | ✅ |
+| US-027 | Lägg till maträtt på en dag                               | ✅ |
+| US-028 | Ta bort maträtt från en dag                               | ✅ |
+| US-029 | Klick på maträtt navigerar till recept                    | ✅ |
+| US-030 | Navigera framåt och bakåt i kalender                      | ✅ |
+| US-031 | Listvy för veckans matsedel                               | ✅ |
+| US-032 | Import av recept via URL                                  | ⬜ |
+| US-033 | Användarinställningar                                     | ⬜ |
+| US-034 | Tema                                                      | ⬜ |
 
 **Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
 
@@ -219,3 +221,20 @@ En listvy visar veckans matsedel (eller kommande sju dagar) som en enkel lista m
 ### US-032 — Import av recept via URL
 
 Användare ska kunna ange en URL till ett recept på en extern sida (t.ex. koket.se) och få receptet automatiskt importerat till applikationen.
+
+### US-033 - Användarinställningar
+
+Användare ska kunna ändra inställningar som till exempel vald inköpslista, valt tema.
+
+### US-034 - Tema
+
+Användare ska kunna välja mellan olika teman för applikationen, inklusive mörkt och ljuset tema.
+
+- Det behövs en theme-switcher för att byta mellan teman.
+- Två nya teman utöver det som redan finns:
+  - Dark Mode: Nord Polar Night
+  - Light Mode: Nord Snow Storm
+  - Kontraster från Frost och Aurora
+  - Referenser:
+    - https://www.nordtheme.com
+    - https://www.nordtheme.com/docs/usage 

@@ -1,15 +1,17 @@
-import { Route, Routes, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Route, Routes, useParams, Navigate } from 'react-router-dom';
+import axios from 'axios';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { ProtectedRoute } from './auth/ProtectedRoute';
 import { LoginPage } from './auth/LoginPage';
 import { RecipeList } from './recipes/RecipeList';
 import { RecipeDetail } from './recipes/RecipeDetail';
-import { ShoppingListPage } from './shopping-lists/ShoppingListPage';
 import { ShoppingListDetail } from './shopping-lists/ShoppingListDetail';
 import { ShoppingListForm } from './shopping-lists/ShoppingListForm';
 import { RecipeForm } from './recipes/RecipeForm';
 import { BottomNav } from './shared/BottomNav';
 import { CalendarPage } from './calendar/CalendarPage';
+import { API_URL } from '../config';
 
 function Home() {
   const { user, logout } = useAuth();
@@ -37,6 +39,18 @@ function ShoppingListEditPage() {
   return <ShoppingListForm listId={id} />;
 }
 
+function ShoppingListLanding() {
+  const [firstId, setFirstId] = useState<number | null>(null);
+  useEffect(() => {
+    axios
+      .get<{ id: number }[]>(`${API_URL}/shopping-lists`, { withCredentials: true })
+      .then((r) => { if (r.data.length) setFirstId(r.data[0].id); })
+      .catch(() => {});
+  }, []);
+  if (!firstId) return null;
+  return <Navigate to={`/shopping-lists/${firstId}`} replace />;
+}
+
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   return (
     <ProtectedRoute>
@@ -55,7 +69,7 @@ export function App() {
           path="/shopping-lists"
           element={
             <AuthenticatedLayout>
-              <ShoppingListPage />
+              <ShoppingListLanding />
             </AuthenticatedLayout>
           }
         />

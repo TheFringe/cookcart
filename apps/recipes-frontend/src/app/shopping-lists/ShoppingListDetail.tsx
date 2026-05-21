@@ -12,6 +12,11 @@ interface ShoppingListItem {
   checked: boolean;
 }
 
+interface ShoppingListSummary {
+  id: number;
+  name: string;
+}
+
 interface ShoppingListFull {
   id: number;
   name: string;
@@ -22,6 +27,7 @@ export function ShoppingListDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [list, setList] = useState<ShoppingListFull | null>(null);
+  const [allLists, setAllLists] = useState<ShoppingListSummary[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [draft, setDraft] = useState({ name: '', quantity: '', unit: '' });
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -29,6 +35,10 @@ export function ShoppingListDetail() {
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   useEffect(() => {
+    axios
+      .get<ShoppingListSummary[]>(`${API_URL}/shopping-lists`, { withCredentials: true })
+      .then((r) => setAllLists(Array.isArray(r.data) ? r.data : []))
+      .catch(() => {});
     axios
       .get<ShoppingListFull>(`${API_URL}/shopping-lists/${id}`, { withCredentials: true })
       .then((r) => setList(r.data))
@@ -137,14 +147,17 @@ export function ShoppingListDetail() {
     <div data-testid="shopping-list-detail" className="shopping-list-detail">
       {error && <Toast message={error} onDismiss={() => setError(null)} />}
       <div className="shopping-list-detail__nav">
-        <Link to="/shopping-lists" className="shopping-list-detail__back">← Tillbaka</Link>
+        <select
+          data-testid="list-selector"
+          className="shopping-list-detail__list-selector"
+          value={id}
+          onChange={(e) => navigate(`/shopping-lists/${e.target.value}`)}
+        >
+          {allLists.map((l) => (
+            <option key={l.id} value={l.id}>{l.name}</option>
+          ))}
+        </select>
         <Link to={`/shopping-lists/${id}/edit`} className="shopping-list-detail__edit">Redigera</Link>
-        <button
-          type="button"
-          data-testid="clear-list-btn"
-          className="shopping-list-detail__clear-btn"
-          onClick={() => setConfirmClear(true)}
-        >Töm lista</button>
         <button
           type="button"
           data-testid="delete-list-btn"
@@ -166,7 +179,15 @@ export function ShoppingListDetail() {
           <button data-testid="clear-cancel-btn" className="shopping-list-detail__confirm-no" onClick={() => setConfirmClear(false)}>Avbryt</button>
         </div>
       )}
-      <h1 className="shopping-list-detail__title">{list.name}</h1>
+      <div className="shopping-list-detail__title-row">
+        <h1 className="shopping-list-detail__title">{list.name}</h1>
+        <button
+          type="button"
+          data-testid="clear-list-btn"
+          className="shopping-list-detail__clear-btn"
+          onClick={() => setConfirmClear(true)}
+        >Töm lista</button>
+      </div>
       <datalist id="ingredients-suggestions">
         {suggestions
           .filter((name) => draft.name.length > 0 && name.toLowerCase().startsWith(draft.name.toLowerCase()))

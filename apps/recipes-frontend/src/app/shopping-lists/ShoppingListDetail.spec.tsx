@@ -33,6 +33,21 @@ describe('ShoppingListDetail', () => {
     ],
   };
 
+  it('visar en listväljare med alla inköpslistor', async () => {
+    mockedAxios.get.mockImplementation((url: string) => {
+      if (url.includes('/ingredients')) return Promise.resolve({ data: [] });
+      if (/\/shopping-lists\/\d+$/.test(url)) return Promise.resolve({ data: listData });
+      return Promise.resolve({ data: [{ id: 1, name: 'ICA' }, { id: 2, name: 'Willys' }] });
+    });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByTestId('shopping-list-detail');
+
+    expect(screen.getByTestId('list-selector')).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'ICA' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'Willys' })).toBeInTheDocument();
+  });
+
   it('visar ingrediensnamnen i listan', async () => {
     mockedAxios.get.mockResolvedValue({ data: listData });
 
