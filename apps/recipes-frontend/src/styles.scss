@@ -34,12 +34,12 @@
 [data-theme='nord-light'] {
   --c-bg:           #ECEFF4;
   --c-surface:      #E5E9F0;
-  --c-border:       #D8DEE9;
-  --c-border-hover: #C0C8D8;
+  --c-border:       #6488A4;
+  --c-border-hover: #4A6A88;
   --c-text:         #2E3440;
   --c-muted:        #4C566A;
-  --c-accent:       #5E81AC;
-  --c-accent-dim:   rgba(94, 129, 172, 0.10);
+  --c-accent:       #2E5880;
+  --c-accent-dim:   rgba(46, 88, 128, 0.10);
 }
 
 // ─── Reset & Base ──────────────────────────────────────────────────────────────
@@ -515,7 +515,8 @@ button {
   &__description {
     font-size: 1.0625rem;
     line-height: 1.8;
-    color: rgba(237, 229, 216, 0.78);
+    color: var(--c-text);
+    opacity: 0.78;
   }
 
   &__ingredients {
@@ -528,7 +529,7 @@ button {
     li {
       font-size: 1.0625rem;
       line-height: 1.5;
-      color: rgba(237, 229, 216, 0.78);
+      color: var(--c-text);
     }
   }
 
@@ -542,7 +543,7 @@ button {
     li {
       font-size: 1.0625rem;
       line-height: 1.8;
-      color: rgba(237, 229, 216, 0.78);
+      color: var(--c-text);
     }
   }
 
@@ -568,7 +569,7 @@ button {
     &--active {
       color: var(--c-accent);
       border-color: var(--c-accent);
-      background: rgba(200, 144, 74, 0.08);
+      background: var(--c-accent-dim);
     }
   }
 
@@ -609,7 +610,7 @@ button {
     &--active {
       color: var(--c-accent);
       border-color: var(--c-accent);
-      background: rgba(200, 144, 74, 0.1);
+      background: var(--c-accent-dim);
     }
   }
 
