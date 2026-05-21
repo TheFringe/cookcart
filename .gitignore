@@ -26,6 +26,7 @@ node_modules
 
 # IDE - VSCode
 .vscode/*
+.vscode
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -49,6 +50,7 @@ Thumbs.db
 .nx/workspace-data
 .claude/worktrees
 .claude/settings.local.json
+.opencode
 
 vite.config.*.timestamp*
 test-output
