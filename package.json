@@ -6,7 +6,16 @@
     "postinstall": "agent-instructions --scope=project --agent=both --overwrite",
     "frontend": "yarn nx serve @recipes/recipes-frontend",
     "backend": "yarn nx serve @recipes/backend",
-    "dev": "yarn nx run-many --target=serve --projects=@recipes/recipes-frontend,@recipes/backend --parallel"
+    "dev": "yarn nx run-many --target=serve --projects=@recipes/recipes-frontend,@recipes/backend --parallel",
+    "build": "yarn nx run-many --target=build --projects=@recipes/recipes-frontend,@recipes/backend --parallel",
+    "test": "yarn nx run-many --target=test --projects=@recipes/recipes-frontend,@recipes/backend --parallel",
+    "test:frontend": "yarn nx run @recipes/recipes-frontend:test",
+    "test:backend": "yarn nx run @recipes/backend:test",
+    "lint": "nx run-many --target=lint --projects=@recipes/recipes-frontend,@recipes/backend --parallel",
+    "e2e": "nx run-many --target=e2e --projects=@recipes/recipes-frontend,@recipes/backend --parallel",
+    "format": "nx format:write --uncommitted",
+    "generate": "nx g @nx/react:component recipes",
+    "generate-api": "nx g @nx/node:library api"
   },
   "private": true,
   "dependencies": {
