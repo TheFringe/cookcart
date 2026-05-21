@@ -149,6 +149,25 @@ describe('CalendarPage', () => {
     jest.useRealTimers();
   });
 
+  it('månadsvy hämtar data för den navigerade månaden', async () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20'));
+    mockedAxios.get
+      .mockResolvedValueOnce({ data: [] })  // recipes
+      .mockResolvedValueOnce({ data: [] })  // meal-plan för aktuell vecka
+      .mockResolvedValueOnce({ data: [] })  // meal-plan för maj (när månadsvy aktiveras)
+      .mockResolvedValueOnce({ data: [{ id: 7, date: '2026-06-15', recipe: { id: 1, name: 'Gryta' } }] }); // meal-plan för juni
+
+    render(<MemoryRouter><CalendarPage /></MemoryRouter>);
+    await screen.findByTestId('calendar-page');
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+    fireEvent.click(screen.getByTestId('next-month-btn'));
+
+    expect(await screen.findByText('Gryta')).toBeInTheDocument();
+
+    jest.useRealTimers();
+  });
+
   it('månadsvy kan navigera till föregående månad', () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2026-05-20'));
@@ -202,6 +221,19 @@ describe('CalendarPage', () => {
     fireEvent.click(screen.getByTestId('month-view-btn'));
 
     expect(screen.getByTestId('month-title')).toHaveTextContent('Maj 2026');
+
+    jest.useRealTimers();
+  });
+
+  it('månadsvy placerar den 1:a i rätt kolumn (måndag=1)', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20')); // maj, den 1:a är fredag → kolumn 5
+
+    renderCalendar();
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+
+    const firstDay = screen.getByTestId('month-day-1');
+    expect(firstDay).toHaveStyle({ gridColumnStart: 5 });
 
     jest.useRealTimers();
   });

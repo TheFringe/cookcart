@@ -65,6 +65,7 @@ export function CalendarPage() {
   }, []);
 
   useEffect(() => {
+    if (view === 'month') return;
     axios
       .get<MealPlanEntry[]>(`${API_URL}/meal-plan`, {
         params: { week: toISODate(monday) },
@@ -72,7 +73,18 @@ export function CalendarPage() {
       })
       .then((r) => setEntries(r.data))
       .catch(() => {});
-  }, [monday]);
+  }, [monday, view]);
+
+  useEffect(() => {
+    if (view !== 'month') return;
+    axios
+      .get<MealPlanEntry[]>(`${API_URL}/meal-plan`, {
+        params: { month: toISODate(monthStart) },
+        withCredentials: true,
+      })
+      .then((r) => setEntries(r.data))
+      .catch(() => {});
+  }, [monthStart, view]);
 
   function handleSelectRecipe(recipe: Recipe) {
     if (pickerDayIndex === null) return;
@@ -158,10 +170,12 @@ export function CalendarPage() {
           <div className="calendar-page__month-grid">
             {Array.from({ length: daysInMonth }, (_, i) => {
               const dayNum = i + 1;
-              const dateStr = toISODate(new Date(monthStart.getFullYear(), monthStart.getMonth(), dayNum));
+              const date = new Date(monthStart.getFullYear(), monthStart.getMonth(), dayNum);
+              const dateStr = toISODate(date);
               const dayEntries = entries.filter((e) => e.date === dateStr);
+              const style = dayNum === 1 ? { gridColumnStart: (date.getDay() || 7) } : undefined;
               return (
-                <div key={dayNum} data-testid={`month-day-${dayNum}`} className="calendar-page__month-day">
+                <div key={dayNum} data-testid={`month-day-${dayNum}`} className="calendar-page__month-day" style={style}>
                   <span className="calendar-page__month-day-num">{dayNum}</span>
                   {dayEntries.map((e) => (
                     <Link key={e.id} to={`/recipes/${e.recipe.id}`} className="calendar-page__month-entry">{e.recipe.name}</Link>

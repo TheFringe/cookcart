@@ -9,9 +9,13 @@ export function createMealPlanRouter(repo: MealPlanRepository): Router {
   const router = Router();
 
   router.get('/', asyncHandler(async (req, res) => {
-    const week = req.query.week as string;
-    const entries = await repo.findByWeek(week);
-    res.json(entries);
+    if (req.query.month) {
+      const entries = await repo.findByMonth(req.query.month as string);
+      res.json(entries);
+    } else {
+      const entries = await repo.findByWeek(req.query.week as string);
+      res.json(entries);
+    }
   }));
 
   router.post('/', asyncHandler(async (req, res) => {

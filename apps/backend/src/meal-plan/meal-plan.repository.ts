@@ -20,6 +20,20 @@ export class MealPlanRepository {
     return rows[0];
   }
 
+  async findByMonth(monthStart: string): Promise<unknown[]> {
+    const { rows } = await this._pool.query(
+      `SELECT mp.id,
+              mp.date::text AS date,
+              json_build_object('id', r.id, 'name', r.name) AS recipe
+       FROM meal_plan mp
+       JOIN recipes r ON r.id = mp.recipe_id
+       WHERE date_trunc('month', mp.date) = date_trunc('month', $1::date)
+       ORDER BY mp.date`,
+      [monthStart]
+    );
+    return rows;
+  }
+
   async findByWeek(weekStart: string): Promise<unknown[]> {
     const { rows } = await this._pool.query(
       `SELECT mp.id,
