@@ -27,7 +27,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-015 | Spara tillagningsprogress persistent                      | ✅ |
 | US-016 | Återställ alla markeringar med "Avmarkera allt"           | ✅ |
 | US-017 | Skapa inköpslista                                         | ✅ |
-| US-018 | Byta namn på inköpslista                                  | ⬜ |
+| US-018 | Byta namn på inköpslista                                  | ✅ |
 | US-019 | Ta bort inköpslista                                       | ✅ |
 | US-020 | Lägga till varor manuellt i inköpslista                   | ✅ |
 | US-021 | Redigera vara i inköpslista                               | ✅ |
