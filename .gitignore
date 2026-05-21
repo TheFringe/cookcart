@@ -5,12 +5,12 @@ docker-pi/.env
 docker-pi/attend-check-in-app/
 archive
 db_data/
-.DS_Store
 
 # compiled output
 dist
 tmp
 out-tsc
+*.tsbuildinfo
 
 # dependencies
 node_modules
@@ -58,3 +58,4 @@ test-output
 
 # Graphify
 graphify-out/cache/
+graphify-out/.graphify_python
