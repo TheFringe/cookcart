@@ -25,6 +25,12 @@ describe('CalendarPage', () => {
     expect(screen.getAllByTestId(/^calendar-day-\d+$/)).toHaveLength(7);
   });
 
+  it('dagarna ligger i ett grid-container', () => {
+    renderCalendar();
+
+    expect(screen.getByTestId('calendar-days')).toBeInTheDocument();
+  });
+
   it('visar korrekt veckonummer i headern', () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2026-05-20')); // vecka 21

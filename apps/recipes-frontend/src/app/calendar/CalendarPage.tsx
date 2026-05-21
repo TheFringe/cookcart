@@ -25,12 +25,14 @@ function getMondayOfCurrentWeek(): Date {
   return monday;
 }
 
+const MS_PER_DAY = 86_400_000;
+
 function getISOWeekNumber(date: Date): number {
   const d = new Date(date);
   d.setHours(0, 0, 0, 0);
   d.setDate(d.getDate() + 4 - (d.getDay() || 7));
   const yearStart = new Date(d.getFullYear(), 0, 1);
-  return Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+  return Math.ceil(((d.getTime() - yearStart.getTime()) / MS_PER_DAY + 1) / 7);
 }
 
 function toISODate(date: Date): string {
@@ -90,6 +92,12 @@ export function CalendarPage() {
     });
   }
 
+  const weekDays = DAYS.map((name, i) => {
+    const date = new Date(monday);
+    date.setDate(monday.getDate() + i);
+    return { name, date, dateStr: toISODate(date) };
+  });
+
   return (
     <div data-testid="calendar-page" className="calendar-page">
       <div className="calendar-page__nav">
@@ -113,32 +121,26 @@ export function CalendarPage() {
           <button data-testid="close-picker-btn" onClick={() => setPickerDayIndex(null)}>Avbryt</button>
         </div>
       )}
-      <div className="calendar-page__days">
-        {DAYS.map((day, i) => {
-          const date = new Date(monday);
-          date.setDate(monday.getDate() + i);
-          const dateStr = toISODate(date);
-          const dayEntries = entries.filter((e) => e.date === dateStr);
-          return (
-            <div key={day} data-testid={`calendar-day-${i}`} className="calendar-page__day">
-              <span className="calendar-page__day-name">{day}</span>
-              <span data-testid={`calendar-day-date-${i}`} className="calendar-page__day-date">
-                {date.getDate()}
-              </span>
-              {dayEntries.map((e) => (
-                <div key={e.id} data-testid={`meal-plan-entry-${e.id}`} className="calendar-page__entry">
-                  {e.recipe.name}
-                  <button data-testid={`remove-entry-${e.id}`} className="calendar-page__remove-btn" onClick={() => handleRemoveEntry(e.id)}>×</button>
-                </div>
-              ))}
-              <button
-                data-testid={`add-recipe-btn-${i}`}
-                className="calendar-page__add-btn"
-                onClick={() => setPickerDayIndex(i)}
-              >+</button>
-            </div>
-          );
-        })}
+      <div data-testid="calendar-days" className="calendar-page__days">
+        {weekDays.map(({ name, date, dateStr }, i) => (
+          <div key={name} data-testid={`calendar-day-${i}`} className="calendar-page__day">
+            <span className="calendar-page__day-name">{name}</span>
+            <span data-testid={`calendar-day-date-${i}`} className="calendar-page__day-date">
+              {date.getDate()}
+            </span>
+            {entries.filter((e) => e.date === dateStr).map((e) => (
+              <div key={e.id} data-testid={`meal-plan-entry-${e.id}`} className="calendar-page__entry">
+                {e.recipe.name}
+                <button data-testid={`remove-entry-${e.id}`} className="calendar-page__remove-btn" onClick={() => handleRemoveEntry(e.id)}>×</button>
+              </div>
+            ))}
+            <button
+              data-testid={`add-recipe-btn-${i}`}
+              className="calendar-page__add-btn"
+              onClick={() => setPickerDayIndex(i)}
+            >+</button>
+          </div>
+        ))}
       </div>
     </div>
   );

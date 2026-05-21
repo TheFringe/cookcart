@@ -1337,10 +1337,19 @@ button {
   .calendar-page {
     padding: 2rem 1rem 6rem;
 
-    &__days { grid-template-columns: repeat(7, 1fr); gap: 0.5rem; }
-    &__day { min-height: 100px; padding: 0.75rem 0.625rem; }
-    &__day-name { font-size: 0.5625rem; }
-    &__day-date { font-size: 1.25rem; }
+    &__days { grid-template-columns: 1fr; gap: 0.5rem; }
+    &__day {
+      min-height: auto;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 0.75rem 0.875rem;
+      gap: 0.5rem 0.75rem;
+    }
+    &__day-name { font-size: 0.75rem; width: 4.5rem; flex-shrink: 0; }
+    &__day-date { font-size: 1.25rem; margin-bottom: 0; width: 2rem; flex-shrink: 0; }
+    &__entry { flex-grow: 1; }
+    &__add-btn { margin-top: 0; }
   }
 
   .shopping-list-detail {
