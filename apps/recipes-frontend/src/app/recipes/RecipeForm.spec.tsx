@@ -301,6 +301,32 @@ describe('RecipeForm — import', () => {
 
     expect(await screen.findByTestId('import-error')).toBeInTheDocument();
   });
+
+  it('visar en filvalrad i skapaläge', () => {
+    renderForm();
+
+    expect(screen.getByTestId('import-file-input')).toBeInTheDocument();
+  });
+
+  it('fyller i namnfältet när en fil läses in', async () => {
+    renderForm();
+
+    const fileContent = 'Nikes Kebabgryta\n\nINGREDIENTS\n• 1 lök\n\nPREPARATION STEPS\n1. Stek.';
+    const file = new File([fileContent], 'recept.txt', { type: 'text/plain' });
+
+    const readerMock = {
+      onload: null as ((ev: ProgressEvent<FileReader>) => void) | null,
+      onerror: null as (() => void) | null,
+      readAsText: jest.fn().mockImplementation(function (this: typeof readerMock) {
+        this.onload?.({ target: { result: fileContent } } as unknown as ProgressEvent<FileReader>);
+      }),
+    };
+    jest.spyOn(window, 'FileReader').mockImplementation(() => readerMock as unknown as FileReader);
+
+    fireEvent.change(screen.getByTestId('import-file-input'), { target: { files: [file] } });
+
+    expect(await screen.findByDisplayValue('Nikes Kebabgryta')).toBeInTheDocument();
+  });
 });
 
 describe('RecipeForm — skapa', () => {

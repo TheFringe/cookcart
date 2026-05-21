@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import type { Recipe } from './types';
+import { parseTextRecipe } from './parseTextRecipe';
 
 type IngredientDraft = { quantity: string; unit: string; name: string };
 
@@ -57,6 +58,31 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
 
   function updateIngredient(i: number, field: keyof IngredientDraft, value: string) {
     setIngredients((prev) => prev.map((x, j) => (j === i ? { ...x, [field]: value } : x)));
+  }
+
+  function handleFileImport(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const text = ev.target?.result as string;
+      const d = parseTextRecipe(text);
+      if (d.name) setName(d.name);
+      if (d.steps?.length) setStepsText(d.steps.join('\n'));
+      if (d.servings) setServings(String(d.servings));
+      if (d.source_name) setSourceName(d.source_name);
+      if (d.source_url) setSourceUrl(d.source_url);
+      if (d.ingredients?.length) {
+        setIngredients(d.ingredients.map((ing) => ({
+          quantity: ing.quantity,
+          unit: ing.unit,
+          name: ing.name,
+        })));
+      }
+      setImportError(null);
+    };
+    reader.onerror = () => setImportError('Kunde inte läsa filen.');
+    reader.readAsText(file);
   }
 
   async function handleImport() {
@@ -125,6 +151,15 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
               >
                 {importing ? 'Hämtar...' : 'Hämta'}
               </button>
+            </div>
+            <div className="recipe-form__import-row">
+              <input
+                data-testid="import-file-input"
+                type="file"
+                accept=".txt,.md"
+                className="recipe-form__input"
+                onChange={handleFileImport}
+              />
             </div>
             {importError && <p data-testid="import-error" className="recipe-form__import-error">{importError}</p>}
           </div>
