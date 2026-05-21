@@ -1,22 +1,69 @@
 # Krav — Recipes
 
-## 1. Översikt
+## Översikt
 
 Recipes är en webbaserad applikation för matplanering. Användare kan skapa och hantera recept, bygga inköpslistor och planera veckans måltider i en kalender.
 
 Applikationen riktar sig till hushåll där flera personer delar på matplaneringen. Inloggning sker via Google, vilket gör det enkelt för familjemedlemmar att komma åt samma recept och listor utan att hantera separata lösenord.
 
-## 2. Autentisering
+## Sammanfattning
+
+| ID | Beskrivning | Status |
+|---|---|---|
+| US-001 | Logga in med Google OAuth | ✅ |
+| US-002 | Delade data för alla inloggade användare | ✅ |
+| US-003 | Skapa recept | ✅ |
+| US-004 | Redigera recept | ✅ |
+| US-005 | Ta bort recept med bekräftelsedialog | ✅ |
+| US-006 | Visa receptlista i bokstavsordning | ✅ |
+| US-007 | Filtrera receptlista på kategori | ✅ |
+| US-008 | Visa receptdetalj med ingredienser och instruktioner | ✅ |
+| US-009 | Välj skalfaktor i planeringsläge | ✅ |
+| US-010 | Välj inköpslista i planeringsläge | ✅ |
+| US-011 | Lägg till / ta bort ingrediens i inköpslista från recept | ✅ |
+| US-012 | Summera mängder om ingrediens redan finns i listan | ⬜ |
+| US-013 | Välj dag för tillagning via datepicker i receptvy | ⬜ |
+| US-014 | Markera ingredienser och steg som klara i tillagningsläge | ✅ |
+| US-015 | Spara tillagningsprogress persistent | ✅ |
+| US-016 | Återställ alla markeringar med "Avmarkera allt" | ✅ |
+| US-017 | Skapa inköpslista | ✅ |
+| US-018 | Byta namn på inköpslista | ⬜ |
+| US-019 | Ta bort inköpslista | ✅ |
+| US-020 | Lägga till varor manuellt i inköpslista | ✅ |
+| US-021 | Redigera vara i inköpslista | ✅ |
+| US-022 | Ta bort vara från inköpslista | ✅ |
+| US-023 | Bocka av vara (persistent) | ✅ |
+| US-024 | Töm lista — återställ avbockningsstatus | ✅ |
+| US-025 | Veckovy i kalender | ✅ |
+| US-026 | Månadsvy i kalender | ✅ |
+| US-027 | Lägg till maträtt på en dag | ✅ |
+| US-028 | Ta bort maträtt från en dag | ✅ |
+| US-029 | Klick på maträtt navigerar till recept | ✅ |
+| US-030 | Navigera framåt och bakåt i kalender | ✅ |
+| US-031 | Listvy för veckans matsedel | ⬜ |
+| US-032 | Import av recept via URL | ⬜ |
+
+**Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
+
+---
+
+## Autentisering
+
+### US-001 — Logga in med Google OAuth
 
 Inloggning sker via Google OAuth. Användare autentiseras med sitt Google-konto och behöver inte skapa ett separat konto i applikationen.
 
+### US-002 — Delade data för alla inloggade användare
+
 Alla inloggade användare har tillgång till samma recept, inköpslistor och kalender.
 
-## 3. Recept
+---
 
-Användare kan skapa, redigera och ta bort recept. Receptlistan går att söka och filtrera i gränssnittet.
+## Recept
 
-### Fält
+### US-003 — Skapa recept
+
+Användare kan skapa ett nytt recept med följande fält:
 
 | Fält | Beskrivning |
 |---|---|
@@ -28,64 +75,145 @@ Användare kan skapa, redigera och ta bort recept. Receptlistan går att söka o
 | Tillagningstid | Angiven i minuter |
 | Portioner | Antal portioner receptet är avsett för |
 
-### Visning
+### US-004 — Redigera recept
 
-Receptlistan visar alla recept i bokstavsordning och kan filtreras på kategori. Klickar man på ett recept visas hela receptet med ingredienser och instruktioner.
+Användare kan redigera alla fält på ett befintligt recept.
+
+### US-005 — Ta bort recept med bekräftelsedialog
 
 Innan ett recept tas bort visas en bekräftelsedialog som varnar användaren om att åtgärden inte kan ångras.
 
-### Receptdetalj — två lägen
+### US-006 — Visa receptlista i bokstavsordning
 
-Receptdetaljvyn har två lägen som användaren kan växla mellan:
+Receptlistan visar alla recept i bokstavsordning.
 
-**Planeringsläge (standardläge)**
+### US-007 — Filtrera receptlista på kategori
 
-- En skalfaktor väljs bland förinställda alternativ: 0.5×, 1×, 2×, 3×, 4×
-- En inköpslista väljs från en dropdown
-- Kontrollerna visas under beskrivningen, ovanför ingredienslistan
-- Klick på en ingrediens lägger till den i vald lista med skalad mängd och markerar den med en listikon
-- Klick igen tar bort ingrediensen från listan och tar bort markeringen
-- Om en ingrediens redan finns i listan summeras mängderna
+Receptlistan kan filtreras på kategori i gränssnittet.
 
-**Tillagningsläge**
+### US-008 — Visa receptdetalj med ingredienser och instruktioner
 
-- Klick på en ingrediens markerar den som "tagen"
-- Klick på ett steg markerar det som "utfört"
-- Tillståndet sparas persistent och återställs nästa gång man öppnar receptet
-- Knappen "Avmarkera allt" återställer alla markeringar
+Klickar man på ett recept visas hela receptet med ingredienser och instruktioner.
 
-## 4. Inköpslistor
+---
+
+## Receptdetalj — planeringsläge
+
+Receptdetaljvyn har ett planeringsläge (standardläge) och ett tillagningsläge som användaren kan växla mellan.
+
+### US-009 — Välj skalfaktor i planeringsläge
+
+En skalfaktor väljs bland förinställda alternativ: 0.5×, 1×, 2×, 3×, 4×. Kontrollerna visas under beskrivningen, ovanför ingredienslistan.
+
+### US-010 — Välj inköpslista i planeringsläge
+
+En inköpslista väljs från en dropdown i planeringsläget.
+
+### US-011 — Lägg till / ta bort ingrediens i inköpslista från recept
+
+Klick på en ingrediens lägger till den i vald lista med skalad mängd och markerar den med en listikon. Klick igen tar bort ingrediensen från listan och tar bort markeringen.
+
+### US-012 — Summera mängder om ingrediens redan finns i listan
+
+Om en ingrediens redan finns i inköpslistan ska mängderna summeras i stället för att lägga till ett duplikat. Gäller både vid tillägg från planeringsläge och vid tillägg från inköpslistsvyn.
+
+### US-013 — Välj dag för tillagning via datepicker i receptvy
+
+Det ska gå att välja en dag i en datepicker i planeringsläget för att koppla receptet till en dag i kalender.
+
+---
+
+## Receptdetalj — tillagningsläge
+
+### US-014 — Markera ingredienser och steg som klara i tillagningsläge
+
+Klick på en ingrediens markerar den som "tagen". Klick på ett steg markerar det som "utfört".
+
+### US-015 — Spara tillagningsprogress persistent
+
+Tillståndet sparas persistent och återställs nästa gång man öppnar receptet.
+
+### US-016 — Återställ alla markeringar med "Avmarkera allt"
+
+Knappen "Avmarkera allt" återställer alla markeringar i tillagningsläget.
+
+---
+
+## Inköpslistor
 
 Användare kan skapa och hantera flera namngivna inköpslistor (t.ex. en per butik). Varje lista innehåller varor med namn, mängd och enhet.
 
-### Hantera listor
+### US-017 — Skapa inköpslista
 
-- Skapa, byta namn på och ta bort listor
-- Lägga till varor manuellt
-- Redigera och ta bort enskilda varor
-- Bocka av varor (t.ex. under en pågående handling) — avbockning sparas persistent
-- Töm lista — återställer alla varors avbockningsstatus
+Användare kan skapa en ny namngiven inköpslista.
 
-### Lägga till från recept
+### US-018 — Byta namn på inköpslista
 
-Från ett recept kan användaren välja vilka ingredienser som ska läggas till en inköpslista. Innan varorna läggs till kan användaren justera antalet portioner — mängderna skalas då proportionellt mot receptets originalportioner.
+Användare kan byta namn på en befintlig inköpslista.
 
-Användaren väljer vilken lista varorna ska hamna i. Om en ingrediens redan finns i listan summeras mängderna.
+### US-019 — Ta bort inköpslista
 
-## 5. Kalender / Veckomatsedel
+Användare kan ta bort en inköpslista.
+
+### US-020 — Lägga till varor manuellt i inköpslista
+
+Användare kan lägga till varor manuellt med namn, mängd och enhet.
+
+### US-021 — Redigera vara i inköpslista
+
+Användare kan redigera en befintlig vara i en inköpslista.
+
+### US-022 — Ta bort vara från inköpslista
+
+Användare kan ta bort en vara från en inköpslista.
+
+### US-023 — Bocka av vara (persistent)
+
+Användare kan bocka av varor under en pågående handling. Avbockningen sparas persistent.
+
+### US-024 — Töm lista
+
+Töm lista återställer alla varors avbockningsstatus.
+
+---
+
+## Kalender / Veckomatsedel
 
 Användare kan planera måltider genom att koppla recept till specifika dagar.
 
-### Kalendervy
+### US-025 — Veckovy i kalender
 
-Kalendern visas i både vecko- och månadsvy. Varje dag kan ha en eller flera maträtter. Maträtterna visas direkt i kalendern och klick på en maträtt navigerar till det tillhörande receptet. Maträtter kan läggas till och tas bort per dag.
+Kalendern visas i en veckovy med en dag per rad. Varje dag kan ha en eller flera maträtter.
 
-Användaren kan navigera framåt och bakåt i tid. Navigeringen implementeras med react-datepicker.
+### US-026 — Månadsvy i kalender
 
-### Listvy
+Kalendern kan visas i månadsvy med alla dagar i månaden i ett 7-kolumners grid. Månadsnamn och år visas i headern.
+
+### US-027 — Lägg till maträtt på en dag
+
+Användare kan lägga till en maträtt på en valfri dag i kalendern via en receptväljare.
+
+### US-028 — Ta bort maträtt från en dag
+
+Användare kan ta bort en planerad maträtt från en dag i kalendern.
+
+### US-029 — Klick på maträtt navigerar till recept
+
+Klick på en maträtt i kalendern navigerar till det tillhörande receptet. Gäller både veckovy och månadsvy.
+
+
+### US-030 — Navigera framåt och bakåt i kalender
+
+Användaren kan navigera framåt och bakåt i tid i både vecko- och månadsvy.
+
+### US-031 — Listvy för veckans matsedel
 
 En listvy visar veckans matsedel (eller kommande sju dagar) som en enkel lista med datum och tillhörande maträtter. Klick på en maträtt navigerar till receptet.
 
-## 6. Framtida funktioner
+---
 
-- **Import av recept via URL** — användare ska kunna ange en URL till ett recept på en extern sida (t.ex. koket.se) och få receptet automatiskt importerat till applikationen.
+## Framtida funktioner
+
+### US-032 — Import av recept via URL
+
+Användare ska kunna ange en URL till ett recept på en extern sida (t.ex. koket.se) och få receptet automatiskt importerat till applikationen.

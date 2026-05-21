@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
 
@@ -163,7 +164,7 @@ export function CalendarPage() {
                 <div key={dayNum} data-testid={`month-day-${dayNum}`} className="calendar-page__month-day">
                   <span className="calendar-page__month-day-num">{dayNum}</span>
                   {dayEntries.map((e) => (
-                    <span key={e.id} className="calendar-page__month-entry">{e.recipe.name}</span>
+                    <Link key={e.id} to={`/recipes/${e.recipe.id}`} className="calendar-page__month-entry">{e.recipe.name}</Link>
                   ))}
                 </div>
               );
@@ -193,7 +194,7 @@ export function CalendarPage() {
                 </span>
                 {entries.filter((e) => e.date === dateStr).map((e) => (
                   <div key={e.id} data-testid={`meal-plan-entry-${e.id}`} className="calendar-page__entry">
-                    {e.recipe.name}
+                    <Link to={`/recipes/${e.recipe.id}`} className="calendar-page__entry-link">{e.recipe.name}</Link>
                     <button data-testid={`remove-entry-${e.id}`} className="calendar-page__remove-btn" onClick={() => handleRemoveEntry(e.id)}>×</button>
                   </div>
                 ))}

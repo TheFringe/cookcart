@@ -247,6 +247,40 @@ describe('CalendarPage', () => {
     expect(screen.queryByTestId('calendar-days')).not.toBeInTheDocument();
   });
 
+  it('maträtt i månadsvy är länkad till receptet', async () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20'));
+
+    mockedAxios.get.mockImplementation((url: string) => {
+      if (url.includes('/recipes')) return Promise.resolve({ data: [] });
+      return Promise.resolve({ data: [{ id: 7, date: '2026-05-18', recipe: { id: 42, name: 'Lasagne' } }] });
+    });
+
+    render(<MemoryRouter><CalendarPage /></MemoryRouter>);
+    await screen.findByTestId('calendar-page');
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+
+    expect(screen.getByRole('link', { name: 'Lasagne' })).toHaveAttribute('href', '/recipes/42');
+
+    jest.useRealTimers();
+  });
+
+  it('maträtt i veckovyn är länkad till receptet', async () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20'));
+
+    mockedAxios.get.mockResolvedValue({
+      data: [{ id: 1, date: '2026-05-18', recipe: { id: 42, name: 'Pasta Carbonara' } }],
+    });
+
+    render(<MemoryRouter><CalendarPage /></MemoryRouter>);
+    await screen.findByText('Pasta Carbonara');
+
+    expect(screen.getByRole('link', { name: 'Pasta Carbonara' })).toHaveAttribute('href', '/recipes/42');
+
+    jest.useRealTimers();
+  });
+
   it('visar planerat recept på rätt dag', async () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2026-05-20')); // onsdag, v21: mån=18 maj
