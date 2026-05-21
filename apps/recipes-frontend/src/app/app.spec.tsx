@@ -167,6 +167,22 @@ describe('App', () => {
     expect(screen.getByTestId('app-header')).toBeInTheDocument();
   });
 
+  it('visar inställningssidan på /settings', () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: 1, email: 'test@example.com', name: 'Test' },
+      loading: false,
+      logout: jest.fn(),
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/settings']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByTestId('settings-page')).toBeInTheDocument();
+  });
+
   it('visar inköpslistans detaljsida på /shopping-lists/:id', async () => {
     mockUseAuth.mockReturnValue({
       user: { id: 1, email: 'test@example.com', name: 'Test' },

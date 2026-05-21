@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import { Toast } from '../shared/Toast';
+import { setPreferredListId } from '../settings/preferences';
 
 interface ShoppingListItem {
   id: number;
@@ -151,7 +152,10 @@ export function ShoppingListDetail() {
           data-testid="list-selector"
           className="shopping-list-detail__list-selector"
           value={id}
-          onChange={(e) => navigate(`/shopping-lists/${e.target.value}`)}
+          onChange={(e) => {
+            setPreferredListId(Number(e.target.value));
+            navigate(`/shopping-lists/${e.target.value}`);
+          }}
         >
           {allLists.map((l) => (
             <option key={l.id} value={l.id}>{l.name}</option>

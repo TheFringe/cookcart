@@ -308,6 +308,19 @@ describe('RecipeDetail', () => {
     expect(screen.getByTestId('plan-date-input')).toBeInTheDocument();
   });
 
+  it('sparar vald inköpslista i localStorage när listväljaren ändras', async () => {
+    localStorage.clear();
+    renderRecipeDetail(
+      { ...baseRecipe, ingredients: [{ name: 'pasta', quantity: 200, unit: 'g' }] },
+      [{ id: 5, name: 'Hemköp' }, { id: 8, name: 'ICA' }]
+    );
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.change(screen.getByTestId('planning-list-select'), { target: { value: '8' } });
+
+    expect(localStorage.getItem('recipes-preferred-list-id')).toBe('8');
+  });
+
   it('lägger till recept i kalender när ett datum väljs', async () => {
     mockedAxios.post.mockResolvedValue({ data: { id: 99, date: '2026-05-25', recipe: { id: 1, name: 'Pasta Carbonara' } } });
     renderRecipeDetail({ ...baseRecipe, ingredients: [{ name: 'pasta', quantity: 200, unit: 'g' }] });

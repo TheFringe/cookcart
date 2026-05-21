@@ -11,6 +11,7 @@ import { ShoppingListForm } from './shopping-lists/ShoppingListForm';
 import { RecipeForm } from './recipes/RecipeForm';
 import { BottomNav } from './shared/BottomNav';
 import { CalendarPage } from './calendar/CalendarPage';
+import { SettingsPage, getPreferredListId } from './settings/SettingsPage';
 import { API_URL } from '../config';
 
 type Theme = 'default' | 'nord-dark' | 'nord-light';
@@ -33,6 +34,7 @@ function applyTheme(theme: Theme) {
 const ROUTE_TITLES: { pattern: RegExp; title: string }[] = [
   { pattern: /^\/shopping-lists/, title: 'Inköpslista' },
   { pattern: /^\/calendar/, title: 'Kalender' },
+  { pattern: /^\/settings/, title: 'Inställningar' },
   { pattern: /^\/recipes\/new/, title: 'Nytt recept' },
   { pattern: /^\/recipes\/\d+\/edit/, title: 'Redigera recept' },
   { pattern: /^\/recipes/, title: 'Recept' },
@@ -62,15 +64,20 @@ function ShoppingListEditPage() {
 }
 
 function ShoppingListLanding() {
-  const [firstId, setFirstId] = useState<number | null>(null);
+  const [targetId, setTargetId] = useState<number | null>(null);
   useEffect(() => {
     axios
       .get<{ id: number }[]>(`${API_URL}/shopping-lists`, { withCredentials: true })
-      .then((r) => { if (r.data.length) setFirstId(r.data[0].id); })
+      .then((r) => {
+        if (!Array.isArray(r.data) || !r.data.length) return;
+        const preferred = getPreferredListId();
+        const match = preferred ? r.data.find((l) => l.id === preferred) : null;
+        setTargetId(match ? match.id : r.data[0].id);
+      })
       .catch(() => {});
   }, []);
-  if (!firstId) return null;
-  return <Navigate to={`/shopping-lists/${firstId}`} replace />;
+  if (!targetId) return null;
+  return <Navigate to={`/shopping-lists/${targetId}`} replace />;
 }
 
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
@@ -181,6 +188,14 @@ export function App() {
           element={
             <AuthenticatedLayout>
               <CalendarPage />
+            </AuthenticatedLayout>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <AuthenticatedLayout>
+              <SettingsPage />
             </AuthenticatedLayout>
           }
         />

@@ -42,7 +42,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-030 | Navigera framåt och bakåt i kalender                      | ✅ |
 | US-031 | Listvy för veckans matsedel                               | ✅ |
 | US-032 | Import av recept via URL                                  | ⬜ |
-| US-033 | Användarinställningar                                     | ⬜ |
+| US-033 | Användarinställningar                                     | ✅ |
 | US-034 | Tema                                                      | ✅ |
 
 **Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
@@ -221,6 +221,127 @@ En listvy visar veckans matsedel (eller kommande sju dagar) som en enkel lista m
 ### US-032 — Import av recept via URL
 
 Användare ska kunna ange en URL till ett recept på en extern sida (t.ex. koket.se) och få receptet automatiskt importerat till applikationen.
+
+#### Exempel
+##### Pastasallad med fetaost och avokado
+
+Pastasallad med fetaost och avokado
+
+SERVINGS: 4
+
+INGREDIENTS
+• 1 liter kokta penne (pasta)
+• 2 avokado
+• 3 tomater
+• 1 rödlök
+• 100 g fetaost (ca)
+•   10 cm av det vita på purjolöken
+• 1 kruka färsk basilika
+• 2 klyftor vitlök
+• 1 knippe gräslök
+• salt
+• peppar
+• 1 dl rapsolja
+• 50 ml olivolja
+
+PREPARATION STEPS
+1. Om det inte finns färdigkokt, koka och kyl ner pastan.
+
+2. Skala och strimla rödlöken och purjolöken tunt.
+
+3. Låt dom sedan skölja under kallt vatten för att bli krispiga.
+
+4. Klipp av basilikan från krukan och dela gräslöken grovt.
+
+5. Lägg i en mixer tillsammmans med vitlöken.
+
+6. Häll i oljan och kör runt.
+
+7. Häll alltsammans över pastan och blanda väl.
+
+8. Skär tomaterna och avokado grovt.
+
+9. Lägg ner i pastan tillsammans med rödlöken och purjolöken.
+
+10. Smula ner fetaosten och blanda runt.
+
+11. Lägg upp i en skål och garnera med några kvistar basilika.
+
+NOTE
+Att variera din pastasallad är enkelt. Här används fetaost och
+avokado.
+
+SOURCE URL
+http://www.koket.se/per_morberg/sallader/pasta_och_nudlar/pastasallad_med_fetaost_och_avokado/
+
+##### Krämig Pastasallad
+
+INGREDIENTS
+• 500 g pasta penne
+• 2 dl crème fraiche
+• 3 dl gräddfil
+• Efter behag Pesto
+• 1 kyckling stor, grillad
+• 140 g bacon
+• 1 purjolök liten
+• 2 röda paprikor
+• 200 g fetaost
+• 1 tsk salt
+• 2 krm svartpeppar nymald
+
+PREPARATION STEPS
+1. Koka pastan enligt anvisning på förpackningen. Spola i kallt vatten och låt rinna av. Blanda med creme fraiche och gräddfil.
+
+2. Blanda ner peston i pastan.
+
+3. Bena ur och skär kycklingen i bitar.
+
+4. Skär bacon i bitar och stek det knaprigt i stekpannan. Låt det sedan rinna av på hushållspapper.
+
+5. Ansa och finstrimla purjolöken. Kärna ur och skär paprikan i bitar. Skär osten i små tärningar.
+
+6. Blanda pastan med kyckling, bacon, purjolök, paprika och fetaost. Smaka av med salt och peppar. Garnera med salladsskott och oregano.
+
+SOURCE URL
+http://alltommat.se/recept/kramig-pastasallad-med-kyckling-och-fetaost/
+
+##### Krämig Kycklinggryta
+
+SERVINGS: 4
+
+INGREDIENTS
+• 4 port ris eller havreris
+• 1 rödlök
+• 600 g strimlad kycklingfilé
+• 1 msk olja
+• salt
+• peppar
+• 2 1/2 dl matlagningsgrädde
+• 1 kycklingbuljongtärning
+• 1/2 dl chilisås
+• 1 dl mjölk
+• 1 tsk torkad timjan
+• 250 g körsbärstomater
+
+PREPARATION STEPS
+1. Koka riset enligt anvisningen på förpackningen.
+
+2. Skala och skär löken i stora klyftor.
+
+3. Stek lök och kyckling i oljan i en stekpanna. Krydda med salt och peppar.
+
+4. Rör i grädde, chilisås, smulad buljongtärning, mjölk och timjan. Låt sjuda i ca 5 minuter.
+
+5. Dela tomaterna.
+
+6. Servera grytan med ris och tomater.
+
+NOTE
+En tsk Sriracha sås höjer hettan något
+
+SOURCE URL
+https://www.ica.se/recept/kramig-kycklinggryta-med-ris-726081/
+
 
 ### US-033 - Användarinställningar
 

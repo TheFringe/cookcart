@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import { Toast } from '../shared/Toast';
+import { getPreferredListId, setPreferredListId } from '../settings/preferences';
 import type { Recipe } from './types';
 
 export function RecipeDetail() {
@@ -88,7 +89,11 @@ export function RecipeDetail() {
       .get<{ id: number; name: string }[]>(`${API_URL}/shopping-lists`, { withCredentials: true })
       .then((r) => {
         setLists(r.data);
-        if (r.data.length > 0) setSelectedListId(r.data[0].id);
+        if (r.data.length > 0) {
+          const preferred = getPreferredListId();
+          const match = preferred ? r.data.find((l: { id: number }) => l.id === preferred) : null;
+          setSelectedListId(match ? match.id : r.data[0].id);
+        }
       })
       .catch(() => {});
     axios
@@ -174,7 +179,11 @@ export function RecipeDetail() {
                 data-testid="planning-list-select"
                 className="recipe-detail__list-select"
                 value={selectedListId ?? ''}
-                onChange={(e) => setSelectedListId(Number(e.target.value))}
+                onChange={(e) => {
+                  const id = Number(e.target.value);
+                  setSelectedListId(id);
+                  setPreferredListId(id);
+                }}
               >
                 {lists.map((l) => (
                   <option key={l.id} value={l.id}>{l.name}</option>
