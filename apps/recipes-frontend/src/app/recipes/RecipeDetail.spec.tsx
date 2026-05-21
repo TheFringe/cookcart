@@ -321,6 +321,18 @@ describe('RecipeDetail', () => {
     expect(localStorage.getItem('recipes-preferred-list-id')).toBe('8');
   });
 
+  it('visar ingrediens utan mängd när quantity är null', async () => {
+    renderRecipeDetail({
+      ...baseRecipe,
+      ingredients: [{ name: 'salt', quantity: null as unknown as number, unit: '' }],
+    });
+    await screen.findByText('Pasta Carbonara');
+
+    const item = screen.getByTestId('ingredient-salt');
+    expect(item).toHaveTextContent('salt');
+    expect(item).not.toHaveTextContent('0');
+  });
+
   it('lägger till recept i kalender när ett datum väljs', async () => {
     mockedAxios.post.mockResolvedValue({ data: { id: 99, date: '2026-05-25', recipe: { id: 1, name: 'Pasta Carbonara' } } });
     renderRecipeDetail({ ...baseRecipe, ingredients: [{ name: 'pasta', quantity: 200, unit: 'g' }] });

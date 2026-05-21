@@ -58,7 +58,7 @@ export function RecipeDetail() {
     } else {
       axios.post(
         `${API_URL}/shopping-lists/${selectedListId}/items`,
-        { name: ing.name, quantity: ing.quantity * scale, unit: ing.unit },
+        { name: ing.name, quantity: ing.quantity != null ? ing.quantity * scale : 0, unit: ing.unit },
         { withCredentials: true }
       )
         .then((r) => setAddedIngredients((prev) => ({ ...prev, [ing.name]: r.data.id })))
@@ -215,7 +215,7 @@ export function RecipeDetail() {
               ].filter(Boolean).join(' ')}
               onClick={mode === 'planning' ? () => handleIngredientClick(ing) : () => toggleCookingIngredient(ing.name)}
             >
-              {ing.quantity * scale} {ing.unit} {ing.name}
+              {ing.quantity != null ? `${ing.quantity * scale} ` : ''}{ing.unit} {ing.name}
               {mode === 'planning' && addedIngredients[ing.name] !== undefined && <span className="recipe-detail__ingredient-icon"> 🛒</span>}
             </li>
           ))}

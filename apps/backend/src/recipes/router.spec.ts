@@ -153,6 +153,18 @@ describe('POST /recipes', () => {
     expect(res.body).toEqual(created);
   });
 
+  it('normaliserar tom quantity-sträng till null innan det skickas till repository', async () => {
+    const input = { name: 'Pasta', ingredients: [{ name: 'salt', quantity: '', unit: '' }] };
+    const created = { id: 4, name: 'Pasta', description: null, steps: [], cook_time_minutes: null, servings: null, ingredients: [] };
+    mockRepo.create.mockResolvedValue(created);
+
+    await request(app).post('/recipes').send(input);
+
+    expect(mockRepo.create).toHaveBeenCalledWith(expect.objectContaining({
+      ingredients: [{ name: 'salt', quantity: null, unit: '' }],
+    }));
+  });
+
   it('skickar källa (source_name och source_url) till repository', async () => {
     const input = { name: 'Pasta', source_name: 'Koket', source_url: 'https://koket.se/pasta' };
     const created = { id: 3, ...input, description: null, steps: [], cook_time_minutes: null, servings: null };

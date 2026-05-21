@@ -87,6 +87,29 @@ describe('RecipeRepository.create', () => {
       [10, 5, 2, 'dl']
     );
   });
+
+  it('sparar null som quantity när ingrediensen saknar mängd', async () => {
+    const recipeRow = {
+      id: 10, name: 'Pasta', description: null, steps: [],
+      servings: null, cook_time_minutes: null, created_at: new Date(), updated_at: new Date(),
+    };
+    const ingredientRow = { id: 5 };
+
+    const pool = makePool(
+      { rows: [recipeRow] },
+      { rows: [ingredientRow] },
+      { rows: [] },
+    );
+    const repo = new RecipeRepository(pool);
+
+    await repo.create({ name: 'Pasta', ingredients: [{ name: 'salt', quantity: null, unit: '' }] });
+
+    expect(pool.query).toHaveBeenNthCalledWith(
+      3,
+      expect.stringContaining('recipe_ingredients'),
+      [10, 5, null, '']
+    );
+  });
 });
 
 describe('RecipeRepository.update', () => {

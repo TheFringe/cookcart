@@ -2,7 +2,7 @@ import { Pool } from 'pg';
 
 export interface Ingredient {
   name: string;
-  quantity: number;
+  quantity: number | null;
   unit: string;
 }
 
@@ -61,7 +61,7 @@ export class RecipeRepository {
     const ingredients: Ingredient[] = ingredientRows.map((row) => ({
       name: row.name,
       unit: row.unit,
-      quantity: parseFloat(row.quantity),
+      quantity: row.quantity != null ? parseFloat(row.quantity) : null,
     }));
 
     return { ...rows[0], ingredients };

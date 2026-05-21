@@ -47,7 +47,14 @@ export function createRecipesRouter(repo: RecipeRepository): Router {
       res.status(400).json(NAME_REQUIRED);
       return;
     }
-    const recipe = await repo.create(req.body);
+    const body = {
+      ...req.body,
+      ingredients: (req.body.ingredients ?? []).map((ing: { name: string; quantity: string; unit: string }) => ({
+        ...ing,
+        quantity: ing.quantity !== '' && ing.quantity != null ? Number(ing.quantity) : null,
+      })),
+    };
+    const recipe = await repo.create(body);
     res.status(201).json(recipe);
   }));
 
