@@ -359,3 +359,36 @@ Användare ska kunna välja mellan olika teman för applikationen, inklusive mö
   - Referenser:
     - https://www.nordtheme.com
     - https://www.nordtheme.com/docs/usage 
+
+### US-035 - Import av text
+Det ska vara möjligt att importera textfiler med recept, som till exempel .txt och .md filer.
+Filer ska kunna importeras från lokala filsystem.
+Filer har en struktur som liknar denna:
+
+Nikes Kebabgryta
+from Mat och maräng
+
+SERVINGS: 4
+
+INGREDIENTS
+• 1 gul lok
+• 1 vitlöksklyfta
+• olja att steka i
+• 1 pase kycklingkebab
+• 2 dl gradde
+• 2 dl creme fraiche
+• 1/2-1 msk kebabkrydda, smaka av!
+• färsk persilja
+
+PREPARATION STEPS
+1. Finhacka gulloken + vitloken.
+2. Färs i olja.
+3. Ner med kycklingkebaben - den ska bli mjuk
+4. Blanda ner grädde & creme fraiche.
+5. Smaka av med kebabkrydda.
+6. Finhacka persilja. Strö pà.
+7. Server med ris eller i bröd!
+
+SOURCE URL
+https://www.instagram.com/reel/C46ILpVM9Jw/?igsh=djV5cHRrZG91d2cw
+
