@@ -35,9 +35,4 @@ describe('BottomNav', () => {
     expect(within(link).getByTestId('nav-icon-kalender')).toBeInTheDocument();
   });
 
-  it('visar en temaväljare-knapp', () => {
-    renderNav();
-
-    expect(screen.getByTestId('theme-toggle')).toBeInTheDocument();
-  });
 });

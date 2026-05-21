@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Route, Routes, useParams, Navigate } from 'react-router-dom';
+import { Route, Routes, useParams, Navigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { ProtectedRoute } from './auth/ProtectedRoute';
@@ -13,17 +13,39 @@ import { BottomNav } from './shared/BottomNav';
 import { CalendarPage } from './calendar/CalendarPage';
 import { API_URL } from '../config';
 
+type Theme = 'default' | 'nord-dark' | 'nord-light';
+const THEMES: Theme[] = ['default', 'nord-dark', 'nord-light'];
+const STORAGE_KEY = 'recipes-theme';
+
+function getStoredTheme(): Theme {
+  const stored = localStorage.getItem(STORAGE_KEY) ?? '';
+  return THEMES.includes(stored as Theme) ? (stored as Theme) : 'default';
+}
+
+function applyTheme(theme: Theme) {
+  if (theme === 'default') {
+    document.documentElement.removeAttribute('data-theme');
+  } else {
+    document.documentElement.setAttribute('data-theme', theme);
+  }
+}
+
+const ROUTE_TITLES: { pattern: RegExp; title: string }[] = [
+  { pattern: /^\/shopping-lists/, title: 'Inköpslista' },
+  { pattern: /^\/calendar/, title: 'Kalender' },
+  { pattern: /^\/recipes\/new/, title: 'Nytt recept' },
+  { pattern: /^\/recipes\/\d+\/edit/, title: 'Redigera recept' },
+  { pattern: /^\/recipes/, title: 'Recept' },
+  { pattern: /^\//, title: 'Recept' },
+];
+
+function routeTitle(pathname: string): string {
+  return ROUTE_TITLES.find(({ pattern }) => pattern.test(pathname))?.title ?? 'Recept';
+}
+
 function Home() {
-  const { user, logout } = useAuth();
   return (
     <div data-testid="home-page" className="home-page">
-      <header className="app-header">
-        <span className="app-header__brand">Recept</span>
-        <div className="app-header__right">
-          <span className="app-header__user">{user?.name}</span>
-          <button onClick={logout} className="app-header__logout">Logga ut</button>
-        </div>
-      </header>
       <RecipeList />
     </div>
   );
@@ -52,8 +74,41 @@ function ShoppingListLanding() {
 }
 
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
+  const { user, logout } = useAuth();
+  const { pathname } = useLocation();
+  const [theme, setTheme] = useState<Theme>(getStoredTheme);
+
+  useEffect(() => {
+    applyTheme(theme);
+    localStorage.setItem(STORAGE_KEY, theme);
+  }, [theme]);
+
+  function cycleTheme() {
+    setTheme((prev) => THEMES[(THEMES.indexOf(prev) + 1) % THEMES.length]);
+  }
+
   return (
     <ProtectedRoute>
+      <header data-testid="app-header" className="app-header">
+        <span className="app-header__brand">{routeTitle(pathname)}</span>
+        <div className="app-header__right">
+          <button data-testid="theme-toggle" type="button" onClick={cycleTheme} className="app-header__theme-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+          <span className="app-header__user">{user?.name}</span>
+          <button onClick={logout} className="app-header__logout">Logga ut</button>
+        </div>
+      </header>
       {children}
       <BottomNav />
     </ProtectedRoute>

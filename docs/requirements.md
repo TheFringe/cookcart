@@ -43,7 +43,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-031 | Listvy för veckans matsedel                               | ✅ |
 | US-032 | Import av recept via URL                                  | ⬜ |
 | US-033 | Användarinställningar                                     | ⬜ |
-| US-034 | Tema                                                      | ⬜ |
+| US-034 | Tema                                                      | ✅ |
 
 **Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
 

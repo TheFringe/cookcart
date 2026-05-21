@@ -135,6 +135,38 @@ describe('App', () => {
     expect(screen.getByTestId('shopping-list-form')).toBeInTheDocument();
   });
 
+  it('visar temaväljare i headern', () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: 1, email: 'test@example.com', name: 'Test' },
+      loading: false,
+      logout: jest.fn(),
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByTestId('theme-toggle')).toBeInTheDocument();
+  });
+
+  it('visar app-header på kalendersidan', () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: 1, email: 'test@example.com', name: 'Test' },
+      loading: false,
+      logout: jest.fn(),
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/calendar']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByTestId('app-header')).toBeInTheDocument();
+  });
+
   it('visar inköpslistans detaljsida på /shopping-lists/:id', async () => {
     mockUseAuth.mockReturnValue({
       user: { id: 1, email: 'test@example.com', name: 'Test' },
