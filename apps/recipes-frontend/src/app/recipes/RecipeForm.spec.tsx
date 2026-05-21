@@ -249,6 +249,14 @@ describe('RecipeForm — import', () => {
     expect(screen.getByTestId('import-section')).toBeInTheDocument();
   });
 
+  it('url-fält och hämta-knapp ligger i samma rad-wrapper', () => {
+    renderForm();
+
+    const row = screen.getByTestId('import-row');
+    expect(row).toContainElement(screen.getByTestId('import-url-input'));
+    expect(row).toContainElement(screen.getByTestId('import-btn'));
+  });
+
   it('visar inte importfältet i redigeraläge', async () => {
     mockedAxios.get.mockResolvedValue({
       data: { id: 1, name: 'Pasta', steps: [], ingredients: [] },

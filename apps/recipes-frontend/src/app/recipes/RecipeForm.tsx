@@ -107,23 +107,25 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
       <form onSubmit={handleSubmit}>
         {!recipeId && (
           <div className="recipe-form__import" data-testid="import-section">
-            <input
-              data-testid="import-url-input"
-              className="recipe-form__input"
-              type="url"
-              placeholder="https://koket.se/..."
-              value={importUrl}
-              onChange={(e) => setImportUrl(e.target.value)}
-            />
-            <button
-              data-testid="import-btn"
-              type="button"
-              className="recipe-form__import-btn"
-              onClick={handleImport}
-              disabled={!importUrl || importing}
-            >
-              {importing ? 'Hämtar...' : 'Hämta'}
-            </button>
+            <div data-testid="import-row" className="recipe-form__import-row">
+              <input
+                data-testid="import-url-input"
+                className="recipe-form__input"
+                type="url"
+                placeholder="https://koket.se/..."
+                value={importUrl}
+                onChange={(e) => setImportUrl(e.target.value)}
+              />
+              <button
+                data-testid="import-btn"
+                type="button"
+                className="recipe-form__import-btn"
+                onClick={handleImport}
+                disabled={!importUrl || importing}
+              >
+                {importing ? 'Hämtar...' : 'Hämta'}
+              </button>
+            </div>
             {importError && <p data-testid="import-error" className="recipe-form__import-error">{importError}</p>}
           </div>
         )}
