@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction, RequestHandler } from 'express';
 import { RecipeRepository } from './recipe.repository';
+import { parseRecipeFromUrl } from './import';
 
 const NOT_FOUND = { error: 'Receptet hittades inte' };
 const NAME_REQUIRED = { error: 'name krävs' };
@@ -20,6 +21,25 @@ export function createRecipesRouter(repo: RecipeRepository): Router {
   router.get('/', asyncHandler(async (_req, res) => {
     const recipes = await repo.findAll();
     res.json(recipes);
+  }));
+
+  router.post('/import', asyncHandler(async (req, res) => {
+    const { url } = req.body ?? {};
+    if (!url) {
+      res.status(400).json({ error: 'url krävs' });
+      return;
+    }
+    try {
+      const recipe = await parseRecipeFromUrl(url);
+      res.json(recipe);
+    } catch (err) {
+      const isAxiosError = err && typeof err === 'object' && 'response' in err;
+      if (isAxiosError) {
+        res.status(502).json({ error: 'Kunde inte hämta sidan' });
+      } else {
+        res.status(422).json({ error: err instanceof Error ? err.message : 'Parsning misslyckades' });
+      }
+    }
   }));
 
   router.post('/', asyncHandler(async (req, res) => {

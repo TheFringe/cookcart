@@ -242,6 +242,59 @@ describe('RecipeForm — ingredienser', () => {
   });
 });
 
+describe('RecipeForm — import', () => {
+  it('visar ett importfält i skapaläge', () => {
+    renderForm();
+
+    expect(screen.getByTestId('import-section')).toBeInTheDocument();
+  });
+
+  it('visar inte importfältet i redigeraläge', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: { id: 1, name: 'Pasta', steps: [], ingredients: [] },
+    });
+
+    renderForm('1');
+    await screen.findByDisplayValue('Pasta');
+
+    expect(screen.queryByTestId('import-section')).not.toBeInTheDocument();
+  });
+
+  it('anropar POST /recipes/import med url när hämta klickas', async () => {
+    mockedAxios.post.mockResolvedValue({ data: { name: 'Importerat recept', steps: [], ingredients: [] } });
+
+    renderForm();
+    fireEvent.change(screen.getByTestId('import-url-input'), { target: { value: 'https://koket.se/pasta' } });
+    fireEvent.click(screen.getByTestId('import-btn'));
+
+    expect(mockedAxios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/recipes/import'),
+      { url: 'https://koket.se/pasta' },
+      expect.any(Object)
+    );
+  });
+
+  it('fyller i namnfältet med importerat receptnamn', async () => {
+    mockedAxios.post.mockResolvedValue({ data: { name: 'Krämig Kycklinggryta', steps: [], ingredients: [] } });
+
+    renderForm();
+    fireEvent.change(screen.getByTestId('import-url-input'), { target: { value: 'https://ica.se/recept' } });
+    fireEvent.click(screen.getByTestId('import-btn'));
+
+    expect(await screen.findByDisplayValue('Krämig Kycklinggryta')).toBeInTheDocument();
+  });
+
+  it('visar felmeddelande när import misslyckas', async () => {
+    mockedAxios.post.mockRejectedValue(new Error('422'));
+
+    renderForm();
+    fireEvent.change(screen.getByTestId('import-url-input'), { target: { value: 'https://example.com' } });
+    fireEvent.click(screen.getByTestId('import-btn'));
+
+    expect(await screen.findByTestId('import-error')).toBeInTheDocument();
+  });
+});
+
 describe('RecipeForm — skapa', () => {
   it('visar en avbryt-länk som leder till receptlistan', () => {
     renderForm();

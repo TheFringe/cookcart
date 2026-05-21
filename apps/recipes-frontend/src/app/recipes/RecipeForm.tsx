@@ -20,6 +20,9 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
   const [sourceUrl, setSourceUrl] = useState('');
   const [ingredients, setIngredients] = useState<IngredientDraft[]>([]);
   const lastNameInputRef = useRef<HTMLInputElement | null>(null);
+  const [importUrl, setImportUrl] = useState('');
+  const [importing, setImporting] = useState(false);
+  const [importError, setImportError] = useState<string | null>(null);
 
   useEffect(() => {
     lastNameInputRef.current?.focus();
@@ -56,6 +59,34 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
     setIngredients((prev) => prev.map((x, j) => (j === i ? { ...x, [field]: value } : x)));
   }
 
+  async function handleImport() {
+    setImporting(true);
+    setImportError(null);
+    try {
+      const r = await axios.post(`${API_URL}/recipes/import`, { url: importUrl }, { withCredentials: true });
+      const d = r.data;
+      if (d.name) setName(d.name);
+      if (d.description) setDescription(d.description);
+      if (d.steps?.length) setStepsText(d.steps.join('\n'));
+      if (d.cook_time_minutes) setCookTime(String(d.cook_time_minutes));
+      if (d.servings) setServings(String(d.servings));
+      if (d.tags?.length) setTagsText(d.tags.join(', '));
+      if (d.source_name) setSourceName(d.source_name);
+      if (d.source_url) setSourceUrl(d.source_url);
+      if (d.ingredients?.length) {
+        setIngredients(d.ingredients.map((ing: IngredientDraft) => ({
+          quantity: String(ing.quantity ?? ''),
+          unit: ing.unit ?? '',
+          name: ing.name,
+        })));
+      }
+    } catch {
+      setImportError('Kunde inte importera receptet.');
+    } finally {
+      setImporting(false);
+    }
+  }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const normalizedIngredients = ingredients.map((ing) => ({
@@ -74,6 +105,28 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
     <div data-testid="recipe-form" className="recipe-form">
       <h1 className="recipe-form__title">{recipeId ? 'Redigera recept' : 'Nytt recept'}</h1>
       <form onSubmit={handleSubmit}>
+        {!recipeId && (
+          <div className="recipe-form__import" data-testid="import-section">
+            <input
+              data-testid="import-url-input"
+              className="recipe-form__input"
+              type="url"
+              placeholder="https://koket.se/..."
+              value={importUrl}
+              onChange={(e) => setImportUrl(e.target.value)}
+            />
+            <button
+              data-testid="import-btn"
+              type="button"
+              className="recipe-form__import-btn"
+              onClick={handleImport}
+              disabled={!importUrl || importing}
+            >
+              {importing ? 'Hämtar...' : 'Hämta'}
+            </button>
+            {importError && <p data-testid="import-error" className="recipe-form__import-error">{importError}</p>}
+          </div>
+        )}
         <div className="recipe-form__field">
           <label className="recipe-form__label" htmlFor="recipe-name">Namn</label>
           <input

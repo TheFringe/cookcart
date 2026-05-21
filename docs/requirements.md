@@ -41,7 +41,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-029 | Klick på maträtt navigerar till recept                    | ✅ |
 | US-030 | Navigera framåt och bakåt i kalender                      | ✅ |
 | US-031 | Listvy för veckans matsedel                               | ✅ |
-| US-032 | Import av recept via URL                                  | ⬜ |
+| US-032 | Import av recept via URL                                  | ✅ |
 | US-033 | Användarinställningar                                     | ✅ |
 | US-034 | Tema                                                      | ✅ |
 
@@ -235,7 +235,7 @@ INGREDIENTS
 • 3 tomater
 • 1 rödlök
 • 100 g fetaost (ca)
-•   10 cm av det vita på purjolöken
+• 10 cm av det vita på purjolöken
 • 1 kruka färsk basilika
 • 2 klyftor vitlök
 • 1 knippe gräslök

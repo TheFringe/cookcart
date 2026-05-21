@@ -2,6 +2,9 @@ import request from 'supertest';
 import express from 'express';
 import { createRecipesRouter } from './router';
 import { RecipeRepository } from './recipe.repository';
+import * as importModule from './import';
+
+jest.mock('./import');
 
 const mockRepo = {
   findAll: jest.fn(),
@@ -162,5 +165,46 @@ describe('POST /recipes', () => {
       source_name: 'Koket',
       source_url: 'https://koket.se/pasta',
     }));
+  });
+});
+
+describe('POST /recipes/import', () => {
+  it('returnerar 400 när url saknas', async () => {
+    const res = await request(app).post('/recipes/import').send({});
+
+    expect(res.status).toBe(400);
+  });
+
+  it('returnerar parsad receptdata för en giltig url', async () => {
+    const parsed = { name: 'Pasta', steps: ['Koka'], ingredients: [] };
+    jest.spyOn(importModule, 'parseRecipeFromUrl').mockResolvedValue(parsed);
+
+    const res = await request(app)
+      .post('/recipes/import')
+      .send({ url: 'https://koket.se/pasta' });
+
+    expect(res.status).toBe(200);
+    expect(res.body.name).toBe('Pasta');
+  });
+
+  it('returnerar 422 när ingen receptschema hittas', async () => {
+    jest.spyOn(importModule, 'parseRecipeFromUrl').mockRejectedValue(new Error('Inget recept hittades på sidan'));
+
+    const res = await request(app)
+      .post('/recipes/import')
+      .send({ url: 'https://example.com' });
+
+    expect(res.status).toBe(422);
+  });
+
+  it('returnerar 502 när hämtning av sidan misslyckas', async () => {
+    const axiosError = Object.assign(new Error('Network error'), { response: { status: 404 } });
+    jest.spyOn(importModule, 'parseRecipeFromUrl').mockRejectedValue(axiosError);
+
+    const res = await request(app)
+      .post('/recipes/import')
+      .send({ url: 'https://example.com/nonexistent' });
+
+    expect(res.status).toBe(502);
   });
 });
