@@ -1512,6 +1512,17 @@ button {
   .calendar-page {
     padding: 2rem 1rem 6rem;
 
+    &__month-grid {
+      grid-template-columns: 1fr;
+    }
+
+    &__month-day {
+      min-height: auto;
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
   }
 
   .shopping-list-detail {
