@@ -40,7 +40,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-028 | Ta bort maträtt från en dag | ✅ |
 | US-029 | Klick på maträtt navigerar till recept | ✅ |
 | US-030 | Navigera framåt och bakåt i kalender | ✅ |
-| US-031 | Listvy för veckans matsedel | ⬜ |
+| US-031 | Listvy för veckans matsedel | ✅ |
 | US-032 | Import av recept via URL | ⬜ |
 
 **Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
@@ -209,6 +209,8 @@ Användaren kan navigera framåt och bakåt i tid i både vecko- och månadsvy.
 ### US-031 — Listvy för veckans matsedel
 
 En listvy visar veckans matsedel (eller kommande sju dagar) som en enkel lista med datum och tillhörande maträtter. Klick på en maträtt navigerar till receptet.
+
+> Täcks av US-025. Veckovyn visar en dag per rad med länkade maträtter.
 
 ---
 

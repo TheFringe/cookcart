@@ -598,6 +598,29 @@ button {
     }
   }
 
+  &__plan-date {
+    background: transparent;
+    color: var(--c-text);
+    border: 1px solid var(--c-border);
+    border-radius: 2px;
+    padding: 0.25rem 0.625rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    color-scheme: dark;
+
+    &:focus {
+      outline: none;
+      border-color: var(--c-accent);
+    }
+
+    &::-webkit-calendar-picker-indicator {
+      filter: invert(0.6);
+      cursor: pointer;
+    }
+  }
+
   // ── Ingredient states ───────────────────────────────────────────────────────
 
   &__ingredient {

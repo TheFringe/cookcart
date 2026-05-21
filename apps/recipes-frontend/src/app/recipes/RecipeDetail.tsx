@@ -169,16 +169,27 @@ export function RecipeDetail() {
             ))}
           </div>
           {mode === 'planning' && (
-            <select
-              data-testid="planning-list-select"
-              className="recipe-detail__list-select"
-              value={selectedListId ?? ''}
-              onChange={(e) => setSelectedListId(Number(e.target.value))}
-            >
-              {lists.map((l) => (
-                <option key={l.id} value={l.id}>{l.name}</option>
-              ))}
-            </select>
+            <>
+              <select
+                data-testid="planning-list-select"
+                className="recipe-detail__list-select"
+                value={selectedListId ?? ''}
+                onChange={(e) => setSelectedListId(Number(e.target.value))}
+              >
+                {lists.map((l) => (
+                  <option key={l.id} value={l.id}>{l.name}</option>
+                ))}
+              </select>
+              <input
+                type="date"
+                data-testid="plan-date-input"
+                className="recipe-detail__plan-date"
+                onChange={(e) => {
+                  if (!e.target.value) return;
+                  axios.post(`${API_URL}/meal-plan`, { recipeId: recipe.id, date: e.target.value }, { withCredentials: true }).catch(() => {});
+                }}
+              />
+            </>
           )}
         </div>
       )}

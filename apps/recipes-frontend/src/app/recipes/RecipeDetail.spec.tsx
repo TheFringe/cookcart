@@ -300,4 +300,25 @@ describe('RecipeDetail', () => {
     renderComponent();
     expect(await screen.findByRole('status')).toHaveTextContent('Kunde inte ladda receptet.');
   });
+
+  it('visar datumväljare i planeringsläge', async () => {
+    renderRecipeDetail({ ...baseRecipe, ingredients: [{ name: 'pasta', quantity: 200, unit: 'g' }] });
+    await screen.findByText('Pasta Carbonara');
+
+    expect(screen.getByTestId('plan-date-input')).toBeInTheDocument();
+  });
+
+  it('lägger till recept i kalender när ett datum väljs', async () => {
+    mockedAxios.post.mockResolvedValue({ data: { id: 99, date: '2026-05-25', recipe: { id: 1, name: 'Pasta Carbonara' } } });
+    renderRecipeDetail({ ...baseRecipe, ingredients: [{ name: 'pasta', quantity: 200, unit: 'g' }] });
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.change(screen.getByTestId('plan-date-input'), { target: { value: '2026-05-25' } });
+
+    expect(mockedAxios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/meal-plan'),
+      { recipeId: 1, date: '2026-05-25' },
+      expect.any(Object)
+    );
+  });
 });
