@@ -251,6 +251,16 @@ describe('ShoppingListDetail', () => {
     expect(await screen.findByRole('status')).toBeInTheDocument();
   });
 
+  it('visar mängd och enhet för varje vara', async () => {
+    mockedAxios.get.mockResolvedValue({ data: listData });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('Mjölk');
+
+    expect(screen.getByTestId('item-quantity-10')).toHaveTextContent('1 liter');
+    expect(screen.getByTestId('item-quantity-11')).toHaveTextContent('12 st');
+  });
+
   it('kryssad vara visas i plockade varor-sektionen och inte i aktiva varor', async () => {
     mockedAxios.get.mockResolvedValue({ data: listData });
     mockedAxios.patch.mockResolvedValue({ data: {} });

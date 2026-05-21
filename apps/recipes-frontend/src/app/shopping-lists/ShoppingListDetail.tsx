@@ -98,6 +98,7 @@ export function ShoppingListDetail() {
           />
           <span className="shopping-list-detail__name">{item.ingredient.name}</span>
         </label>
+        <span data-testid={`item-quantity-${item.id}`} className="shopping-list-detail__quantity">{item.quantity} {item.unit}</span>
         <button
           type="button"
           data-testid={`delete-item-${item.id}`}

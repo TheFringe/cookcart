@@ -1149,7 +1149,7 @@ button {
 
   &__item {
     display: grid;
-    grid-template-columns: 1.5rem 1fr auto;
+    grid-template-columns: 1.5rem 1fr auto auto;
     align-items: center;
     gap: 0.875rem;
     padding: 0.875rem 0;
@@ -1174,7 +1174,8 @@ button {
       }
     }
 
-    &--checked .shopping-list-detail__name {
+    &--checked .shopping-list-detail__name,
+    &--checked .shopping-list-detail__quantity {
       color: var(--c-muted);
       text-decoration: line-through;
     }
@@ -1188,6 +1189,13 @@ button {
   &__name {
     font-size: 1.0625rem;
     color: var(--c-text);
+    transition: color 0.2s;
+  }
+
+  &__quantity {
+    font-size: 0.875rem;
+    color: var(--c-muted);
+    white-space: nowrap;
     transition: color 0.2s;
   }
 
