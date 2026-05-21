@@ -58,4 +58,5 @@ test-output
 
 # Graphify
 graphify-out/cache/
+graphify-out/.rebuild.lock
 graphify-out/.graphify_python
