@@ -47,7 +47,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-035 | Import av text                                            | ✅ |
 | US-036 | Kalender - månadsvy på små enheter                        | ✅ |
 | US-037 | Klick på veckonummer i månadsvy navigerar till veckovyn   | ✅ |
-| US-038 | Kalendernavigering sparas i URL-historik                  | ⬜ |
+| US-038 | Kalendernavigering sparas i URL-historik                  | ✅ |
 
 **Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
 
