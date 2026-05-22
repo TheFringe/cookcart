@@ -133,6 +133,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
       <form onSubmit={handleSubmit}>
         {!recipeId && (
           <div className="recipe-form__import" data-testid="import-section">
+            <h2 className="recipe-form__import-title">Importera recept</h2>
             <div data-testid="import-row" className="recipe-form__import-row">
               <input
                 data-testid="import-url-input"

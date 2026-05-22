@@ -971,11 +971,26 @@ button {
     line-height: 1.6;
   }
 
-  &__import { margin-bottom: 1.5rem; }
+  &__import {
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  &__import-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-muted);
+    margin-bottom: 0.75rem;
+  }
 
   &__import-row {
     display: flex;
     gap: 0.5rem;
+
+    & + & { margin-top: 0.5rem; }
 
     .recipe-form__input { flex: 1; }
   }
