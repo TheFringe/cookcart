@@ -2,9 +2,9 @@ import { render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { BottomNav } from './BottomNav';
 
-function renderNav() {
+function renderNav(initialPath = '/') {
   render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={[initialPath]}>
       <BottomNav />
     </MemoryRouter>
   );
@@ -33,6 +33,13 @@ describe('BottomNav', () => {
     const link = screen.getByRole('link', { name: /kalender/i });
     expect(link).toBeInTheDocument();
     expect(within(link).getByTestId('nav-icon-kalender')).toBeInTheDocument();
+  });
+
+  it('markerar aktiv länk med aria-current när man är på receptsidan', () => {
+    renderNav('/');
+
+    expect(screen.getByRole('link', { name: /recept/i })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: /inköpslista/i })).not.toHaveAttribute('aria-current');
   });
 
 });

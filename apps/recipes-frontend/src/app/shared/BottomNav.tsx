@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import type { ReactNode } from 'react';
 
 interface NavItem {
@@ -6,6 +6,7 @@ interface NavItem {
   label: string;
   iconTestId: string;
   icon: ReactNode;
+  end?: boolean;
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -13,6 +14,7 @@ const NAV_ITEMS: NavItem[] = [
     to: '/',
     label: 'Recept',
     iconTestId: 'nav-icon-recept',
+    end: true,
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
@@ -54,11 +56,11 @@ export function BottomNav() {
   return (
     <nav aria-label="Navigering" className="bottom-nav">
       <div className="bottom-nav__inner">
-        {NAV_ITEMS.map(({ to, label, iconTestId, icon }) => (
-          <Link key={to} to={to} className="bottom-nav__item">
+        {NAV_ITEMS.map(({ to, label, iconTestId, icon, end }) => (
+          <NavLink key={to} to={to} end={end} className="bottom-nav__item">
             <span data-testid={iconTestId} className="bottom-nav__icon">{icon}</span>
             <span className="bottom-nav__label">{label}</span>
-          </Link>
+          </NavLink>
         ))}
       </div>
     </nav>
