@@ -168,6 +168,13 @@ describe('CalendarPage', () => {
     jest.useRealTimers();
   });
 
+  it('veckovy-navigeringsknappar har aria-label utan synlig text', () => {
+    renderCalendar();
+
+    expect(screen.getByTestId('prev-week-btn')).toHaveAttribute('aria-label', 'Föregående vecka');
+    expect(screen.getByTestId('next-week-btn')).toHaveAttribute('aria-label', 'Nästa vecka');
+  });
+
   it('månadsvy-navigeringsknappar har aria-label utan synlig text', () => {
     renderCalendar();
     fireEvent.click(screen.getByTestId('month-view-btn'));

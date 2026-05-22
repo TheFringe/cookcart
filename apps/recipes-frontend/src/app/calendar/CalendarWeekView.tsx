@@ -22,14 +22,24 @@ export function CalendarWeekView({ monday, entries, onShiftWeek, onSetPickerDayI
   return (
     <div data-testid="calendar-week" className="calendar-page__week-view">
       <div className="calendar-page__week-header">
-        <button data-testid="prev-week-btn" className="calendar-page__nav-btn" onClick={() => onShiftWeek(-1)}>
-          ← Föregående vecka
+        <button
+          data-testid="prev-week-btn"
+          className="calendar-page__nav-btn calendar-page__nav-btn--icon"
+          aria-label="Föregående vecka"
+          onClick={() => onShiftWeek(-1)}
+        >
+          ←
         </button>
         <span data-testid="week-number" className="calendar-page__title">
           V. {getISOWeekNumber(monday)}
         </span>
-        <button data-testid="next-week-btn" className="calendar-page__nav-btn" onClick={() => onShiftWeek(1)}>
-          Nästa vecka →
+        <button
+          data-testid="next-week-btn"
+          className="calendar-page__nav-btn calendar-page__nav-btn--icon"
+          aria-label="Nästa vecka"
+          onClick={() => onShiftWeek(1)}
+        >
+          →
         </button>
       </div>
       <div data-testid="calendar-days" className="calendar-page__days">
