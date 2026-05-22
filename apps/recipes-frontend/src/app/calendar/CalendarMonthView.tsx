@@ -1,8 +1,43 @@
 import { Link } from 'react-router-dom';
 import type { MealPlanEntry } from './calendar.types';
-import { toISODate } from './calendar.types';
+import { toISODate, getISOWeekNumber } from './calendar.types';
 
 const MONTHS = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
+const WEEKDAY_LABELS = ['Mo', 'Ti', 'On', 'To', 'Fr', 'Lö', 'Sö'];
+
+interface MonthWeek {
+  weekNumber: number;
+  days: (number | null)[];
+}
+
+function buildWeeks(monthStart: Date): MonthWeek[] {
+  const year = monthStart.getFullYear();
+  const month = monthStart.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const firstDate = new Date(year, month, 1);
+  const firstDayOfWeek = firstDate.getDay() === 0 ? 6 : firstDate.getDay() - 1; // 0=Mon … 6=Sun
+
+  const weeks: MonthWeek[] = [];
+  let days: (number | null)[] = Array.from({ length: firstDayOfWeek }, () => null);
+  const mondayOfFirstWeek = new Date(year, month, 1 - firstDayOfWeek);
+  let weekNum = getISOWeekNumber(mondayOfFirstWeek);
+
+  for (let dayNum = 1; dayNum <= daysInMonth; dayNum++) {
+    days.push(dayNum);
+    const date = new Date(year, month, dayNum);
+    const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1;
+
+    if (dayOfWeek === 6 || dayNum === daysInMonth) {
+      weeks.push({ weekNumber: weekNum, days });
+      days = [];
+      const nextMonday = new Date(year, month, dayNum + (7 - dayOfWeek));
+      weekNum = getISOWeekNumber(nextMonday);
+    }
+  }
+
+  return weeks;
+}
 
 interface CalendarMonthViewProps {
   monthStart: Date;
@@ -11,7 +46,7 @@ interface CalendarMonthViewProps {
 }
 
 export function CalendarMonthView({ monthStart, entries, onShiftMonth }: CalendarMonthViewProps) {
-  const daysInMonth = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0).getDate();
+  const weeks = buildWeeks(monthStart);
 
   return (
     <div data-testid="month-view" className="calendar-page__month-view">
@@ -34,22 +69,32 @@ export function CalendarMonthView({ monthStart, entries, onShiftMonth }: Calenda
           Nästa månad →
         </button>
       </div>
+      <div data-testid="month-weekday-header" className="calendar-page__month-weekday-header">
+        <span />
+        {WEEKDAY_LABELS.map((label) => (
+          <span key={label}>{label}</span>
+        ))}
+      </div>
       <div className="calendar-page__month-grid">
-        {Array.from({ length: daysInMonth }, (_, i) => {
-          const dayNum = i + 1;
-          const date = new Date(monthStart.getFullYear(), monthStart.getMonth(), dayNum);
-          const dateStr = toISODate(date);
-          const dayEntries = entries.filter((e) => e.date === dateStr);
-          const style = dayNum === 1 ? { gridColumnStart: (date.getDay() || 7) } : undefined;
-          return (
-            <div key={dayNum} data-testid={`month-day-${dayNum}`} className="calendar-page__month-day" style={style}>
-              <span className="calendar-page__month-day-num">{dayNum}</span>
-              {dayEntries.map((e) => (
-                <Link key={e.id} to={`/recipes/${e.recipe.id}`} className="calendar-page__month-entry">{e.recipe.name}</Link>
-              ))}
-            </div>
-          );
-        })}
+        {weeks.map(({ weekNumber, days }) => (
+          <div key={weekNumber} data-testid={`month-week-${weekNumber}`} className="calendar-page__month-week-row">
+            <span className="calendar-page__month-week-num">{weekNumber}</span>
+            {days.map((dayNum, i) =>
+              dayNum === null ? (
+                <div key={`empty-${i}`} data-testid="month-day-empty" className="calendar-page__month-day-empty" />
+              ) : (
+                <div key={dayNum} data-testid={`month-day-${dayNum}`} className="calendar-page__month-day">
+                  <span className="calendar-page__month-day-num">{dayNum}</span>
+                  {entries
+                    .filter((e) => e.date === toISODate(new Date(monthStart.getFullYear(), monthStart.getMonth(), dayNum)))
+                    .map((e) => (
+                      <Link key={e.id} to={`/recipes/${e.recipe.id}`} className="calendar-page__month-entry">{e.recipe.name}</Link>
+                    ))}
+                </div>
+              )
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

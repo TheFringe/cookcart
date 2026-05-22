@@ -1446,10 +1446,49 @@ button {
     color: var(--c-text);
   }
 
-  &__month-grid {
+  &__month-weekday-header {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: 2rem repeat(7, 1fr);
     gap: 0.375rem;
+    margin-bottom: 0.25rem;
+
+    span {
+      text-align: center;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+    }
+  }
+
+  &__month-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  &__month-week-row {
+    display: grid;
+    grid-template-columns: 2rem repeat(7, 1fr);
+    gap: 0.375rem;
+  }
+
+  &__month-week-num {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 0.4rem;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--c-muted);
+    letter-spacing: 0.04em;
+  }
+
+  &__month-day-empty {
+    border-radius: 3px;
+    min-height: 80px;
+    background: transparent;
   }
 
   &__month-day {
@@ -1527,10 +1566,6 @@ button {
   .shopping-list-form { padding: 2rem 1.25rem 4rem; }
   .calendar-page {
     padding: 2rem 1rem 6rem;
-
-    &__month-grid {
-      grid-template-columns: 1fr;
-    }
 
     &__month-day {
       min-height: auto;

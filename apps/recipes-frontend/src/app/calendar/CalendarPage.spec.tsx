@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
 import { CalendarPage } from './CalendarPage';
@@ -227,13 +227,14 @@ describe('CalendarPage', () => {
 
   it('månadsvy placerar den 1:a i rätt kolumn (måndag=1)', () => {
     jest.useFakeTimers();
-    jest.setSystemTime(new Date('2026-05-20')); // maj, den 1:a är fredag → kolumn 5
+    jest.setSystemTime(new Date('2026-05-20')); // maj, den 1:a är fredag → 4 tomma celler (Mo–To) före
 
     renderCalendar();
     fireEvent.click(screen.getByTestId('month-view-btn'));
 
-    const firstDay = screen.getByTestId('month-day-1');
-    expect(firstDay).toHaveStyle({ gridColumnStart: 5 });
+    const firstWeek = screen.getByTestId('month-week-18');
+    expect(within(firstWeek).getAllByTestId('month-day-empty')).toHaveLength(4);
+    expect(within(firstWeek).getByTestId('month-day-1')).toBeInTheDocument();
 
     jest.useRealTimers();
   });
@@ -327,5 +328,26 @@ describe('CalendarPage', () => {
     expect(screen.getByTestId('calendar-day-0')).toHaveTextContent('Pasta Carbonara');
 
     jest.useRealTimers();
+  });
+
+  it('månadsvy visar veckonummer för varje rad i månaden', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20')); // maj 2026
+
+    renderCalendar();
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+
+    expect(screen.getByTestId('month-week-19')).toBeInTheDocument(); // 4–10 maj
+
+    jest.useRealTimers();
+  });
+
+  it('månadsvy visar veckodagsrubriker förkortat med två tecken', () => {
+    renderCalendar();
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+
+    expect(screen.getByTestId('month-weekday-header')).toBeInTheDocument();
+    expect(screen.getByText('Mo')).toBeInTheDocument();
+    expect(screen.getByText('Sö')).toBeInTheDocument();
   });
 });

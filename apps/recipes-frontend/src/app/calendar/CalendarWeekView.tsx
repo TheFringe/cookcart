@@ -1,17 +1,8 @@
 import { Link } from 'react-router-dom';
 import type { MealPlanEntry } from './calendar.types';
-import { toISODate } from './calendar.types';
+import { toISODate, getISOWeekNumber } from './calendar.types';
 
 const DAYS = ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag', 'Söndag'];
-const MS_PER_DAY = 86_400_000;
-
-function getISOWeekNumber(date: Date): number {
-  const d = new Date(date);
-  d.setHours(0, 0, 0, 0);
-  d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-  const yearStart = new Date(d.getFullYear(), 0, 1);
-  return Math.ceil(((d.getTime() - yearStart.getTime()) / MS_PER_DAY + 1) / 7);
-}
 
 interface CalendarWeekViewProps {
   monday: Date;
