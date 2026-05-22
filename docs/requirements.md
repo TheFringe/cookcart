@@ -375,7 +375,7 @@ https://www.ica.se/recept/kramig-kycklinggryta-med-ris-726081/
 Användare ska kunna ändra inställningar
 - vald inköpslista
 - valt tema
-- senaste visade sida/vy, när användaren loggats in ska den visas
+- senaste visade sida/vy, när användaren loggats in ska den visas, redirect till receptlista vid fel, t.ex. 404
 
 ### US-034 - Tema
 
