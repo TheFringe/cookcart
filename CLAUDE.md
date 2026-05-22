@@ -69,7 +69,8 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ### 5. Project-Specific Guidelines
 - **General:**
-- **Avoid use of `any` or `unknown`.**
+  - **Avoid use of `any` or `unknown`.**
+  - **Write a commment why a `catch` is left empty.**
 - **Frontend:**
   - **React:**
     - **Components:**
