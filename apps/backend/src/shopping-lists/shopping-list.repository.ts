@@ -1,13 +1,20 @@
 import { Pool } from 'pg';
 
+export interface ShoppingListSummary { id: number; name: string; }
+export interface ShoppingListItem {
+  id: number; quantity: number; unit: string; checked: boolean;
+  ingredient: { id: number; name: string };
+}
+export interface ShoppingListFull { id: number; name: string; items: ShoppingListItem[]; }
+
 export class ShoppingListRepository {
   constructor(private _pool: Pool) {}
-  async findAll(): Promise<unknown[]> {
+  async findAll(): Promise<ShoppingListSummary[]> {
     const result = await this._pool.query('SELECT id, name FROM shopping_lists');
     return result.rows;
   }
 
-  async findById(id: number): Promise<unknown> {
+  async findById(id: number): Promise<ShoppingListFull | null> {
     const result = await this._pool.query(
       `SELECT sl.id, sl.name,
         COALESCE(
@@ -32,7 +39,7 @@ export class ShoppingListRepository {
     return result.rows[0] ?? null;
   }
 
-  async create(data: { name: string }): Promise<unknown> {
+  async create(data: { name: string }): Promise<ShoppingListSummary> {
     const { rows } = await this._pool.query(
       'INSERT INTO shopping_lists (name) VALUES ($1) RETURNING *',
       [data.name]
@@ -40,7 +47,7 @@ export class ShoppingListRepository {
     return rows[0];
   }
 
-  async update(id: number, data: { name: string }): Promise<unknown> {
+  async update(id: number, data: { name: string }): Promise<ShoppingListSummary | null> {
     const { rows } = await this._pool.query(
       'UPDATE shopping_lists SET name = $1 WHERE id = $2 RETURNING *',
       [data.name, id]
@@ -48,7 +55,7 @@ export class ShoppingListRepository {
     return rows[0] ?? null;
   }
 
-  async addItem(listId: number, data: { name: string; quantity: number; unit: string }): Promise<unknown> {
+  async addItem(listId: number, data: { name: string; quantity: number; unit: string }): Promise<ShoppingListItem> {
     const normalizedName = data.name.toLowerCase();
     const { rows: ingRows } = await this._pool.query(
       `INSERT INTO ingredients (name) VALUES ($1)
@@ -67,7 +74,7 @@ export class ShoppingListRepository {
     return { ...rows[0], ingredient: { id: ingRows[0].id, name: normalizedName } };
   }
 
-  async updateItem(listId: number, itemId: number, data: { quantity?: number; unit?: string; checked?: boolean }): Promise<unknown> {
+  async updateItem(listId: number, itemId: number, data: { quantity?: number; unit?: string; checked?: boolean }): Promise<ShoppingListItem | null> {
     const result = await this._pool.query(
       `UPDATE shopping_list_items
        SET checked  = COALESCE($1, checked),

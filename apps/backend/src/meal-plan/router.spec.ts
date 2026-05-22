@@ -5,6 +5,7 @@ import { MealPlanRepository } from './meal-plan.repository';
 
 const mockRepo = {
   findByWeek: jest.fn(),
+  findByMonth: jest.fn(),
   create: jest.fn(),
   remove: jest.fn(),
 } as unknown as jest.Mocked<MealPlanRepository>;
@@ -53,5 +54,12 @@ describe('GET /meal-plan', () => {
     expect(res.status).toBe(200);
     expect(res.body).toEqual([entry]);
     expect(mockRepo.findByWeek).toHaveBeenCalledWith('2026-05-18');
+  });
+
+  it('returnerar 400 om varken week eller month anges', async () => {
+    const res = await request(app).get('/meal-plan');
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('error');
   });
 });

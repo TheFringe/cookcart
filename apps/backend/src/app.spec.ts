@@ -1,5 +1,12 @@
 jest.mock('./db', () => ({
-  pool: { query: jest.fn().mockResolvedValue({ rows: [] }) },
+  pool: {
+    query: jest.fn().mockResolvedValue({ rows: [] }),
+    connect: jest.fn().mockResolvedValue({
+      query: jest.fn().mockResolvedValue({ rows: [] }),
+      release: jest.fn(),
+    }),
+    on: jest.fn(),
+  },
 }));
 jest.mock('passport-google-oauth20', () => ({
   Strategy: jest.fn().mockImplementation(() => ({ name: 'google' })),
@@ -18,6 +25,10 @@ import { pool } from './db';
 beforeEach(() => {
   jest.resetAllMocks();
   jest.mocked(pool.query).mockResolvedValue({ rows: [] } as any);
+  jest.mocked(pool.connect).mockResolvedValue({
+    query: jest.fn().mockResolvedValue({ rows: [] }),
+    release: jest.fn(),
+  } as any);
 });
 
 describe('isSecureCookie', () => {

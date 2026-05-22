@@ -1,5 +1,11 @@
 import { Pool } from 'pg';
 
+export interface MealPlanEntry {
+  id: number;
+  date: string;
+  recipe: { id: number; name: string };
+}
+
 export class MealPlanRepository {
   constructor(private _pool: Pool) {}
 
@@ -7,7 +13,7 @@ export class MealPlanRepository {
     await this._pool.query('DELETE FROM meal_plan WHERE id = $1', [id]);
   }
 
-  async create(data: { recipeId: number; date: string }): Promise<unknown> {
+  async create(data: { recipeId: number; date: string }): Promise<MealPlanEntry> {
     const { rows } = await this._pool.query(
       `INSERT INTO meal_plan (recipe_id, date)
        VALUES ($1, $2)
@@ -20,7 +26,7 @@ export class MealPlanRepository {
     return rows[0];
   }
 
-  async findByMonth(monthStart: string): Promise<unknown[]> {
+  async findByMonth(monthStart: string): Promise<MealPlanEntry[]> {
     const { rows } = await this._pool.query(
       `SELECT mp.id,
               mp.date::text AS date,
@@ -34,7 +40,7 @@ export class MealPlanRepository {
     return rows;
   }
 
-  async findByWeek(weekStart: string): Promise<unknown[]> {
+  async findByWeek(weekStart: string): Promise<MealPlanEntry[]> {
     const { rows } = await this._pool.query(
       `SELECT mp.id,
               mp.date::text AS date,
