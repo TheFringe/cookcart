@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, within } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { CalendarPage } from './CalendarPage';
 
@@ -8,11 +8,26 @@ const mockedAxios = jest.mocked(axios);
 
 beforeEach(() => jest.resetAllMocks());
 
+function LocationDisplay() {
+  const { search } = useLocation();
+  return <div data-testid="location">{search}</div>;
+}
+
 function renderCalendar() {
   mockedAxios.get.mockResolvedValue({ data: [] });
   render(
     <MemoryRouter>
       <CalendarPage />
+    </MemoryRouter>
+  );
+}
+
+function renderCalendarWithLocation(initialUrl = '/') {
+  mockedAxios.get.mockResolvedValue({ data: [] });
+  render(
+    <MemoryRouter initialEntries={[initialUrl]}>
+      <CalendarPage />
+      <LocationDisplay />
     </MemoryRouter>
   );
 }
@@ -378,6 +393,19 @@ describe('CalendarPage', () => {
     expect(header).toBeInTheDocument();
     expect(within(header).getByText('Må')).toBeInTheDocument();
     expect(within(header).getByText('Sö')).toBeInTheDocument();
+  });
+
+  it('nästa-vecka-knappen uppdaterar URL med nästa veckas datum (US-038)', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20')); // måndag = 18 maj
+
+    renderCalendarWithLocation();
+    fireEvent.click(screen.getByTestId('next-week-btn'));
+
+    expect(screen.getByTestId('location')).toHaveTextContent('view=week');
+    expect(screen.getByTestId('location')).toHaveTextContent('date=2026-05-25');
+
+    jest.useRealTimers();
   });
 
   it('klick på veckonummer i månadsvy byter till veckovy för den veckan', () => {

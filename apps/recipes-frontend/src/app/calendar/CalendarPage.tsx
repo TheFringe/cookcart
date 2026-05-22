@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import { toISODate } from './calendar.types';
@@ -26,13 +27,29 @@ function getFirstOfCurrentMonth(): Date {
   return new Date(today.getFullYear(), today.getMonth(), 1);
 }
 
+function isValidDate(param: string | null): boolean {
+  return !!param && !isNaN(new Date(param).getTime());
+}
+
 export function CalendarPage() {
-  const [monday, setMonday] = useState(getMondayOfCurrentWeek);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [entries, setEntries] = useState<MealPlanEntry[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [pickerDayIndex, setPickerDayIndex] = useState<number | null>(null);
-  const [view, setView] = useState<'week' | 'month'>('week');
-  const [monthStart, setMonthStart] = useState(getFirstOfCurrentMonth);
+
+  const view = (searchParams.get('view') ?? 'week') as 'week' | 'month';
+  const rawDate = searchParams.get('date');
+
+  // Stable string values as effect dependencies to avoid re-firing on every render
+  const mondayStr = view === 'week' && isValidDate(rawDate)
+    ? rawDate!
+    : toISODate(getMondayOfCurrentWeek());
+  const monthStartStr = view === 'month' && isValidDate(rawDate)
+    ? rawDate!
+    : toISODate(getFirstOfCurrentMonth());
+
+  const monday = new Date(mondayStr);
+  const monthStart = new Date(monthStartStr);
 
   useEffect(() => {
     axios
@@ -45,23 +62,23 @@ export function CalendarPage() {
     if (view === 'month') return;
     axios
       .get<MealPlanEntry[]>(`${API_URL}/meal-plan`, {
-        params: { week: toISODate(monday) },
+        params: { week: mondayStr },
         withCredentials: true,
       })
       .then((r) => setEntries(r.data))
       .catch(() => { /* kalendern visas tom — ingen krasch */ });
-  }, [monday, view]);
+  }, [mondayStr, view]);
 
   useEffect(() => {
     if (view !== 'month') return;
     axios
       .get<MealPlanEntry[]>(`${API_URL}/meal-plan`, {
-        params: { month: toISODate(monthStart) },
+        params: { month: monthStartStr },
         withCredentials: true,
       })
       .then((r) => setEntries(r.data))
       .catch(() => { /* kalendern visas tom — ingen krasch */ });
-  }, [monthStart, view]);
+  }, [monthStartStr, view]);
 
   function handleSelectRecipe(recipe: Recipe) {
     if (pickerDayIndex === null) return;
@@ -84,24 +101,26 @@ export function CalendarPage() {
   }
 
   function shiftWeek(delta: number) {
-    setMonday((prev) => {
-      const next = new Date(prev);
-      next.setDate(prev.getDate() + delta * 7);
-      return next;
-    });
+    const next = new Date(monday);
+    next.setDate(monday.getDate() + delta * 7);
+    setSearchParams({ view: 'week', date: toISODate(next) });
   }
 
   function shiftMonth(delta: number) {
-    setMonthStart((prev) => new Date(prev.getFullYear(), prev.getMonth() + delta, 1));
+    const next = new Date(monthStart.getFullYear(), monthStart.getMonth() + delta, 1);
+    setSearchParams({ view: 'month', date: toISODate(next) });
   }
 
   function toggleView() {
-    setView((v) => (v === 'month' ? 'week' : 'month'));
+    if (view === 'month') {
+      setSearchParams({ view: 'week', date: mondayStr });
+    } else {
+      setSearchParams({ view: 'month', date: monthStartStr });
+    }
   }
 
-  function handleWeekClick(monday: Date) {
-    setMonday(monday);
-    setView('week');
+  function handleWeekClick(clickedMonday: Date) {
+    setSearchParams({ view: 'week', date: toISODate(clickedMonday) });
   }
 
   return (
