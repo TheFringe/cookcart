@@ -47,6 +47,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-035 | Import av text                                            | ✅ |
 | US-036 | Kalender - månadsvy på små enheter                        | ✅ |
 | US-037 | Klick på veckonummer i månadsvy navigerar till veckovyn   | ✅ |
+| US-038 | Kalendernavigering sparas i URL-historik                  | ⬜ |
 
 **Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
 
@@ -230,6 +231,15 @@ Veckodag visas för varje dag i månaden.
 ### US-037 — Klick på veckonummer i månadsvy navigerar till veckovyn
 
 När användaren klickar på ett veckonummer i månadsvy ska kalendern byta till veckovy och visa den klickade veckans dagar.
+
+### US-038 — Kalendernavigering sparas i URL-historik
+
+Kalendernavigering ska uppdatera URL:en med query params `?view=` och `?date=` så att webbläsarens back/forward och swipe-back på mobil fungerar.
+
+- `view`: `week` eller `month`
+- `date`: ISO-datum för måndagen i vald vecka (`?view=week&date=2026-05-18`) respektive första dagen i vald månad (`?view=month&date=2026-05-01`)
+- Alla navigationsåtgärder (föregående/nästa vecka, föregående/nästa månad, klick på veckonummer) ska pusha till URL-historiken
+- Vid sidladdning ska kalenderstate läsas från URL:en; saknas params visas aktuell vecka i veckovy
 
 ---
 
