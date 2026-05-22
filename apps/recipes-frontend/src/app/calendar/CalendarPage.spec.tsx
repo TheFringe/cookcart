@@ -350,7 +350,7 @@ describe('CalendarPage', () => {
     fireEvent.click(screen.getByTestId('month-view-btn'));
 
     // 18 maj 2026 är måndag
-    expect(screen.getByTestId('month-day-18')).toHaveTextContent('Mo');
+    expect(screen.getByTestId('month-day-18')).toHaveTextContent('Må');
 
     jest.useRealTimers();
   });
@@ -361,7 +361,7 @@ describe('CalendarPage', () => {
 
     const header = screen.getByTestId('month-weekday-header');
     expect(header).toBeInTheDocument();
-    expect(within(header).getByText('Mo')).toBeInTheDocument();
+    expect(within(header).getByText('Må')).toBeInTheDocument();
     expect(within(header).getByText('Sö')).toBeInTheDocument();
   });
 });

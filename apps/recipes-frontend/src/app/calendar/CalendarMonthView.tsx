@@ -3,7 +3,7 @@ import type { MealPlanEntry } from './calendar.types';
 import { toISODate, getISOWeekNumber } from './calendar.types';
 
 const MONTHS = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
-const WEEKDAY_LABELS = ['Mo', 'Ti', 'On', 'To', 'Fr', 'Lö', 'Sö'];
+const WEEKDAY_LABELS = ['Må', 'Ti', 'On', 'To', 'Fr', 'Lö', 'Sö'];
 
 interface MonthWeek {
   weekNumber: number;

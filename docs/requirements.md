@@ -195,7 +195,7 @@ Kalendern ska visas i månadsvy med alla dagar i månaden i ett 7-kolumners grid
 Månadsnamn och år visas i headern.
 Veckonummer ska visas för varje rad i månaden.
 Veckodag ska visas som för varje kolumn i månaden.
-Veeckodag visas förkortat med två tecken, t.ex. "Mo", "Ti", "On", "To", "Fr", "Lö", "Sö".
+Veckodag visas förkortat med två tecken, t.ex. "Må", "Ti", "On", "To", "Fr", "Lö", "Sö".
 
 ### US-027 — Lägg till maträtt på en dag
 
