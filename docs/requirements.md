@@ -42,7 +42,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-030 | Navigera framåt och bakåt i kalender                      | ✅ |
 | US-031 | Listvy för veckans matsedel                               | ✅ |
 | US-032 | Import av recept via URL                                  | ✅ |
-| US-033 | Användarinställningar                                     | ✅ |
+| US-033 | Användarinställningar                                     | 🔄 |
 | US-034 | Tema                                                      | ✅ |
 | US-035 | Import av text                                            | ✅ |
 | US-036 | Kalender - månadsvy på små enheter                        | ✅ |
@@ -372,7 +372,10 @@ https://www.ica.se/recept/kramig-kycklinggryta-med-ris-726081/
 
 ### US-033 - Användarinställningar
 
-Användare ska kunna ändra inställningar som till exempel vald inköpslista, valt tema.
+Användare ska kunna ändra inställningar
+- vald inköpslista
+- valt tema
+- senaste visade sida/vy, när användaren loggats in ska den visas
 
 ### US-034 - Tema
 
