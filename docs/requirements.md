@@ -35,7 +35,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-023 | Bocka av vara (persistent)                                | ✅ |
 | US-024 | Töm lista — återställ avbockningsstatus                   | ✅ |
 | US-025 | Veckovy i kalender                                        | ✅ |
-| US-026 | Månadsvy i kalender                                       | ⬜ |
+| US-026 | Månadsvy i kalender                                       | ✅ |
 | US-027 | Lägg till maträtt på en dag                               | ✅ |
 | US-028 | Ta bort maträtt från en dag                               | ✅ |
 | US-029 | Klick på maträtt navigerar till recept                    | ✅ |
