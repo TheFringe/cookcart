@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Route, Routes, useParams, Navigate, useLocation } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { Route, Routes, useParams, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { ProtectedRoute } from './auth/ProtectedRoute';
@@ -80,10 +80,29 @@ function ShoppingListLanding() {
   return <Navigate to={`/shopping-lists/${targetId}`} replace />;
 }
 
+const LAST_PATH_KEY = 'recipes-last-path';
+
+function LastPathTracker() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    // skip root — it's the OAuth landing page, not a meaningful destination
+    if (pathname !== '/') localStorage.setItem(LAST_PATH_KEY, pathname);
+  }, [pathname]);
+  return null;
+}
+
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const { user, logout } = useAuth();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [theme, setTheme] = useState<Theme>(getStoredTheme);
+  // capture before LastPathTracker can overwrite it
+  const lastPathOnMount = useRef(localStorage.getItem(LAST_PATH_KEY));
+
+  useEffect(() => {
+    const last = lastPathOnMount.current;
+    if (pathname === '/' && last && last !== '/') navigate(last, { replace: true });
+  }, []);
 
   useEffect(() => {
     applyTheme(theme);
@@ -96,6 +115,7 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <ProtectedRoute>
+      <LastPathTracker />
       <header data-testid="app-header" className="app-header">
         <span className="app-header__brand">{routeTitle(pathname)}</span>
         <div className="app-header__right">

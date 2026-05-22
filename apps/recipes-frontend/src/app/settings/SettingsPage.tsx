@@ -3,6 +3,14 @@ import axios from 'axios';
 import { API_URL } from '../../config';
 import { PREF_LIST_KEY, getPreferredListId } from './preferences';
 
+const THEME_KEY = 'recipes-theme';
+type Theme = 'default' | 'nord-dark' | 'nord-light';
+const THEMES: { value: Theme; label: string }[] = [
+  { value: 'default', label: 'Standard' },
+  { value: 'nord-dark', label: 'Mörkt (Nord)' },
+  { value: 'nord-light', label: 'Ljust (Nord)' },
+];
+
 interface ShoppingListSummary {
   id: number;
   name: string;
@@ -14,6 +22,9 @@ export function SettingsPage() {
   const [lists, setLists] = useState<ShoppingListSummary[]>([]);
   const [preferredListId, setPreferredListId] = useState<string>(
     () => localStorage.getItem(PREF_LIST_KEY) ?? ''
+  );
+  const [theme, setTheme] = useState<Theme>(
+    () => (localStorage.getItem(THEME_KEY) as Theme) ?? 'default'
   );
 
   useEffect(() => {
@@ -33,6 +44,17 @@ export function SettingsPage() {
     }
   }
 
+  function handleThemeChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const val = e.target.value as Theme;
+    setTheme(val);
+    localStorage.setItem(THEME_KEY, val);
+    if (val === 'default') {
+      document.documentElement.removeAttribute('data-theme');
+    } else {
+      document.documentElement.setAttribute('data-theme', val);
+    }
+  }
+
   return (
     <div data-testid="settings-page" className="settings-page">
       <div className="settings-page__field">
@@ -47,6 +69,20 @@ export function SettingsPage() {
           <option value="">Första listan</option>
           {lists.map((l) => (
             <option key={l.id} value={l.id}>{l.name}</option>
+          ))}
+        </select>
+      </div>
+      <div className="settings-page__field">
+        <label className="settings-page__label" htmlFor="theme-select">Tema</label>
+        <select
+          id="theme-select"
+          data-testid="theme-select"
+          className="settings-page__select"
+          value={theme}
+          onChange={handleThemeChange}
+        >
+          {THEMES.map((t) => (
+            <option key={t.value} value={t.value}>{t.label}</option>
           ))}
         </select>
       </div>

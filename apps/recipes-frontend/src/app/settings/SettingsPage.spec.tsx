@@ -33,6 +33,21 @@ describe('SettingsPage', () => {
     expect(screen.getByTestId('preferred-list-select')).toBeInTheDocument();
   });
 
+  it('visar en väljare för tema', () => {
+    renderPage();
+
+    expect(screen.getByTestId('theme-select')).toBeInTheDocument();
+  });
+
+  it('sparar valt tema i localStorage och applicerar data-theme på dokumentet', async () => {
+    renderPage();
+
+    fireEvent.change(screen.getByTestId('theme-select'), { target: { value: 'nord-dark' } });
+
+    expect(localStorage.getItem('recipes-theme')).toBe('nord-dark');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('nord-dark');
+  });
+
   it('sparar vald lista i localStorage när användaren väljer', async () => {
     mockedAxios.get.mockResolvedValue({ data: [{ id: 3, name: 'Willys' }, { id: 7, name: 'ICA' }] });
 

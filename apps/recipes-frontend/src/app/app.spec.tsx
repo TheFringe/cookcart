@@ -183,7 +183,41 @@ describe('App', () => {
     expect(screen.getByTestId('settings-page')).toBeInTheDocument();
   });
 
-  it('visar inköpslistans detaljsida på /shopping-lists/:id', async () => {
+  it('lagrar senast besökt sida i localStorage när inloggad', () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: 1, email: 'test@example.com', name: 'Test' },
+      loading: false,
+      logout: jest.fn(),
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/settings']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(localStorage.getItem('recipes-last-path')).toBe('/settings');
+  });
+
+  it('navigerar till senast besökt sida vid inloggning på /', async () => {
+    localStorage.setItem('recipes-last-path', '/calendar');
+    mockUseAuth.mockReturnValue({
+      user: { id: 1, email: 'test@example.com', name: 'Test' },
+      loading: false,
+      logout: jest.fn(),
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(await screen.findByTestId('calendar-page')).toBeInTheDocument();
+    expect(screen.queryByTestId('home-page')).not.toBeInTheDocument();
+  });
+
+  it('inköpslistans detaljsida på /shopping-lists/:id', async () => {
     mockUseAuth.mockReturnValue({
       user: { id: 1, email: 'test@example.com', name: 'Test' },
       loading: false,
