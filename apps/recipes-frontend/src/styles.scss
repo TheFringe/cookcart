@@ -1335,6 +1335,15 @@ button {
       color: var(--c-text);
       border-color: var(--c-border-hover);
     }
+
+    &--icon {
+      border: none;
+      padding: 0.25rem 0.5rem;
+      font-size: 1.25rem;
+      line-height: 1;
+
+      &:hover { border-color: transparent; }
+    }
   }
 
   &__week-view {
@@ -1483,6 +1492,10 @@ button {
     font-weight: 600;
     color: var(--c-muted);
     letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: color 0.15s;
+
+    &:hover { color: var(--c-accent); }
   }
 
   &__month-day-empty {
