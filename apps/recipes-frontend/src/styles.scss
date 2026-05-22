@@ -173,7 +173,7 @@ button {
   &__inner {
     display: flex;
     width: 100%;
-    max-width: 900px;
+    max-width: 720px;
   }
 
   &__item {
@@ -191,6 +191,7 @@ button {
     transition: color 0.2s;
 
     &:hover { color: var(--c-accent); }
+    &[aria-current="page"] { color: var(--c-accent); }
   }
 
   &__icon {
@@ -212,7 +213,7 @@ button {
 // ─── Recipe List ───────────────────────────────────────────────────────────────
 
 .recipe-list {
-  max-width: 900px;
+  max-width: 720px;
   margin: 0 auto;
   width: 100%;
   padding: 3rem 2rem;
@@ -791,7 +792,7 @@ button {
 // ─── Shopping List ─────────────────────────────────────────────────────────────
 
 .shopping-list {
-  max-width: 900px;
+  max-width: 720px;
   margin: 0 auto;
   width: 100%;
   padding: 3rem 2rem 5rem;
@@ -1293,7 +1294,7 @@ button {
 // ─── Calendar ──────────────────────────────────────────────────────────────────
 
 .calendar-page {
-  max-width: 960px;
+  max-width: 720px;
   margin: 0 auto;
   padding: 3rem 2rem 6rem;
   animation: fadeUp 0.5s var(--ease-out) both;
