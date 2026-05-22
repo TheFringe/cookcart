@@ -1,16 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
-
-const DAYS = ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag', 'Söndag'];
-const MONTHS = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
-
-interface MealPlanEntry {
-  id: number;
-  date: string;
-  recipe: { id: number; name: string };
-}
+import { toISODate } from './calendar.types';
+import type { MealPlanEntry } from './calendar.types';
+import { CalendarWeekView } from './CalendarWeekView';
+import { CalendarMonthView } from './CalendarMonthView';
 
 interface Recipe {
   id: number;
@@ -32,23 +26,6 @@ function getFirstOfCurrentMonth(): Date {
   return new Date(today.getFullYear(), today.getMonth(), 1);
 }
 
-const MS_PER_DAY = 86_400_000;
-
-function getISOWeekNumber(date: Date): number {
-  const d = new Date(date);
-  d.setHours(0, 0, 0, 0);
-  d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-  const yearStart = new Date(d.getFullYear(), 0, 1);
-  return Math.ceil(((d.getTime() - yearStart.getTime()) / MS_PER_DAY + 1) / 7);
-}
-
-function toISODate(date: Date): string {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
-  return `${y}-${m}-${d}`;
-}
-
 export function CalendarPage() {
   const [monday, setMonday] = useState(getMondayOfCurrentWeek);
   const [entries, setEntries] = useState<MealPlanEntry[]>([]);
@@ -61,7 +38,7 @@ export function CalendarPage() {
     axios
       .get<Recipe[]>(`${API_URL}/recipes`, { withCredentials: true })
       .then((r) => setRecipes(r.data))
-      .catch(() => {});
+      .catch(() => { /* receptlistan visas tom i väljaren — ingen krasch */ });
   }, []);
 
   useEffect(() => {
@@ -72,7 +49,7 @@ export function CalendarPage() {
         withCredentials: true,
       })
       .then((r) => setEntries(r.data))
-      .catch(() => {});
+      .catch(() => { /* kalendern visas tom — ingen krasch */ });
   }, [monday, view]);
 
   useEffect(() => {
@@ -83,7 +60,7 @@ export function CalendarPage() {
         withCredentials: true,
       })
       .then((r) => setEntries(r.data))
-      .catch(() => {});
+      .catch(() => { /* kalendern visas tom — ingen krasch */ });
   }, [monthStart, view]);
 
   function handleSelectRecipe(recipe: Recipe) {
@@ -97,11 +74,12 @@ export function CalendarPage() {
         setEntries((prev) => [...prev, r.data]);
         setPickerDayIndex(null);
       })
-      .catch(() => {});
+      .catch(() => { /* picker förblir öppen — ingen toast än, se pending */ });
   }
 
   function handleRemoveEntry(id: number) {
     setEntries((prev) => prev.filter((e) => e.id !== id));
+    // optimistisk borttagning: posten försvinner direkt ur UI; fel ignoreras tyst utan återställning
     axios.delete(`${API_URL}/meal-plan/${id}`, { withCredentials: true }).catch(() => {});
   }
 
@@ -113,21 +91,13 @@ export function CalendarPage() {
     });
   }
 
-  function toggleView() {
-    setView((v) => v === 'month' ? 'week' : 'month');
-  }
-
   function shiftMonth(delta: number) {
     setMonthStart((prev) => new Date(prev.getFullYear(), prev.getMonth() + delta, 1));
   }
 
-  const daysInMonth = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0).getDate();
-
-  const weekDays = DAYS.map((name, i) => {
-    const date = new Date(monday);
-    date.setDate(monday.getDate() + i);
-    return { name, date, dateStr: toISODate(date) };
-  });
+  function toggleView() {
+    setView((v) => (v === 'month' ? 'week' : 'month'));
+  }
 
   return (
     <div data-testid="calendar-page" className="calendar-page">
@@ -147,80 +117,20 @@ export function CalendarPage() {
         </div>
       )}
       {view === 'month' && (
-        <div data-testid="month-view" className="calendar-page__month-view">
-          <div className="calendar-page__month-header">
-            <button
-              data-testid="prev-month-btn"
-              className="calendar-page__nav-btn"
-              onClick={() => shiftMonth(-1)}
-            >
-              ← Föregående månad
-            </button>
-            <h2 data-testid="month-title" className="calendar-page__month-title">
-              {MONTHS[monthStart.getMonth()]} {monthStart.getFullYear()}
-            </h2>
-            <button
-              data-testid="next-month-btn"
-              className="calendar-page__nav-btn"
-              onClick={() => shiftMonth(1)}
-            >
-              Nästa månad →
-            </button>
-          </div>
-          <div className="calendar-page__month-grid">
-            {Array.from({ length: daysInMonth }, (_, i) => {
-              const dayNum = i + 1;
-              const date = new Date(monthStart.getFullYear(), monthStart.getMonth(), dayNum);
-              const dateStr = toISODate(date);
-              const dayEntries = entries.filter((e) => e.date === dateStr);
-              const style = dayNum === 1 ? { gridColumnStart: (date.getDay() || 7) } : undefined;
-              return (
-                <div key={dayNum} data-testid={`month-day-${dayNum}`} className="calendar-page__month-day" style={style}>
-                  <span className="calendar-page__month-day-num">{dayNum}</span>
-                  {dayEntries.map((e) => (
-                    <Link key={e.id} to={`/recipes/${e.recipe.id}`} className="calendar-page__month-entry">{e.recipe.name}</Link>
-                  ))}
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <CalendarMonthView
+          monthStart={monthStart}
+          entries={entries}
+          onShiftMonth={shiftMonth}
+        />
       )}
       {view === 'week' && (
-        <div data-testid="calendar-week" className="calendar-page__week-view">
-          <div className="calendar-page__week-header">
-            <button data-testid="prev-week-btn" className="calendar-page__nav-btn" onClick={() => shiftWeek(-1)}>
-              ← Föregående vecka
-            </button>
-            <span data-testid="week-number" className="calendar-page__title">
-              V. {getISOWeekNumber(monday)}
-            </span>
-            <button data-testid="next-week-btn" className="calendar-page__nav-btn" onClick={() => shiftWeek(1)}>
-              Nästa vecka →
-            </button>
-          </div>
-          <div data-testid="calendar-days" className="calendar-page__days">
-            {weekDays.map(({ name, date, dateStr }, i) => (
-              <div key={name} data-testid={`calendar-day-${i}`} className="calendar-page__day">
-                <span className="calendar-page__day-name">{name}</span>
-                <span data-testid={`calendar-day-date-${i}`} className="calendar-page__day-date">
-                  {date.getDate()}
-                </span>
-                {entries.filter((e) => e.date === dateStr).map((e) => (
-                  <div key={e.id} data-testid={`meal-plan-entry-${e.id}`} className="calendar-page__entry">
-                    <Link to={`/recipes/${e.recipe.id}`} className="calendar-page__entry-link">{e.recipe.name}</Link>
-                    <button data-testid={`remove-entry-${e.id}`} className="calendar-page__remove-btn" onClick={() => handleRemoveEntry(e.id)}>×</button>
-                  </div>
-                ))}
-                <button
-                  data-testid={`add-recipe-btn-${i}`}
-                  className="calendar-page__add-btn"
-                  onClick={() => setPickerDayIndex(i)}
-                >+</button>
-              </div>
-            ))}
-          </div>
-        </div>
+        <CalendarWeekView
+          monday={monday}
+          entries={entries}
+          onShiftWeek={shiftWeek}
+          onSetPickerDayIndex={setPickerDayIndex}
+          onRemoveEntry={handleRemoveEntry}
+        />
       )}
     </div>
   );
