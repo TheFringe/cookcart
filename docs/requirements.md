@@ -9,7 +9,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 ## Sammanfattning
 
 | ID     | Beskrivning                                               | Status |
-|--------|-----------------------------------------------------------|---|
+|--------|-----------------------------------------------------------|--|
 | US-001 | Logga in med Google OAuth                                 | ✅ |
 | US-002 | Delade data för alla inloggade användare                  | ✅ |
 | US-003 | Skapa recept                                              | ✅ |
@@ -35,7 +35,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-023 | Bocka av vara (persistent)                                | ✅ |
 | US-024 | Töm lista — återställ avbockningsstatus                   | ✅ |
 | US-025 | Veckovy i kalender                                        | ✅ |
-| US-026 | Månadsvy i kalender                                       | ✅ |
+| US-026 | Månadsvy i kalender                                       | ⬜ |
 | US-027 | Lägg till maträtt på en dag                               | ✅ |
 | US-028 | Ta bort maträtt från en dag                               | ✅ |
 | US-029 | Klick på maträtt navigerar till recept                    | ✅ |
@@ -44,6 +44,8 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-032 | Import av recept via URL                                  | ✅ |
 | US-033 | Användarinställningar                                     | ✅ |
 | US-034 | Tema                                                      | ✅ |
+| US-035 | Import av text                                            | ✅ |
+| US-036 | Kalender - månadsvy på små enheter                        | ⬜ |
 
 **Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
 
@@ -189,7 +191,11 @@ Kalendern visas i en veckovy med en dag per rad. Varje dag kan ha en eller flera
 
 ### US-026 — Månadsvy i kalender
 
-Kalendern kan visas i månadsvy med alla dagar i månaden i ett 7-kolumners grid. Månadsnamn och år visas i headern.
+Kalendern ska visas i månadsvy med alla dagar i månaden i ett 7-kolumners grid + en kolumn för rad-rubriker.
+Månadsnamn och år visas i headern.
+Veckonummer ska visas för varje rad i månaden.
+Veckodag ska visas som för varje kolumn i månaden.
+Veeckodag visas förkortat med två tecken, t.ex. "Mo", "Ti", "On", "To", "Fr", "Lö", "Sö".
 
 ### US-027 — Lägg till maträtt på en dag
 
@@ -203,7 +209,6 @@ Användare kan ta bort en planerad maträtt från en dag i kalendern.
 
 Klick på en maträtt i kalendern navigerar till det tillhörande receptet. Gäller både veckovy och månadsvy.
 
-
 ### US-030 — Navigera framåt och bakåt i kalender
 
 Användaren kan navigera framåt och bakåt i tid i både vecko- och månadsvy.
@@ -213,6 +218,13 @@ Användaren kan navigera framåt och bakåt i tid i både vecko- och månadsvy.
 En listvy visar veckans matsedel (eller kommande sju dagar) som en enkel lista med datum och tillhörande maträtter. Klick på en maträtt navigerar till receptet.
 
 > Täcks av US-025. Veckovyn visar en dag per rad med länkade maträtter.
+
+### US-036 - Kalender - månadsvy på små enheter
+
+På små enheter (t.ex. mobilen) visas kalendern i en lista med dagar i månaden. 
+Månadsnamn och år visas i headern.
+För varje ny vecka visas en rad med veckonummer.
+Veckodag visas för varje dag i månaden.
 
 ---
 
