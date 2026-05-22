@@ -342,12 +342,26 @@ describe('CalendarPage', () => {
     jest.useRealTimers();
   });
 
+  it('månadsvy innehåller veckodagsnamn i varje dagcell', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20'));
+
+    renderCalendar();
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+
+    // 18 maj 2026 är måndag
+    expect(screen.getByTestId('month-day-18')).toHaveTextContent('Mo');
+
+    jest.useRealTimers();
+  });
+
   it('månadsvy visar veckodagsrubriker förkortat med två tecken', () => {
     renderCalendar();
     fireEvent.click(screen.getByTestId('month-view-btn'));
 
-    expect(screen.getByTestId('month-weekday-header')).toBeInTheDocument();
-    expect(screen.getByText('Mo')).toBeInTheDocument();
-    expect(screen.getByText('Sö')).toBeInTheDocument();
+    const header = screen.getByTestId('month-weekday-header');
+    expect(header).toBeInTheDocument();
+    expect(within(header).getByText('Mo')).toBeInTheDocument();
+    expect(within(header).getByText('Sö')).toBeInTheDocument();
   });
 });

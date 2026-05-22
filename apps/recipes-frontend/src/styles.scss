@@ -1506,6 +1506,16 @@ button {
     &:hover { border-color: var(--c-border-hover); }
   }
 
+  &__month-day-weekday {
+    display: none; // synlig enbart i mobillistvy via media query
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--c-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    min-width: 2rem;
+  }
+
   &__month-day-num {
     font-family: var(--f-display);
     font-size: 1rem;
@@ -1567,13 +1577,43 @@ button {
   .calendar-page {
     padding: 2rem 1rem 6rem;
 
+    &__month-weekday-header { display: none; }
+
+    &__month-week-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid var(--c-border);
+      padding-top: 0.25rem;
+      margin-top: 0.25rem;
+    }
+
+    &__month-week-num {
+      font-size: 0.625rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--c-muted);
+      padding: 0.25rem 0;
+      justify-content: flex-start;
+    }
+
+    &__month-day-empty { display: none; }
+
     &__month-day {
       min-height: auto;
       flex-direction: row;
       align-items: center;
       flex-wrap: wrap;
       gap: 0.5rem;
+      border: none;
+      border-radius: 0;
+      border-bottom: 1px solid var(--c-border);
+      padding: 0.5rem 0;
+
+      &:last-child { border-bottom: none; }
     }
+
+    &__month-day-weekday { display: block; }
   }
 
   .shopping-list-detail {

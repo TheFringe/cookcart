@@ -84,6 +84,7 @@ export function CalendarMonthView({ monthStart, entries, onShiftMonth }: Calenda
                 <div key={`empty-${i}`} data-testid="month-day-empty" className="calendar-page__month-day-empty" />
               ) : (
                 <div key={dayNum} data-testid={`month-day-${dayNum}`} className="calendar-page__month-day">
+                  <span className="calendar-page__month-day-weekday">{WEEKDAY_LABELS[i]}</span>
                   <span className="calendar-page__month-day-num">{dayNum}</span>
                   {entries
                     .filter((e) => e.date === toISODate(new Date(monthStart.getFullYear(), monthStart.getMonth(), dayNum)))
