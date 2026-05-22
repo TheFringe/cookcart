@@ -168,6 +168,14 @@ describe('CalendarPage', () => {
     jest.useRealTimers();
   });
 
+  it('månadsvy-navigeringsknappar har aria-label utan synlig text', () => {
+    renderCalendar();
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+
+    expect(screen.getByTestId('prev-month-btn')).toHaveAttribute('aria-label', 'Föregående månad');
+    expect(screen.getByTestId('next-month-btn')).toHaveAttribute('aria-label', 'Nästa månad');
+  });
+
   it('månadsvy kan navigera till föregående månad', () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2026-05-20'));
@@ -363,5 +371,19 @@ describe('CalendarPage', () => {
     expect(header).toBeInTheDocument();
     expect(within(header).getByText('Må')).toBeInTheDocument();
     expect(within(header).getByText('Sö')).toBeInTheDocument();
+  });
+
+  it('klick på veckonummer i månadsvy byter till veckovy för den veckan', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-05-20'));
+
+    renderCalendar();
+    fireEvent.click(screen.getByTestId('month-view-btn'));
+    fireEvent.click(screen.getByTestId('month-week-num-19')); // 4–10 maj = v.19
+
+    expect(screen.queryByTestId('month-view')).not.toBeInTheDocument();
+    expect(screen.getByTestId('week-number')).toHaveTextContent('19');
+
+    jest.useRealTimers();
   });
 });

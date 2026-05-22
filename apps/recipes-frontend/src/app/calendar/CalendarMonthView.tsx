@@ -7,6 +7,7 @@ const WEEKDAY_LABELS = ['Må', 'Ti', 'On', 'To', 'Fr', 'Lö', 'Sö'];
 
 interface MonthWeek {
   weekNumber: number;
+  monday: Date;
   days: (number | null)[];
 }
 
@@ -20,8 +21,8 @@ function buildWeeks(monthStart: Date): MonthWeek[] {
 
   const weeks: MonthWeek[] = [];
   let days: (number | null)[] = Array.from({ length: firstDayOfWeek }, () => null);
-  const mondayOfFirstWeek = new Date(year, month, 1 - firstDayOfWeek);
-  let weekNum = getISOWeekNumber(mondayOfFirstWeek);
+  let currentMonday = new Date(year, month, 1 - firstDayOfWeek);
+  let weekNum = getISOWeekNumber(currentMonday);
 
   for (let dayNum = 1; dayNum <= daysInMonth; dayNum++) {
     days.push(dayNum);
@@ -29,10 +30,10 @@ function buildWeeks(monthStart: Date): MonthWeek[] {
     const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1;
 
     if (dayOfWeek === 6 || dayNum === daysInMonth) {
-      weeks.push({ weekNumber: weekNum, days });
+      weeks.push({ weekNumber: weekNum, monday: currentMonday, days });
       days = [];
-      const nextMonday = new Date(year, month, dayNum + (7 - dayOfWeek));
-      weekNum = getISOWeekNumber(nextMonday);
+      currentMonday = new Date(year, month, dayNum + (7 - dayOfWeek));
+      weekNum = getISOWeekNumber(currentMonday);
     }
   }
 
@@ -43,9 +44,10 @@ interface CalendarMonthViewProps {
   monthStart: Date;
   entries: MealPlanEntry[];
   onShiftMonth: (delta: number) => void;
+  onWeekClick: (monday: Date) => void;
 }
 
-export function CalendarMonthView({ monthStart, entries, onShiftMonth }: CalendarMonthViewProps) {
+export function CalendarMonthView({ monthStart, entries, onShiftMonth, onWeekClick }: CalendarMonthViewProps) {
   const weeks = buildWeeks(monthStart);
 
   return (
@@ -53,20 +55,22 @@ export function CalendarMonthView({ monthStart, entries, onShiftMonth }: Calenda
       <div className="calendar-page__month-header">
         <button
           data-testid="prev-month-btn"
-          className="calendar-page__nav-btn"
+          className="calendar-page__nav-btn calendar-page__nav-btn--icon"
+          aria-label="Föregående månad"
           onClick={() => onShiftMonth(-1)}
         >
-          ← Föregående månad
+          ←
         </button>
         <h2 data-testid="month-title" className="calendar-page__month-title">
           {MONTHS[monthStart.getMonth()]} {monthStart.getFullYear()}
         </h2>
         <button
           data-testid="next-month-btn"
-          className="calendar-page__nav-btn"
+          className="calendar-page__nav-btn calendar-page__nav-btn--icon"
+          aria-label="Nästa månad"
           onClick={() => onShiftMonth(1)}
         >
-          Nästa månad →
+          →
         </button>
       </div>
       <div data-testid="month-weekday-header" className="calendar-page__month-weekday-header">
@@ -76,9 +80,13 @@ export function CalendarMonthView({ monthStart, entries, onShiftMonth }: Calenda
         ))}
       </div>
       <div className="calendar-page__month-grid">
-        {weeks.map(({ weekNumber, days }) => (
+        {weeks.map(({ weekNumber, monday, days }) => (
           <div key={weekNumber} data-testid={`month-week-${weekNumber}`} className="calendar-page__month-week-row">
-            <span className="calendar-page__month-week-num">{weekNumber}</span>
+            <span
+              data-testid={`month-week-num-${weekNumber}`}
+              className="calendar-page__month-week-num"
+              onClick={() => onWeekClick(monday)}
+            >{weekNumber}</span>
             {days.map((dayNum, i) =>
               dayNum === null ? (
                 <div key={`empty-${i}`} data-testid="month-day-empty" className="calendar-page__month-day-empty" />

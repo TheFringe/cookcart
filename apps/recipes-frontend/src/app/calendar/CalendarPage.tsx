@@ -99,6 +99,11 @@ export function CalendarPage() {
     setView((v) => (v === 'month' ? 'week' : 'month'));
   }
 
+  function handleWeekClick(monday: Date) {
+    setMonday(monday);
+    setView('week');
+  }
+
   return (
     <div data-testid="calendar-page" className="calendar-page">
       <div className="calendar-page__nav">
@@ -121,6 +126,7 @@ export function CalendarPage() {
           monthStart={monthStart}
           entries={entries}
           onShiftMonth={shiftMonth}
+          onWeekClick={handleWeekClick}
         />
       )}
       {view === 'week' && (
