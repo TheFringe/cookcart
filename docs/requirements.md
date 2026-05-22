@@ -46,6 +46,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-034 | Tema                                                      | ✅ |
 | US-035 | Import av text                                            | ✅ |
 | US-036 | Kalender - månadsvy på små enheter                        | ⬜ |
+| US-037 | Klick på veckonummer i månadsvy navigerar till veckovyn   | ⬜ |
 
 **Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
 
@@ -225,6 +226,10 @@ På små enheter (t.ex. mobilen) visas kalendern i en lista med dagar i månaden
 Månadsnamn och år visas i headern.
 För varje ny vecka visas en rad med veckonummer.
 Veckodag visas för varje dag i månaden.
+
+### US-037 — Klick på veckonummer i månadsvy navigerar till veckovyn
+
+När användaren klickar på ett veckonummer i månadsvy ska kalendern byta till veckovy och visa den klickade veckans dagar.
 
 ---
 
