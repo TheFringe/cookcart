@@ -1,4 +1,4 @@
-import { Pool, PoolClient, QueryResult } from 'pg';
+import { Pool, QueryResult } from 'pg';
 
 export interface Ingredient {
   name: string;
