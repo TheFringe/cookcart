@@ -38,7 +38,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET!,
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: isSecureCookie(), maxAge: THIRTY_DAYS_MS },
+  cookie: { secure: isSecureCookie(), sameSite: isSecureCookie() ? 'none' : 'lax', maxAge: THIRTY_DAYS_MS },
 }) as unknown as RequestHandler);
 
 app.use(passport.initialize() as unknown as RequestHandler);
