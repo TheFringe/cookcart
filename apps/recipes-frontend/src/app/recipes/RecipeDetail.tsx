@@ -84,7 +84,13 @@ export function RecipeDetail() {
     axios
       .get<Recipe>(`${API_URL}/recipes/${id}`, { withCredentials: true })
       .then((r) => setRecipe(r.data))
-      .catch(() => setError('Kunde inte ladda receptet.'));
+      .catch((err: { response?: { status: number } }) => {
+        if (err?.response?.status === 404) {
+          navigate('/');
+        } else {
+          setError('Kunde inte ladda receptet.');
+        }
+      });
     axios
       .get<{ id: number; name: string }[]>(`${API_URL}/shopping-lists`, { withCredentials: true })
       .then((r) => {

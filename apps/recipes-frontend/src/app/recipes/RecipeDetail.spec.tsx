@@ -346,4 +346,18 @@ describe('RecipeDetail', () => {
       expect.any(Object)
     );
   });
+
+  it('navigerar till receptlistan om receptet inte hittas (404)', async () => {
+    const mockNavigate = jest.fn();
+    jest.mocked(useNavigate).mockReturnValue(mockNavigate);
+
+    mockedAxios.get
+      .mockRejectedValueOnce({ response: { status: 404 } })
+      .mockResolvedValueOnce({ data: [] })
+      .mockResolvedValueOnce({ data: emptyProgress });
+
+    renderComponent();
+
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/'));
+  });
 });
