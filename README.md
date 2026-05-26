@@ -1,101 +1,116 @@
 # Recipes
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+En webbaserad app för matplanering — recept, inköpslistor och veckokalender. Inloggning via Google, delad data för alla i hushållet.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## Stack
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+| Lager | Teknik |
+|-------|--------|
+| Frontend | React + TypeScript + React Router + Axios |
+| Backend | Node.js + Express + TypeScript |
+| Databas | PostgreSQL 16 |
+| Monorepo | Nx |
+| Containers | Podman / Podman Compose |
 
-## Run tasks
-
-To run the dev server for your app, use:
-
-```sh
-npx nx serve recipes
+```
+apps/
+  recipes-frontend/   React-app
+  backend/            Express API
+libs/
+  shared-ui/          Delade UI-komponenter
+docker-dev/           Lokal PostgreSQL + pgAdmin
+docs/                 Kravdokumentation
 ```
 
-To create a production bundle:
+## Kom igång
 
-```sh
-npx nx build recipes
+### 1. Förutsättningar
+
+- Node.js 20+
+- Yarn
+- Podman + Podman Compose
+- Ett Google OAuth-projekt med client ID och secret
+
+### 2. Installera beroenden
+
+```bash
+yarn install
 ```
 
-To see all available targets to run for a project, run:
+### 3. Konfigurera miljövariabler
 
-```sh
-npx nx show project recipes
+```bash
+cp docker-dev/.env.template docker-dev/.env
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+Fyll i `GOOGLE_CLIENT_ID` och `GOOGLE_CLIENT_SECRET` i `.env`. Övriga värden fungerar som de är för lokal utveckling.
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### 4. Starta databasen
 
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/react:app demo
+```bash
+podman-compose -f docker-dev/docker-compose.yml up -d
 ```
 
-To generate a new library, use:
+PostgreSQL körs på `localhost:5432`. pgAdmin finns på [http://localhost:5050](http://localhost:5050).
 
-```sh
-npx nx g @nx/react:lib mylib
+### 5. Starta frontend och backend
+
+Öppna två terminaler:
+
+```bash
+# Terminal 1 — frontend (http://localhost:4200)
+yarn nx serve @recipes/recipes-frontend
+
+# Terminal 2 — backend (http://localhost:3000)
+yarn nx serve @recipes/backend
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+## Vanliga kommandon
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```bash
+# Tester
+yarn nx test @recipes/recipes-frontend
+yarn nx test @recipes/backend
+yarn nx run-many --target=test --all
 
-## Set up CI!
+# Bygg
+yarn nx build @recipes/recipes-frontend
+yarn nx build @recipes/backend
 
-### Step 1
+# Lint
+yarn nx lint @recipes/recipes-frontend
 
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
+# Visa projektkarta
+yarn nx graph
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+## Miljövariabler
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Alla variabler sätts i `docker-dev/.env`.
 
-### Step 2
+| Variabel | Beskrivning |
+|----------|-------------|
+| `DATABASE_URL` | Anslutningssträng till PostgreSQL |
+| `GOOGLE_CLIENT_ID` | Från Google Cloud Console |
+| `GOOGLE_CLIENT_SECRET` | Från Google Cloud Console |
+| `SESSION_SECRET` | Slumpsträng för sessionsignering |
+| `POSTGRES_USER` | PostgreSQL-användare |
+| `POSTGRES_PASSWORD` | PostgreSQL-lösenord |
 
-Use the following command to configure a CI workflow for your workspace:
+## Databas
 
-```sh
-npx nx g ci-workflow
+Schemat skapas automatiskt av `docker-dev/init.sql` när containern startar första gången. Migrationer finns som separata SQL-filer i `docker-dev/migrate-*.sql` och körs manuellt vid behov.
+
+```bash
+# Anslut till databasen
+psql postgresql://recipes:recipes@localhost:5432/recipes
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Funktioner
 
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- **Recept** — skapa, redigera, importera via URL eller text, kategorisera med taggar
+- **Tillagningsläge** — markera ingredienser och steg som klara, persistent progress
+- **Inköpslistor** — lägg till ingredienser från recept, summera mängder automatiskt
+- **Kalender** — vecko- och månadsvy, planera måltider per dag
+- **Inställningar** — tema (standard, Nord mörkt, Nord ljust), föredragen inköpslista
+- **Google OAuth** — ingen lösenordshantering, delad data för alla inloggade
