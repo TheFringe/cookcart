@@ -98,6 +98,21 @@ describe('ShoppingListDetail', () => {
     expect(screen.getByRole('link', { name: /redigera/i })).toHaveAttribute('href', '/shopping-lists/1/edit');
   });
 
+  it('visar en länk för att skapa ny lista mellan redigera och radera', async () => {
+    mockedAxios.get.mockResolvedValue({ data: listData });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('ICA');
+
+    const newListLink = screen.getByTestId('new-list-btn');
+    expect(newListLink).toHaveAttribute('href', '/shopping-lists/new');
+
+    const nav = screen.getByTestId('list-detail-nav');
+    const testIds = Array.from(nav.querySelectorAll('[data-testid]')).map((el) => el.getAttribute('data-testid'));
+    expect(testIds.indexOf('new-list-btn')).toBeGreaterThan(testIds.indexOf('list-selector'));
+    expect(testIds.indexOf('new-list-btn')).toBeLessThan(testIds.indexOf('delete-list-btn'));
+  });
+
   it('visar ett formulär för att lägga till vara', async () => {
     mockedAxios.get.mockResolvedValue({ data: listData });
 

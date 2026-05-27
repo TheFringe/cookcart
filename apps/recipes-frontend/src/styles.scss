@@ -1187,9 +1187,11 @@ button {
     option { background: #1a2033; }
   }
 
-  &__edit {
+  &__edit,
+  &__new {
     font-size: 0.8125rem;
     font-weight: 500;
+    line-height: 1;
     color: var(--c-muted);
     letter-spacing: 0.05em;
     border: 1px solid var(--c-border);
@@ -1207,6 +1209,7 @@ button {
   &__delete-list-btn {
     font-size: 0.8125rem;
     font-weight: 500;
+    line-height: 1;
     letter-spacing: 0.05em;
     color: #a05050;
     background: transparent;

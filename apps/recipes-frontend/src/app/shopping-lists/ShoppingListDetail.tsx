@@ -147,7 +147,7 @@ export function ShoppingListDetail() {
   return (
     <div data-testid="shopping-list-detail" className="shopping-list-detail">
       {error && <Toast message={error} onDismiss={() => setError(null)} />}
-      <div className="shopping-list-detail__nav">
+      <div data-testid="list-detail-nav" className="shopping-list-detail__nav">
         <select
           data-testid="list-selector"
           className="shopping-list-detail__list-selector"
@@ -162,6 +162,7 @@ export function ShoppingListDetail() {
           ))}
         </select>
         <Link to={`/shopping-lists/${id}/edit`} className="shopping-list-detail__edit">Redigera</Link>
+        <Link to="/shopping-lists/new" data-testid="new-list-btn" className="shopping-list-detail__new">Ny lista</Link>
         <button
           type="button"
           data-testid="delete-list-btn"
