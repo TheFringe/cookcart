@@ -8,126 +8,126 @@
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L1",
-      "id": "app_tsx",
       "community": 0,
-      "norm_label": "app.tsx"
+      "norm_label": "app.tsx",
+      "id": "app_tsx"
     },
     {
       "label": "Theme",
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L17",
-      "id": "app_app_theme",
       "community": 0,
-      "norm_label": "theme"
+      "norm_label": "theme",
+      "id": "app_app_theme"
     },
     {
       "label": "THEMES",
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L18",
-      "id": "app_app_themes",
       "community": 0,
-      "norm_label": "themes"
+      "norm_label": "themes",
+      "id": "app_app_themes"
     },
     {
       "label": "getStoredTheme()",
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L21",
-      "id": "app_app_getstoredtheme",
       "community": 0,
-      "norm_label": "getstoredtheme()"
+      "norm_label": "getstoredtheme()",
+      "id": "app_app_getstoredtheme"
     },
     {
       "label": "applyTheme()",
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L26",
-      "id": "app_app_applytheme",
       "community": 0,
-      "norm_label": "applytheme()"
+      "norm_label": "applytheme()",
+      "id": "app_app_applytheme"
     },
     {
       "label": "ROUTE_TITLES",
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L34",
-      "id": "app_app_route_titles",
       "community": 0,
-      "norm_label": "route_titles"
+      "norm_label": "route_titles",
+      "id": "app_app_route_titles"
     },
     {
       "label": "routeTitle()",
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L44",
-      "id": "app_app_routetitle",
       "community": 0,
-      "norm_label": "routetitle()"
+      "norm_label": "routetitle()",
+      "id": "app_app_routetitle"
     },
     {
       "label": "Home()",
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L48",
-      "id": "app_app_home",
       "community": 0,
-      "norm_label": "home()"
+      "norm_label": "home()",
+      "id": "app_app_home"
     },
     {
       "label": "RecipeEditPage()",
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L56",
-      "id": "app_app_recipeeditpage",
       "community": 0,
-      "norm_label": "recipeeditpage()"
+      "norm_label": "recipeeditpage()",
+      "id": "app_app_recipeeditpage"
     },
     {
       "label": "ShoppingListEditPage()",
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L61",
-      "id": "app_app_shoppinglisteditpage",
       "community": 0,
-      "norm_label": "shoppinglisteditpage()"
+      "norm_label": "shoppinglisteditpage()",
+      "id": "app_app_shoppinglisteditpage"
     },
     {
       "label": "ShoppingListLanding()",
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L66",
-      "id": "app_app_shoppinglistlanding",
       "community": 0,
-      "norm_label": "shoppinglistlanding()"
+      "norm_label": "shoppinglistlanding()",
+      "id": "app_app_shoppinglistlanding"
     },
     {
       "label": "LastPathTracker()",
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L87",
-      "id": "app_app_lastpathtracker",
       "community": 0,
-      "norm_label": "lastpathtracker()"
+      "norm_label": "lastpathtracker()",
+      "id": "app_app_lastpathtracker"
     },
     {
       "label": "AuthenticatedLayout()",
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L96",
-      "id": "app_app_authenticatedlayout",
       "community": 0,
-      "norm_label": "authenticatedlayout()"
+      "norm_label": "authenticatedlayout()",
+      "id": "app_app_authenticatedlayout"
     },
     {
       "label": "App()",
       "file_type": "code",
       "source_file": "app.tsx",
       "source_location": "L159",
-      "id": "app_app_app",
       "community": 0,
-      "norm_label": "app()"
+      "norm_label": "app()",
+      "id": "app_app_app"
     },
     {
       "label": "ShoppingListDetail.spec.tsx",
@@ -1457,7 +1457,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L148",
-      "community": 25,
+      "community": 26,
       "norm_label": "inkopslistor",
       "id": "docs_requirements_ink_pslistor"
     },
@@ -1466,7 +1466,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L152",
-      "community": 25,
+      "community": 26,
       "norm_label": "us-017 \u2014 skapa inkopslista",
       "id": "docs_requirements_us_017_skapa_ink_pslista"
     },
@@ -1475,7 +1475,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L156",
-      "community": 25,
+      "community": 26,
       "norm_label": "us-018 \u2014 byta namn pa inkopslista",
       "id": "docs_requirements_us_018_byta_namn_p_ink_pslista"
     },
@@ -1484,7 +1484,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L160",
-      "community": 25,
+      "community": 26,
       "norm_label": "us-019 \u2014 ta bort inkopslista",
       "id": "docs_requirements_us_019_ta_bort_ink_pslista"
     },
@@ -1493,7 +1493,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L164",
-      "community": 25,
+      "community": 26,
       "norm_label": "us-020 \u2014 lagga till varor manuellt i inkopslista",
       "id": "docs_requirements_us_020_l_gga_till_varor_manuellt_i_ink_pslista"
     },
@@ -1502,7 +1502,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L168",
-      "community": 25,
+      "community": 26,
       "norm_label": "us-021 \u2014 redigera vara i inkopslista",
       "id": "docs_requirements_us_021_redigera_vara_i_ink_pslista"
     },
@@ -1511,7 +1511,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L172",
-      "community": 25,
+      "community": 26,
       "norm_label": "us-022 \u2014 ta bort vara fran inkopslista",
       "id": "docs_requirements_us_022_ta_bort_vara_fr_n_ink_pslista"
     },
@@ -1520,7 +1520,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L176",
-      "community": 25,
+      "community": 26,
       "norm_label": "us-023 \u2014 bocka av vara (persistent)",
       "id": "docs_requirements_us_023_bocka_av_vara_persistent"
     },
@@ -1529,7 +1529,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L180",
-      "community": 25,
+      "community": 26,
       "norm_label": "us-024 \u2014 tom lista",
       "id": "docs_requirements_us_024_t_m_lista"
     },
@@ -1637,7 +1637,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L246",
-      "community": 26,
+      "community": 25,
       "norm_label": "framtida funktioner",
       "id": "docs_requirements_framtida_funktioner"
     },
@@ -1646,7 +1646,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L248",
-      "community": 26,
+      "community": 25,
       "norm_label": "us-032 \u2014 import av recept via url",
       "id": "docs_requirements_us_032_import_av_recept_via_url"
     },
@@ -1655,7 +1655,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L252",
-      "community": 26,
+      "community": 25,
       "norm_label": "exempel",
       "id": "docs_requirements_exempel"
     },
@@ -1664,7 +1664,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L253",
-      "community": 26,
+      "community": 25,
       "norm_label": "pastasallad med fetaost och avokado",
       "id": "docs_requirements_pastasallad_med_fetaost_och_avokado"
     },
@@ -1673,7 +1673,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L304",
-      "community": 26,
+      "community": 25,
       "norm_label": "kramig pastasallad",
       "id": "docs_requirements_kr_mig_pastasallad"
     },
@@ -1682,7 +1682,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L335",
-      "community": 26,
+      "community": 25,
       "norm_label": "kramig kycklinggryta",
       "id": "docs_requirements_kr_mig_kycklinggryta"
     },
@@ -1691,7 +1691,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L373",
-      "community": 26,
+      "community": 25,
       "norm_label": "us-033 - anvandarinstallningar",
       "id": "docs_requirements_us_033_anv_ndarinst_llningar"
     },
@@ -1700,7 +1700,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L380",
-      "community": 26,
+      "community": 25,
       "norm_label": "us-034 - tema",
       "id": "docs_requirements_us_034_tema"
     },
@@ -1709,7 +1709,7 @@
       "file_type": "document",
       "source_file": "docs/requirements.md",
       "source_location": "L393",
-      "community": 26,
+      "community": 25,
       "norm_label": "us-035 - import av text",
       "id": "docs_requirements_us_035_import_av_text"
     },
@@ -17465,5 +17465,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "d24ea4e0b4af50b279f7ed98008ec7b68ed1f8a1"
+  "built_at_commit": "ff0c17b82235f472b88ccf3ff805317084f48ecf"
 }

@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d24ea4e0`
+- Built from commit: `ff0c17b8`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -180,11 +180,11 @@ Nodes (11): Kalender / Veckomatsedel, US-025 — Veckovy i kalender, US-026 — 
 
 ### Community 25 - "Community 25"
 Cohesion: 0.22
-Nodes (9): Inköpslistor, US-017 — Skapa inköpslista, US-018 — Byta namn på inköpslista, US-019 — Ta bort inköpslista, US-020 — Lägga till varor manuellt i inköpslista, US-021 — Redigera vara i inköpslista, US-022 — Ta bort vara från inköpslista, US-023 — Bocka av vara (persistent) (+1 more)
+Nodes (9): Exempel, Framtida funktioner, Krämig Kycklinggryta, Krämig Pastasallad, Pastasallad med fetaost och avokado, US-032 — Import av recept via URL, US-033 - Användarinställningar, US-034 - Tema (+1 more)
 
 ### Community 26 - "Community 26"
 Cohesion: 0.22
-Nodes (9): Exempel, Framtida funktioner, Krämig Kycklinggryta, Krämig Pastasallad, Pastasallad med fetaost och avokado, US-032 — Import av recept via URL, US-033 - Användarinställningar, US-034 - Tema (+1 more)
+Nodes (9): Inköpslistor, US-017 — Skapa inköpslista, US-018 — Byta namn på inköpslista, US-019 — Ta bort inköpslista, US-020 — Lägga till varor manuellt i inköpslista, US-021 — Redigera vara i inköpslista, US-022 — Ta bort vara från inköpslista, US-023 — Bocka av vara (persistent) (+1 more)
 
 ### Community 27 - "Community 27"
 Cohesion: 0.25
