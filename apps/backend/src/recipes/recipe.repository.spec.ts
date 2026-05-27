@@ -122,12 +122,32 @@ describe('RecipeRepository.create', () => {
     );
     const repo = new RecipeRepository(makePool(client));
 
-    await repo.create({ name: 'Pasta', ingredients: [{ name: 'Mjöl', quantity: 2, unit: 'dl' }] });
+    await repo.create({ name: 'Pasta', ingredients: [{ name: 'Mjöl', quantity: 2, unit: 'dl', section: null }] });
 
     expect(client.query).toHaveBeenNthCalledWith(
       3,
       expect.stringContaining('ingredients'),
       [['mjöl']]
+    );
+  });
+
+  it('sparar section_name i recipe_ingredients', async () => {
+    const ingredientRow = { id: 5, name: 'basilika' };
+    const client = makeClient(
+      { rows: [] },               // BEGIN
+      { rows: [baseRecipeRow] },  // INSERT recipe
+      { rows: [ingredientRow] },  // batch upsert ingredients
+      { rows: [] },               // batch INSERT recipe_ingredients
+      { rows: [] },               // COMMIT
+    );
+    const repo = new RecipeRepository(makePool(client));
+
+    await repo.create({ name: 'Pasta', ingredients: [{ name: 'basilika', quantity: 30, unit: 'g', section: 'Pesto' }] });
+
+    expect(client.query).toHaveBeenNthCalledWith(
+      4,
+      expect.stringContaining('section_name'),
+      expect.arrayContaining([['Pesto']])
     );
   });
 });
@@ -245,8 +265,25 @@ describe('RecipeRepository.findById', () => {
     const recipe = await repo.findById(1);
 
     expect(recipe?.ingredients).toEqual([
-      { name: 'pasta', quantity: 200, unit: 'g' },
-      { name: 'ägg', quantity: 2, unit: 'st' },
+      { name: 'pasta', quantity: 200, unit: 'g', section: null },
+      { name: 'ägg', quantity: 2, unit: 'st', section: null },
+    ]);
+  });
+
+  it('returnerar section_name på ingredienser', async () => {
+    const recipeRow = { ...baseRecipeRow, id: 1, name: 'Pasta med pesto' };
+    const ingredientRows = [
+      { name: 'pasta', quantity: 200, unit: 'g', section_name: null },
+      { name: 'basilika', quantity: 30, unit: 'g', section_name: 'Pesto' },
+    ];
+    const client = makeClient({ rows: [recipeRow] }, { rows: ingredientRows });
+    const repo = new RecipeRepository(makePool(client));
+
+    const recipe = await repo.findById(1);
+
+    expect(recipe?.ingredients).toEqual([
+      { name: 'pasta', quantity: 200, unit: 'g', section: null },
+      { name: 'basilika', quantity: 30, unit: 'g', section: 'Pesto' },
     ]);
   });
 });

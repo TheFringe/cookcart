@@ -6,9 +6,9 @@ import { Toast } from '../shared/Toast';
 import type { Recipe } from './types';
 import { parseTextRecipe } from './parseTextRecipe';
 
-type IngredientDraft = { quantity: string; unit: string; name: string };
+type IngredientDraft = { quantity: string; unit: string; name: string; isSection: boolean };
 
-const EMPTY_INGREDIENT: IngredientDraft = { quantity: '', unit: '', name: '' };
+const EMPTY_INGREDIENT: IngredientDraft = { quantity: '', unit: '', name: '', isSection: false };
 
 export function RecipeForm({ recipeId }: { recipeId?: string }) {
   const navigate = useNavigate();
@@ -44,13 +44,17 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
         setTagsText((r.data.tags ?? []).join(', '));
         setSourceName(r.data.source_name ?? '');
         setSourceUrl(r.data.source_url ?? '');
-        setIngredients(
-          r.data.ingredients.map((ing) => ({
-            quantity: String(ing.quantity ?? ''),
-            unit: ing.unit ?? '',
-            name: ing.name,
-          }))
-        );
+        const drafts: IngredientDraft[] = [];
+        let lastSection: string | null | undefined = undefined;
+        for (const ing of r.data.ingredients) {
+          const section = ing.section ?? null;
+          if (section !== lastSection) {
+            if (section) drafts.push({ isSection: true, name: section, quantity: '', unit: '' });
+            lastSection = section;
+          }
+          drafts.push({ isSection: false, name: ing.name, quantity: String(ing.quantity ?? ''), unit: ing.unit ?? '' });
+        }
+        setIngredients(drafts);
       });
   }, [recipeId]);
 
@@ -60,6 +64,10 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
 
   function updateIngredient(i: number, field: keyof IngredientDraft, value: string) {
     setIngredients((prev) => prev.map((x, j) => (j === i ? { ...x, [field]: value } : x)));
+  }
+
+  function toggleSection(i: number) {
+    setIngredients((prev) => prev.map((x, j) => (j === i ? { ...x, isSection: !x.isSection } : x)));
   }
 
   function removeIngredient(i: number) {
@@ -83,6 +91,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
           quantity: ing.quantity,
           unit: ing.unit,
           name: ing.name,
+          isSection: false,
         })));
       }
       setImportError(null);
@@ -110,6 +119,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
           quantity: String(ing.quantity ?? ''),
           unit: ing.unit ?? '',
           name: ing.name,
+          isSection: false,
         })));
       }
     } catch {
@@ -121,10 +131,20 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const normalizedIngredients = ingredients.map((ing) => ({
-      ...ing,
-      quantity: ing.quantity.replace(',', '.'),
-    }));
+    let currentSection: string | null = null;
+    const normalizedIngredients: { name: string; quantity: string; unit: string; section: string | null }[] = [];
+    for (const ing of ingredients) {
+      if (ing.isSection) {
+        currentSection = ing.name || null;
+      } else {
+        normalizedIngredients.push({
+          name: ing.name,
+          quantity: ing.quantity.replace(',', '.'),
+          unit: ing.unit,
+          section: currentSection,
+        });
+      }
+    }
     const tags = tagsText.split(',').map((t) => t.trim()).filter(Boolean);
     const body = { name, description, steps: stepsText.split('\n').filter((s) => s.trim()), cook_time_minutes: cookTime ? Number(cookTime) : null, servings: servings ? Number(servings) : null, tags, source_name: sourceName || null, source_url: sourceUrl || null, ingredients: normalizedIngredients };
     const req = recipeId
@@ -273,10 +293,11 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
           </div>
         )}
         {ingredients.map((ing, i) => (
-          <div key={i} className="recipe-form__ingredient-row">
-            <input className="recipe-form__input" data-testid={`ingredient-name-${i}`} aria-label="Namn" ref={i === ingredients.length - 1 ? lastNameInputRef : null} value={ing.name} onChange={(e) => updateIngredient(i, 'name', e.target.value)} />
-            <input className="recipe-form__input" data-testid={`ingredient-quantity-${i}`} aria-label="Mängd" value={ing.quantity} onChange={(e) => updateIngredient(i, 'quantity', e.target.value)} />
-            <input className="recipe-form__input" data-testid={`ingredient-unit-${i}`} aria-label="Enhet" value={ing.unit} onChange={(e) => updateIngredient(i, 'unit', e.target.value)} />
+          <div key={i} className={`recipe-form__ingredient-row${ing.isSection ? ' recipe-form__ingredient-row--section' : ''}`}>
+            <input className={`recipe-form__input${ing.isSection ? ' recipe-form__ingredient-section-name' : ''}`} data-testid={`ingredient-name-${i}`} aria-label="Namn" ref={i === ingredients.length - 1 ? lastNameInputRef : null} value={ing.name} onChange={(e) => updateIngredient(i, 'name', e.target.value)} />
+            {!ing.isSection && <input className="recipe-form__input" data-testid={`ingredient-quantity-${i}`} aria-label="Mängd" value={ing.quantity} onChange={(e) => updateIngredient(i, 'quantity', e.target.value)} />}
+            {!ing.isSection && <input className="recipe-form__input" data-testid={`ingredient-unit-${i}`} aria-label="Enhet" value={ing.unit} onChange={(e) => updateIngredient(i, 'unit', e.target.value)} />}
+            <button type="button" data-testid={`toggle-section-${i}`} className={`recipe-form__toggle-section${ing.isSection ? ' recipe-form__toggle-section--active' : ''}`} onClick={() => toggleSection(i)}>§</button>
             <button type="button" data-testid={`remove-ingredient-${i}`} className="recipe-form__remove-ingredient" onClick={() => removeIngredient(i)}>×</button>
           </div>
         ))}

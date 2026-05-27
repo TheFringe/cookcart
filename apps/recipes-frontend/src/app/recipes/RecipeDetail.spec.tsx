@@ -64,6 +64,19 @@ describe('RecipeDetail', () => {
     expect(items[2]).toHaveTextContent('Blanda ägg och ost.');
   });
 
+  it('renderar ingredient-sektionshuvud för ingredienser med section-fält', async () => {
+    renderRecipeDetail({
+      ...baseRecipe,
+      ingredients: [
+        { name: 'pasta', quantity: 500, unit: 'g', section: null },
+        { name: 'basilika', quantity: 1, unit: 'kruka', section: 'Pesto' },
+      ],
+    });
+    await screen.findByText('Pasta Carbonara');
+
+    expect(screen.getByTestId('ingredient-section-Pesto')).toBeInTheDocument();
+  });
+
   it('visar receptets ingredienser', async () => {
     const ingredients: Ingredient[] = [
       { name: 'pasta', quantity: 200, unit: 'g' },

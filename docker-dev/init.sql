@@ -23,7 +23,8 @@ CREATE TABLE recipe_ingredients (
     recipe_id     INTEGER NOT NULL REFERENCES recipes(id) ON DELETE CASCADE,
     ingredient_id INTEGER NOT NULL REFERENCES ingredients(id),
     quantity      NUMERIC(10, 2) NOT NULL,
-    unit          TEXT NOT NULL
+    unit          TEXT NOT NULL,
+    section_name  TEXT
 );
 
 CREATE INDEX ON recipe_ingredients(recipe_id);

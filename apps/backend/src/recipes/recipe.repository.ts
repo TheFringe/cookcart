@@ -4,6 +4,7 @@ export interface Ingredient {
   name: string;
   quantity: number | null;
   unit: string;
+  section: string | null;
 }
 
 export interface RecipeInput {
@@ -51,10 +52,11 @@ export class RecipeRepository {
     if (!rows[0]) { client.release(); return null; }
 
     const { rows: ingredientRows } = await client.query(
-      `SELECT i.name, ri.quantity, ri.unit
+      `SELECT i.name, ri.quantity, ri.unit, ri.section_name
        FROM recipe_ingredients ri
        JOIN ingredients i ON i.id = ri.ingredient_id
-       WHERE ri.recipe_id = $1`,
+       WHERE ri.recipe_id = $1
+       ORDER BY ri.id ASC`,
       [id]
     );
     client.release();
@@ -63,6 +65,7 @@ export class RecipeRepository {
       name: row.name,
       unit: row.unit,
       quantity: row.quantity != null ? parseFloat(row.quantity) : null,
+      section: row.section_name ?? null,
     }));
 
     return { ...rows[0], ingredients };
@@ -152,32 +155,26 @@ export class RecipeRepository {
 
   private async saveIngredients(recipeId: number, ingredients: Ingredient[], query: QueryFn): Promise<void> {
     if (ingredients.length === 0) return;
-    const seen = new Set<string>();
-    const unique = ingredients.filter((i) => {
-      const key = i.name.toLowerCase();
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
-    const names = unique.map((i) => i.name.toLowerCase());
+    const uniqueNames = [...new Set(ingredients.map((i) => i.name.toLowerCase()))];
 
     const { rows } = await query(
       `INSERT INTO ingredients (name) SELECT unnest($1::text[])
        ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
        RETURNING id, name`,
-      [names]
+      [uniqueNames]
     );
 
     const nameToId = new Map(rows.map((r: { id: number; name: string }) => [r.name, r.id]));
 
     await query(
-      `INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit)
-       SELECT $1, unnest($2::int[]), unnest($3::float8[]), unnest($4::text[])`,
+      `INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit, section_name)
+       SELECT $1, unnest($2::int[]), unnest($3::float8[]), unnest($4::text[]), unnest($5::text[])`,
       [
         recipeId,
-        names.map((n) => nameToId.get(n)),
-        unique.map((i) => i.quantity),
-        unique.map((i) => i.unit),
+        ingredients.map((i) => nameToId.get(i.name.toLowerCase())),
+        ingredients.map((i) => i.quantity),
+        ingredients.map((i) => i.unit),
+        ingredients.map((i) => i.section ?? null),
       ]
     );
   }

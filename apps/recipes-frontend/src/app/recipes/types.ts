@@ -2,6 +2,7 @@ export type Ingredient = {
   name: string;
   quantity: number | null;
   unit: string;
+  section?: string | null;
 };
 
 export type Recipe = {

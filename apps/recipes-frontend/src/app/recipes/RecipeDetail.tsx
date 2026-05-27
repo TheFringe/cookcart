@@ -4,12 +4,31 @@ import axios from 'axios';
 import { API_URL } from '../../config';
 import { Toast } from '../shared/Toast';
 import { getPreferredListId, setPreferredListId } from '../settings/preferences';
-import type { Recipe } from './types';
+import type { Recipe, Ingredient } from './types';
 
 interface StepGroup {
   heading: string | null;
   headingIndex: number | null;
   steps: { text: string; index: number }[];
+}
+
+interface IngredientGroup {
+  section: string | null;
+  ingredients: Ingredient[];
+}
+
+function groupIngredientsBySection(ingredients: Ingredient[]): IngredientGroup[] {
+  const groups: IngredientGroup[] = [];
+  for (const ing of ingredients) {
+    const section = ing.section ?? null;
+    const last = groups[groups.length - 1];
+    if (last && last.section === section) {
+      last.ingredients.push(ing);
+    } else {
+      groups.push({ section, ingredients: [ing] });
+    }
+  }
+  return groups;
 }
 
 function groupStepsBySection(steps: string[]): StepGroup[] {
@@ -231,23 +250,37 @@ export function RecipeDetail() {
         </div>
       )}
       {recipe.ingredients.length > 0 && (
-        <ul data-testid="ingredients-list" className="recipe-detail__ingredients">
-          {recipe.ingredients.map((ing, i) => (
-            <li
-              key={i}
-              data-testid={`ingredient-${ing.name}`}
-              className={[
-                'recipe-detail__ingredient',
-                mode === 'planning' && addedIngredients[ing.name] !== undefined ? 'recipe-detail__ingredient--added' : '',
-                mode === 'cooking' && checkedIngredients.has(ing.name) ? 'recipe-detail__ingredient--checked' : '',
-              ].filter(Boolean).join(' ')}
-              onClick={mode === 'planning' ? () => handleIngredientClick(ing) : () => toggleCookingIngredient(ing.name)}
-            >
-              {ing.quantity != null ? `${ing.quantity * scale} ` : ''}{ing.unit} {ing.name}
-              {mode === 'planning' && addedIngredients[ing.name] !== undefined && <span className="recipe-detail__ingredient-icon"> 🛒</span>}
-            </li>
+        <div data-testid="ingredients-list" className="recipe-detail__ingredients">
+          {groupIngredientsBySection(recipe.ingredients).map((group) => (
+            <div key={group.section ?? 'root'}>
+              {group.section && (
+                <h2
+                  data-testid={`ingredient-section-${group.section}`}
+                  className="recipe-detail__ingredient-section"
+                >
+                  {group.section}
+                </h2>
+              )}
+              <ul>
+                {group.ingredients.map((ing, i) => (
+                  <li
+                    key={i}
+                    data-testid={`ingredient-${ing.name}`}
+                    className={[
+                      'recipe-detail__ingredient',
+                      mode === 'planning' && addedIngredients[ing.name] !== undefined ? 'recipe-detail__ingredient--added' : '',
+                      mode === 'cooking' && checkedIngredients.has(ing.name) ? 'recipe-detail__ingredient--checked' : '',
+                    ].filter(Boolean).join(' ')}
+                    onClick={mode === 'planning' ? () => handleIngredientClick(ing) : () => toggleCookingIngredient(ing.name)}
+                  >
+                    {ing.quantity != null ? `${ing.quantity * scale} ` : ''}{ing.unit} {ing.name}
+                    {mode === 'planning' && addedIngredients[ing.name] !== undefined && <span className="recipe-detail__ingredient-icon"> 🛒</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
       {recipe.steps.length > 0 && (
         <div className="recipe-detail__steps">

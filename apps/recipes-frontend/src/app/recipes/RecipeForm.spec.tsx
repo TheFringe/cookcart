@@ -149,6 +149,7 @@ describe('RecipeForm — redigera', () => {
     expect(screen.getByTestId('ingredient-name-0')).toHaveValue('mjöl');
   });
 
+
   it('visar en avbryt-länk som leder tillbaka till receptsidan', async () => {
     mockedAxios.get.mockResolvedValue({
       data: { id: 1, name: 'Pasta', steps: [], ingredients: [] },
@@ -230,6 +231,23 @@ describe('RecipeForm — ingredienser', () => {
     expect(screen.getByTestId('add-ingredient-btn')).toBeInTheDocument();
   });
 
+  it('visar en knapp för att markera raden som sektionsrubrik', () => {
+    renderForm();
+    fireEvent.click(screen.getByTestId('add-ingredient-btn'));
+
+    expect(screen.getByTestId('toggle-section-0')).toBeInTheDocument();
+  });
+
+  it('döljer mängd- och enhetsfälten när raden markeras som sektionsrubrik', () => {
+    renderForm();
+    fireEvent.click(screen.getByTestId('add-ingredient-btn'));
+
+    fireEvent.click(screen.getByTestId('toggle-section-0'));
+
+    expect(screen.queryByTestId('ingredient-quantity-0')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ingredient-unit-0')).not.toBeInTheDocument();
+  });
+
   it('visar ingrediensfälten i ordningen namn, mängd, enhet', () => {
     renderForm();
     fireEvent.click(screen.getByTestId('add-ingredient-btn'));
@@ -240,6 +258,7 @@ describe('RecipeForm — ingredienser', () => {
     expect(inputs[1]).toHaveAttribute('data-testid', 'ingredient-quantity-0');
     expect(inputs[2]).toHaveAttribute('data-testid', 'ingredient-unit-0');
   });
+
 
   it('lägger till en ingrediensrad med fält för mängd, enhet och namn när knappen klickas', () => {
     renderForm();
@@ -339,6 +358,51 @@ describe('RecipeForm — import', () => {
   });
 });
 
+describe('RecipeForm — sektionsrubrik', () => {
+  it('infogar en sektionsrubrikrad när recept laddas med ingredienser som har section', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: {
+        id: 1,
+        name: 'Pasta med pesto',
+        steps: [],
+        ingredients: [
+          { name: 'pasta', quantity: 200, unit: 'g', section: null },
+          { name: 'basilika', quantity: 30, unit: 'g', section: 'Pesto' },
+        ],
+      },
+    });
+
+    renderForm('1');
+    await screen.findByDisplayValue('Pasta med pesto');
+
+    expect(screen.queryByTestId('ingredient-quantity-0')).toBeInTheDocument();  // pasta — vanlig rad
+    expect(screen.queryByTestId('ingredient-quantity-1')).not.toBeInTheDocument(); // Pesto — sektionsrubrik
+    expect(screen.getByTestId('ingredient-name-1')).toHaveValue('Pesto');
+    expect(screen.getByTestId('ingredient-name-2')).toHaveValue('basilika');
+  });
+
+  it('skickar sektionsnamn på ingredienser som följer en sektionsrubrikrad', () => {
+    mockedAxios.post.mockResolvedValue({ data: { id: 1 } });
+
+    renderForm();
+    fireEvent.click(screen.getByTestId('add-ingredient-btn'));
+    fireEvent.change(screen.getByTestId('ingredient-name-0'), { target: { value: 'Pesto' } });
+    fireEvent.click(screen.getByTestId('toggle-section-0'));
+
+    fireEvent.click(screen.getByTestId('add-ingredient-btn'));
+    fireEvent.change(screen.getByTestId('ingredient-name-1'), { target: { value: 'basilika' } });
+    fireEvent.click(screen.getByTestId('submit-btn'));
+
+    expect(mockedAxios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/recipes'),
+      expect.objectContaining({
+        ingredients: [{ name: 'basilika', quantity: '', unit: '', section: 'Pesto' }],
+      }),
+      expect.any(Object)
+    );
+  });
+});
+
 describe('RecipeForm — skapa', () => {
   it('visar ett felmeddelande när sparande misslyckas', async () => {
     mockedAxios.post.mockRejectedValue({ response: { status: 500 } });
@@ -370,7 +434,7 @@ describe('RecipeForm — skapa', () => {
     expect(mockedAxios.post).toHaveBeenCalledWith(
       expect.stringContaining('/recipes'),
       expect.objectContaining({
-        ingredients: [{ quantity: '2', unit: 'dl', name: 'mjöl' }],
+        ingredients: [{ quantity: '2', unit: 'dl', name: 'mjöl', section: null }],
       }),
       expect.any(Object)
     );
