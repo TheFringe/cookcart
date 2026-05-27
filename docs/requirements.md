@@ -48,6 +48,9 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-036 | Kalender - månadsvy på små enheter                        | ✅ |
 | US-037 | Klick på veckonummer i månadsvy navigerar till veckovyn   | ✅ |
 | US-038 | Kalendernavigering sparas i URL-historik                  | ✅ |
+| US-039 | Sektionsrubriker för tillagningssteg                      | ✅ |
+| US-040 | Sektionsrubriker för ingredienser                         | ✅ |
+| US-041 | Ordna ingredienser med drag-and-drop                      | ⬜ |
 
 **Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
 
@@ -76,8 +79,8 @@ Användare kan skapa ett nytt recept med följande fält:
 | Namn | Receptets titel |
 | Kategori | En eller flera taggar, t.ex. kött, fågel, vegetariskt, glutenfritt |
 | Källa | Valfritt. Består av ett namn och en URL (t.ex. länk till originalreceptet) |
-| Ingredienser | Lista med ingredienser, vardera med namn, mängd och enhet. Enhet är ett fritextfält med autocomplete baserat på enheter från befintliga ingredienser. |
-| Instruktioner | Steg-för-steg-beskrivning av tillagningen |
+| Ingredienser | Lista med ingredienser, vardera med namn, mängd och enhet. Enhet är ett fritextfält med autocomplete baserat på enheter från befintliga ingredienser. Varje rad kan tas bort med en ×-knapp. Rader kan omvandlas till sektionsrubriker (se US-040). |
+| Instruktioner | Steg-för-steg-beskrivning av tillagningen. Steg kan grupperas under namngivna sektioner (se US-039). |
 | Tillagningstid | Angiven i minuter |
 | Portioner | Antal portioner receptet är avsett för |
 
@@ -100,6 +103,22 @@ Receptlistan kan filtreras på kategori i gränssnittet.
 ### US-008 — Visa receptdetalj med ingredienser och instruktioner
 
 Klickar man på ett recept visas hela receptet med ingredienser och instruktioner.
+
+### US-032 — Import av recept via URL
+
+Användare kan ange en URL till ett recept på en extern sida (t.ex. koket.se) och få receptet automatiskt importerat. Importerad data fylls i formuläret där användaren kan granska och spara.
+
+### US-035 — Import av recept via textfil
+
+Användare kan importera recept från lokala textfiler (`.txt`, `.md`). Filen tolkas enligt ett definierat format med rubrik, portioner, ingredienser och tillagningssteg.
+
+### US-039 — Sektionsrubriker för tillagningssteg
+
+Tillagningssteg kan grupperas under namngivna sektioner. En rad som börjar med `# ` tolkas som en sektionsrubrik och renderas som en `h2`-rubrik med en egen numrerad lista för efterföljande steg. Vid URL-import omvandlas `HowToSection`-objekt automatiskt till sektionsrubriker.
+
+### US-040 — Sektionsrubriker för ingredienser
+
+Ingredienser i ett recept kan grupperas under namngivna sektionsrubriker (t.ex. "Sås", "Pesto"). I receptformuläret omvandlas en rad till en sektionsrubrik via en `§`-knapp — mängd och enhet döljs och namnet täcker hela raden. Sektionen härledds positionellt vid sparande. I receptdetaljen visas varje sektion som en `h2`-rubrik ovanför sin ingredienslista.
 
 ---
 
@@ -243,182 +262,30 @@ Kalendernavigering ska uppdatera URL:en med query params `?view=` och `?date=` s
 
 ---
 
-## Framtida funktioner
+## Inställningar
 
-### US-032 — Import av recept via URL
+### US-033 — Användarinställningar
 
-Användare ska kunna ange en URL till ett recept på en extern sida (t.ex. koket.se) och få receptet automatiskt importerat till applikationen.
+Användare kan ändra inställningar via en inställningssida som nås via kugghjulsikonen i appens header (till höger om temabytaren).
 
-#### Exempel
-##### Pastasallad med fetaost och avokado
+- **Föredragen inköpslista** — väljs bland befintliga listor; den valda listan förvaljs i planeringsläget
+- **Tema** — se US-034
+- **Senaste visade sida** — vid inloggning omdirigeras användaren till den senaste besökta sidan; vid fel (t.ex. 404) omdirigeras till receptlistan
 
-Pastasallad med fetaost och avokado
+### US-034 — Tema
 
-SERVINGS: 4
+Användare kan välja bland tre teman:
 
-INGREDIENTS
-• 1 liter kokta penne (pasta)
-• 2 avokado
-• 3 tomater
-• 1 rödlök
-• 100 g fetaost (ca)
-• 10 cm av det vita på purjolöken
-• 1 kruka färsk basilika
-• 2 klyftor vitlök
-• 1 knippe gräslök
-• salt
-• peppar
-• 1 dl rapsolja
-• 50 ml olivolja
+- **Standard** — standardtemat
+- **Nord Dark** — mörkt tema baserat på Nord Polar Night med accenter från Frost och Aurora
+- **Nord Light** — ljust tema baserat på Nord Snow Storm
 
-PREPARATION STEPS
-1. Om det inte finns färdigkokt, koka och kyl ner pastan.
+Temabytaren nås via en solikon i appens header. Valt tema sparas persistent i `localStorage`.
 
-2. Skala och strimla rödlöken och purjolöken tunt.
+---
 
-3. Låt dom sedan skölja under kallt vatten för att bli krispiga.
+## Planerade funktioner
 
-4. Klipp av basilikan från krukan och dela gräslöken grovt.
+### US-041 — Ordna ingredienser med drag-and-drop
 
-5. Lägg i en mixer tillsammmans med vitlöken.
-
-6. Häll i oljan och kör runt.
-
-7. Häll alltsammans över pastan och blanda väl.
-
-8. Skär tomaterna och avokado grovt.
-
-9. Lägg ner i pastan tillsammans med rödlöken och purjolöken.
-
-10. Smula ner fetaosten och blanda runt.
-
-11. Lägg upp i en skål och garnera med några kvistar basilika.
-
-NOTE
-Att variera din pastasallad är enkelt. Här används fetaost och
-avokado.
-
-SOURCE URL
-http://www.koket.se/per_morberg/sallader/pasta_och_nudlar/pastasallad_med_fetaost_och_avokado/
-
-##### Krämig Pastasallad
-
-INGREDIENTS
-• 500 g pasta penne
-• 2 dl crème fraiche
-• 3 dl gräddfil
-• Efter behag Pesto
-• 1 kyckling stor, grillad
-• 140 g bacon
-• 1 purjolök liten
-• 2 röda paprikor
-• 200 g fetaost
-• 1 tsk salt
-• 2 krm svartpeppar nymald
-
-PREPARATION STEPS
-1. Koka pastan enligt anvisning på förpackningen. Spola i kallt vatten och låt rinna av. Blanda med creme fraiche och gräddfil.
-
-2. Blanda ner peston i pastan.
-
-3. Bena ur och skär kycklingen i bitar.
-
-4. Skär bacon i bitar och stek det knaprigt i stekpannan. Låt det sedan rinna av på hushållspapper.
-
-5. Ansa och finstrimla purjolöken. Kärna ur och skär paprikan i bitar. Skär osten i små tärningar.
-
-6. Blanda pastan med kyckling, bacon, purjolök, paprika och fetaost. Smaka av med salt och peppar. Garnera med salladsskott och oregano.
-
-SOURCE URL
-http://alltommat.se/recept/kramig-pastasallad-med-kyckling-och-fetaost/
-
-##### Krämig Kycklinggryta
-
-SERVINGS: 4
-
-INGREDIENTS
-• 4 port ris eller havreris
-• 1 rödlök
-• 600 g strimlad kycklingfilé
-• 1 msk olja
-• salt
-• peppar
-• 2 1/2 dl matlagningsgrädde
-• 1 kycklingbuljongtärning
-• 1/2 dl chilisås
-• 1 dl mjölk
-• 1 tsk torkad timjan
-• 250 g körsbärstomater
-
-PREPARATION STEPS
-1. Koka riset enligt anvisningen på förpackningen.
-
-2. Skala och skär löken i stora klyftor.
-
-3. Stek lök och kyckling i oljan i en stekpanna. Krydda med salt och peppar.
-
-4. Rör i grädde, chilisås, smulad buljongtärning, mjölk och timjan. Låt sjuda i ca 5 minuter.
-
-5. Dela tomaterna.
-
-6. Servera grytan med ris och tomater.
-
-NOTE
-En tsk Sriracha sås höjer hettan något
-
-SOURCE URL
-https://www.ica.se/recept/kramig-kycklinggryta-med-ris-726081/
-
-
-### US-033 - Användarinställningar
-
-Användare ska kunna ändra inställningar
-- vald inköpslista
-- valt tema
-- senaste visade sida/vy, när användaren loggats in ska den visas, redirect till receptlista vid fel, t.ex. 404
-
-### US-034 - Tema
-
-Användare ska kunna välja mellan olika teman för applikationen, inklusive mörkt och ljuset tema.
-
-- Det behövs en theme-switcher för att byta mellan teman.
-- Två nya teman utöver det som redan finns:
-  - Dark Mode: Nord Polar Night
-  - Light Mode: Nord Snow Storm
-  - Kontraster från Frost och Aurora
-  - Referenser:
-    - https://www.nordtheme.com
-    - https://www.nordtheme.com/docs/usage 
-
-### US-035 - Import av text
-Det ska vara möjligt att importera textfiler med recept, som till exempel .txt och .md filer.
-Filer ska kunna importeras från lokala filsystem.
-Filer har en struktur som liknar denna:
-
-Nikes Kebabgryta
-from Mat och maräng
-
-SERVINGS: 4
-
-INGREDIENTS
-• 1 gul lok
-• 1 vitlöksklyfta
-• olja att steka i
-• 1 pase kycklingkebab
-• 2 dl gradde
-• 2 dl creme fraiche
-• 1/2-1 msk kebabkrydda, smaka av!
-• färsk persilja
-
-PREPARATION STEPS
-1. Finhacka gulloken + vitloken.
-2. Färs i olja.
-3. Ner med kycklingkebaben - den ska bli mjuk
-4. Blanda ner grädde & creme fraiche.
-5. Smaka av med kebabkrydda.
-6. Finhacka persilja. Strö pà.
-7. Server med ris eller i bröd!
-
-SOURCE URL
-https://www.instagram.com/reel/C46ILpVM9Jw/?igsh=djV5cHRrZG91d2cw
-
+Användare ska kunna ändra ordningen på ingrediensrader i receptformuläret genom att dra och släppa. Sektionsrubriker (US-040) ska kunna flyttas tillsammans med sina tillhörande ingredienser.
