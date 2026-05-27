@@ -65,17 +65,19 @@ function ShoppingListEditPage() {
 
 function ShoppingListLanding() {
   const [targetId, setTargetId] = useState<number | null>(null);
+  const [empty, setEmpty] = useState(false);
   useEffect(() => {
     axios
       .get<{ id: number }[]>(`${API_URL}/shopping-lists`, { withCredentials: true })
       .then((r) => {
-        if (!Array.isArray(r.data) || !r.data.length) return;
+        if (!Array.isArray(r.data) || !r.data.length) { setEmpty(true); return; }
         const preferred = getPreferredListId();
         const match = preferred ? r.data.find((l) => l.id === preferred) : null;
         setTargetId(match ? match.id : r.data[0].id);
       })
       .catch(() => {});
   }, []);
+  if (empty) return <Navigate to="/shopping-lists/new" replace />;
   if (!targetId) return null;
   return <Navigate to={`/shopping-lists/${targetId}`} replace />;
 }

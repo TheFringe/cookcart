@@ -217,6 +217,23 @@ describe('App', () => {
     expect(screen.queryByTestId('home-page')).not.toBeInTheDocument();
   });
 
+  it('redirectar till /shopping-lists/new när inga listor finns', async () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: 1, email: 'test@example.com', name: 'Test' },
+      loading: false,
+      logout: jest.fn(),
+    });
+    mockedAxios.get.mockResolvedValue({ data: [] });
+
+    render(
+      <MemoryRouter initialEntries={['/shopping-lists']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(await screen.findByTestId('shopping-list-form')).toBeInTheDocument();
+  });
+
   it('inköpslistans detaljsida på /shopping-lists/:id', async () => {
     mockUseAuth.mockReturnValue({
       user: { id: 1, email: 'test@example.com', name: 'Test' },
