@@ -145,7 +145,8 @@ button {
     }
   }
 
-  &__theme-toggle {
+  &__theme-toggle,
+  &__settings-link {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -154,6 +155,10 @@ button {
     transition: color 0.2s;
 
     &:hover { color: var(--c-accent); }
+  }
+
+  &__settings-link {
+    &.active { color: var(--c-accent); }
   }
 }
 
@@ -1139,6 +1144,14 @@ button {
   &__input { @include form-control; }
 }
 
+// ─── Settings ─────────────────────────────────────────────────────────────────
+
+.settings-page {
+  @include content-form;
+
+  &__select { @include form-control; }
+}
+
 // ─── Shopping List Detail ──────────────────────────────────────────────────────
 
 .shopping-list-detail {
@@ -1668,7 +1681,7 @@ button {
   }
   .recipe-detail, .recipe-form { padding: 2rem 1.25rem 4rem; }
   .shopping-list { padding: 2rem 1.25rem 5rem; }
-  .shopping-list-form { padding: 2rem 1.25rem 4rem; }
+  .shopping-list-form, .settings-page { padding: 2rem 1.25rem 4rem; }
   .calendar-page {
     padding: 2rem 1rem 6rem;
 

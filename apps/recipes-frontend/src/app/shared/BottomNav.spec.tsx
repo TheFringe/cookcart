@@ -35,14 +35,6 @@ describe('BottomNav', () => {
     expect(within(link).getByTestId('nav-icon-kalender')).toBeInTheDocument();
   });
 
-  it('visar en navigeringslänk med text och ikon för inställningar', () => {
-    renderNav();
-
-    const link = screen.getByRole('link', { name: /inställningar/i });
-    expect(link).toBeInTheDocument();
-    expect(within(link).getByTestId('nav-icon-installningar')).toBeInTheDocument();
-  });
-
   it('markerar aktiv länk med aria-current när man är på receptsidan', () => {
     renderNav('/');
 
