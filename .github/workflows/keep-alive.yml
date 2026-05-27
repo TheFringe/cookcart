@@ -1,0 +1,13 @@
+name: Keep alive
+
+on:
+  schedule:
+    # Var 25:e minut (minuterna 0, 25, 50), 06:00–22:50 UTC = 07:00–23:50 CET
+    - cron: '0,25,50 6-22 * * *'
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping health endpoint
+        run: curl -sf https://cookcart.onrender.com/health
