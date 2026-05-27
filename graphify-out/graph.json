@@ -8,144 +8,144 @@
       "file_type": "code",
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L1",
-      "id": "shoppinglistdetail_spec_tsx",
       "community": 18,
-      "norm_label": "shoppinglistdetail.spec.tsx"
+      "norm_label": "shoppinglistdetail.spec.tsx",
+      "id": "shoppinglistdetail_spec_tsx"
     },
     {
       "label": "mockedAxios",
       "file_type": "code",
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L12",
-      "id": "shopping_lists_shoppinglistdetail_spec_mockedaxios",
       "community": 18,
-      "norm_label": "mockedaxios"
+      "norm_label": "mockedaxios",
+      "id": "shopping_lists_shoppinglistdetail_spec_mockedaxios"
     },
     {
       "label": "renderAt()",
       "file_type": "code",
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L16",
-      "id": "shopping_lists_shoppinglistdetail_spec_renderat",
       "community": 18,
-      "norm_label": "renderat()"
+      "norm_label": "renderat()",
+      "id": "shopping_lists_shoppinglistdetail_spec_renderat"
     },
     {
       "label": "listData",
       "file_type": "code",
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L27",
-      "id": "shopping_lists_shoppinglistdetail_spec_listdata",
       "community": 18,
-      "norm_label": "listdata"
+      "norm_label": "listdata",
+      "id": "shopping_lists_shoppinglistdetail_spec_listdata"
     },
     {
       "label": "newListLink",
       "file_type": "code",
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L107",
-      "id": "shopping_lists_shoppinglistdetail_spec_newlistlink",
       "community": 18,
-      "norm_label": "newlistlink"
+      "norm_label": "newlistlink",
+      "id": "shopping_lists_shoppinglistdetail_spec_newlistlink"
     },
     {
       "label": "nav",
       "file_type": "code",
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L110",
-      "id": "shopping_lists_shoppinglistdetail_spec_nav",
       "community": 18,
-      "norm_label": "nav"
+      "norm_label": "nav",
+      "id": "shopping_lists_shoppinglistdetail_spec_nav"
     },
     {
       "label": "testIds",
       "file_type": "code",
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L111",
-      "id": "shopping_lists_shoppinglistdetail_spec_testids",
       "community": 18,
-      "norm_label": "testids"
+      "norm_label": "testids",
+      "id": "shopping_lists_shoppinglistdetail_spec_testids"
     },
     {
       "label": "[first]",
       "file_type": "code",
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L158",
-      "id": "shopping_lists_shoppinglistdetail_spec_first",
       "community": 18,
-      "norm_label": "[first]"
+      "norm_label": "[first]",
+      "id": "shopping_lists_shoppinglistdetail_spec_first"
     },
     {
       "label": "input",
       "file_type": "code",
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L171",
-      "id": "shopping_lists_shoppinglistdetail_spec_input",
       "community": 18,
-      "norm_label": "input"
+      "norm_label": "input",
+      "id": "shopping_lists_shoppinglistdetail_spec_input"
     },
     {
       "label": "options",
       "file_type": "code",
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L189",
-      "id": "shopping_lists_shoppinglistdetail_spec_options",
       "community": 18,
-      "norm_label": "options"
+      "norm_label": "options",
+      "id": "shopping_lists_shoppinglistdetail_spec_options"
     },
     {
       "label": "mockNavigate",
       "file_type": "code",
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L252",
-      "id": "shopping_lists_shoppinglistdetail_spec_mocknavigate",
       "community": 18,
-      "norm_label": "mocknavigate"
+      "norm_label": "mocknavigate",
+      "id": "shopping_lists_shoppinglistdetail_spec_mocknavigate"
     },
     {
       "label": "ShoppingListDetail.tsx",
       "file_type": "code",
       "source_file": "ShoppingListDetail.tsx",
       "source_location": "L1",
-      "id": "shoppinglistdetail_tsx",
       "community": 18,
-      "norm_label": "shoppinglistdetail.tsx"
+      "norm_label": "shoppinglistdetail.tsx",
+      "id": "shoppinglistdetail_tsx"
     },
     {
       "label": "ShoppingListItem",
       "file_type": "code",
       "source_file": "ShoppingListDetail.tsx",
       "source_location": "L8",
-      "id": "shopping_lists_shoppinglistdetail_shoppinglistitem",
       "community": 18,
-      "norm_label": "shoppinglistitem"
+      "norm_label": "shoppinglistitem",
+      "id": "shopping_lists_shoppinglistdetail_shoppinglistitem"
     },
     {
       "label": "ShoppingListSummary",
       "file_type": "code",
       "source_file": "ShoppingListDetail.tsx",
       "source_location": "L16",
-      "id": "shopping_lists_shoppinglistdetail_shoppinglistsummary",
       "community": 18,
-      "norm_label": "shoppinglistsummary"
+      "norm_label": "shoppinglistsummary",
+      "id": "shopping_lists_shoppinglistdetail_shoppinglistsummary"
     },
     {
       "label": "ShoppingListFull",
       "file_type": "code",
       "source_file": "ShoppingListDetail.tsx",
       "source_location": "L21",
-      "id": "shopping_lists_shoppinglistdetail_shoppinglistfull",
       "community": 18,
-      "norm_label": "shoppinglistfull"
+      "norm_label": "shoppinglistfull",
+      "id": "shopping_lists_shoppinglistdetail_shoppinglistfull"
     },
     {
       "label": "ShoppingListDetail()",
       "file_type": "code",
       "source_file": "ShoppingListDetail.tsx",
       "source_location": "L27",
-      "id": "shopping_lists_shoppinglistdetail_shoppinglistdetail",
       "community": 18,
-      "norm_label": "shoppinglistdetail()"
+      "norm_label": "shoppinglistdetail()",
+      "id": "shopping_lists_shoppinglistdetail_shoppinglistdetail"
     },
     {
       "label": "app.spec.tsx",
@@ -6579,9 +6579,9 @@
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L107",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "shoppinglistdetail_spec_tsx",
-      "target": "shopping_lists_shoppinglistdetail_spec_newlistlink",
-      "confidence_score": 1.0
+      "target": "shopping_lists_shoppinglistdetail_spec_newlistlink"
     },
     {
       "relation": "contains",
@@ -6589,9 +6589,9 @@
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L110",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "shoppinglistdetail_spec_tsx",
-      "target": "shopping_lists_shoppinglistdetail_spec_nav",
-      "confidence_score": 1.0
+      "target": "shopping_lists_shoppinglistdetail_spec_nav"
     },
     {
       "relation": "contains",
@@ -6599,9 +6599,9 @@
       "source_file": "ShoppingListDetail.spec.tsx",
       "source_location": "L111",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "shoppinglistdetail_spec_tsx",
-      "target": "shopping_lists_shoppinglistdetail_spec_testids",
-      "confidence_score": 1.0
+      "target": "shopping_lists_shoppinglistdetail_spec_testids"
     },
     {
       "relation": "contains",
@@ -6721,9 +6721,9 @@
       "source_file": "ShoppingListDetail.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "shoppinglistdetail_tsx",
-      "target": "settings_preferences_setpreferredlistid",
-      "confidence_score": 1.0
+      "target": "settings_preferences_setpreferredlistid"
     },
     {
       "relation": "contains",
@@ -6741,9 +6741,9 @@
       "source_file": "ShoppingListDetail.tsx",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "shoppinglistdetail_tsx",
-      "target": "shopping_lists_shoppinglistdetail_shoppinglistsummary",
-      "confidence_score": 1.0
+      "target": "shopping_lists_shoppinglistdetail_shoppinglistsummary"
     },
     {
       "relation": "contains",
@@ -17465,5 +17465,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "3d63f8387ac53644421e0386dd958e61be9ebf1a"
+  "built_at_commit": "2ee5af62791f9820ee65f4941741f5b9050e29d7"
 }
