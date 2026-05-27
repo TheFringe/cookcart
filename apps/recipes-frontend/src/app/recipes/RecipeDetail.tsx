@@ -170,13 +170,6 @@ export function RecipeDetail() {
       <div className="recipe-detail__nav">
         <Link to="/" className="recipe-detail__back">← Tillbaka</Link>
         <div className="recipe-detail__nav-actions">
-          <button
-            data-testid="mode-toggle-cooking"
-            className={`recipe-detail__mode-btn${mode === 'cooking' ? ' recipe-detail__mode-btn--active' : ''}`}
-            onClick={() => setMode(mode === 'planning' ? 'cooking' : 'planning')}
-          >
-            {mode === 'planning' ? 'Tillagning' : 'Planering'}
-          </button>
           <Link to={`/recipes/${id}/edit`} className="recipe-detail__edit">Redigera</Link>
           <button data-testid="delete-btn" className="recipe-detail__delete" onClick={() => setConfirmDelete(true)}>Radera</button>
         </div>
@@ -206,22 +199,32 @@ export function RecipeDetail() {
         </div>
       )}
       {recipe.description && <p className="recipe-detail__description">{recipe.description}</p>}
-      {recipe.ingredients.length > 0 && (
-        <div className="recipe-detail__planning">
-          <div className="recipe-detail__scales">
-            {SCALES.map((s) => (
-              <button
-                key={s}
-                data-testid={`scale-btn-${s}`}
-                className={`recipe-detail__scale-btn${scale === s ? ' recipe-detail__scale-btn--active' : ''}`}
-                onClick={() => setScale(s)}
-              >
-                {s}×
-              </button>
-            ))}
+      <div className="recipe-detail__planning">
+          <div className="recipe-detail__planning-controls">
+            {recipe.ingredients.length > 0 && (
+              <div className="recipe-detail__scales">
+                {SCALES.map((s) => (
+                  <button
+                    key={s}
+                    data-testid={`scale-btn-${s}`}
+                    className={`recipe-detail__scale-btn${scale === s ? ' recipe-detail__scale-btn--active' : ''}`}
+                    onClick={() => setScale(s)}
+                  >
+                    {s}×
+                  </button>
+                ))}
+              </div>
+            )}
+            <button
+              data-testid="mode-toggle-cooking"
+              className={`recipe-detail__mode-btn${mode === 'cooking' ? ' recipe-detail__mode-btn--active' : ''}`}
+              onClick={() => setMode(mode === 'planning' ? 'cooking' : 'planning')}
+            >
+              {mode === 'planning' ? 'Tillagning' : 'Planering'}
+            </button>
           </div>
-          {mode === 'planning' && (
-            <>
+          {mode === 'planning' && recipe.ingredients.length > 0 && (
+            <div className="recipe-detail__planning-list">
               <select
                 data-testid="planning-list-select"
                 className="recipe-detail__list-select"
@@ -245,10 +248,9 @@ export function RecipeDetail() {
                   axios.post(`${API_URL}/meal-plan`, { recipeId: recipe.id, date: e.target.value }, { withCredentials: true }).catch(() => {});
                 }}
               />
-            </>
+            </div>
           )}
         </div>
-      )}
       {recipe.ingredients.length > 0 && (
         <div data-testid="ingredients-list" className="recipe-detail__ingredients">
           {groupIngredientsBySection(recipe.ingredients).map((group) => (

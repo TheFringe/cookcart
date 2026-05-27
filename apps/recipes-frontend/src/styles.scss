@@ -400,6 +400,7 @@ button {
   &__edit {
     font-size: 0.8125rem;
     font-weight: 500;
+    line-height: 1;
     color: var(--c-muted);
     letter-spacing: 0.05em;
     border: 1px solid var(--c-border);
@@ -416,6 +417,7 @@ button {
   &__delete {
     font-size: 0.8125rem;
     font-weight: 500;
+    line-height: 1;
     color: #a05050;
     letter-spacing: 0.05em;
     background: transparent;
@@ -584,6 +586,7 @@ button {
   &__mode-btn {
     font-size: 0.8125rem;
     font-weight: 500;
+    line-height: 1;
     letter-spacing: 0.05em;
     color: var(--c-muted);
     background: transparent;
@@ -609,12 +612,25 @@ button {
 
   &__planning {
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem 2rem;
+    flex-direction: column;
+    gap: 0.75rem;
     padding: 1.25rem 0;
     margin-top: 2rem;
     border-top: 1px solid var(--c-border);
+  }
+
+  &__planning-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  &__planning-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
   }
 
   &__scales {
@@ -1683,6 +1699,12 @@ button {
     &__meta { display: none; }
   }
   .recipe-detail, .recipe-form { padding: 2rem 1.25rem 4rem; }
+  .recipe-form {
+    &__ingredient-header,
+    &__ingredient-row {
+      grid-template-columns: 1fr 3.5rem 5rem 2.25rem 2.25rem;
+    }
+  }
   .shopping-list { padding: 2rem 1.25rem 5rem; }
   .shopping-list-form, .settings-page { padding: 2rem 1.25rem 4rem; }
   .calendar-page {
