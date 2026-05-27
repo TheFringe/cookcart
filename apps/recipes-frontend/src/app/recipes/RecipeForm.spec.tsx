@@ -214,6 +214,16 @@ describe('RecipeForm — ingredienser', () => {
     expect(screen.getByTestId('ingredient-name-0')).toHaveFocus();
   });
 
+  it('tar bort en ingrediensrad när radera-knappen klickas', () => {
+    renderForm();
+    fireEvent.click(screen.getByTestId('add-ingredient-btn'));
+    fireEvent.change(screen.getByTestId('ingredient-name-0'), { target: { value: 'mjöl' } });
+
+    fireEvent.click(screen.getByTestId('remove-ingredient-0'));
+
+    expect(screen.queryByTestId('ingredient-name-0')).not.toBeInTheDocument();
+  });
+
   it('visar en knapp för att lägga till ingrediens', () => {
     renderForm();
 

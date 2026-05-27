@@ -62,6 +62,10 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
     setIngredients((prev) => prev.map((x, j) => (j === i ? { ...x, [field]: value } : x)));
   }
 
+  function removeIngredient(i: number) {
+    setIngredients((prev) => prev.filter((_, j) => j !== i));
+  }
+
   function handleFileImport(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -273,6 +277,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
             <input className="recipe-form__input" data-testid={`ingredient-name-${i}`} aria-label="Namn" ref={i === ingredients.length - 1 ? lastNameInputRef : null} value={ing.name} onChange={(e) => updateIngredient(i, 'name', e.target.value)} />
             <input className="recipe-form__input" data-testid={`ingredient-quantity-${i}`} aria-label="Mängd" value={ing.quantity} onChange={(e) => updateIngredient(i, 'quantity', e.target.value)} />
             <input className="recipe-form__input" data-testid={`ingredient-unit-${i}`} aria-label="Enhet" value={ing.unit} onChange={(e) => updateIngredient(i, 'unit', e.target.value)} />
+            <button type="button" data-testid={`remove-ingredient-${i}`} className="recipe-form__remove-ingredient" onClick={() => removeIngredient(i)}>×</button>
           </div>
         ))}
         <button className="recipe-form__add-ingredient" data-testid="add-ingredient-btn" type="button" onClick={addIngredient}>+ Lägg till ingrediens</button>
