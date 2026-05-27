@@ -240,6 +240,38 @@ describe('RecipeDetail', () => {
     expect(screen.getByTestId('step-0')).not.toHaveClass('recipe-detail__step--checked');
   });
 
+  it('renderar sektionshuvudet som ett h2-element', async () => {
+    renderRecipeDetail({ ...baseRecipe, steps: ['# Pastasallad', 'Koka pastan.'] });
+    await screen.findByText('Pasta Carbonara');
+
+    expect(screen.getByTestId('step-section-0').tagName).toBe('H2');
+  });
+
+  it('renderar steg med "# "-prefix som sektionshuvud, inte numrerat liststeg', async () => {
+    renderRecipeDetail({
+      ...baseRecipe,
+      steps: ['# Pastasallad', 'Koka pastan.', '# Pesto', 'Mixa basilika.'],
+    });
+    await screen.findByText('Pasta Carbonara');
+
+    expect(screen.getByTestId('step-section-0')).toHaveTextContent('Pastasallad');
+    expect(screen.getByTestId('step-1')).toHaveTextContent('Koka pastan.');
+    expect(screen.getByTestId('step-section-2')).toHaveTextContent('Pesto');
+    expect(screen.getByTestId('step-3')).toHaveTextContent('Mixa basilika.');
+  });
+
+  it('sektionshuvud är inte klickbart i tillagningsläge', async () => {
+    mockedAxios.put.mockResolvedValue({});
+    renderRecipeDetail({ ...baseRecipe, steps: ['# Pastasallad', 'Koka pastan.'] });
+    await screen.findByText('Pasta Carbonara');
+
+    fireEvent.click(screen.getByTestId('mode-toggle-cooking'));
+    fireEvent.click(screen.getByTestId('step-section-0'));
+
+    expect(screen.getByTestId('step-section-0')).not.toHaveClass('recipe-detail__step--checked');
+    expect(mockedAxios.put).not.toHaveBeenCalled();
+  });
+
   it('laddar och visar sparad cooking progress vid montering', async () => {
     const ingredients = [{ name: 'pasta', quantity: 200, unit: 'g' }];
     mockedAxios.get

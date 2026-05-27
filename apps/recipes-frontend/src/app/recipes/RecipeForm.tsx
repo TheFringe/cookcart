@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config';
+import { Toast } from '../shared/Toast';
 import type { Recipe } from './types';
 import { parseTextRecipe } from './parseTextRecipe';
 
@@ -24,6 +25,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
   const [importUrl, setImportUrl] = useState('');
   const [importing, setImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     lastNameInputRef.current?.focus();
@@ -124,10 +126,14 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
     const req = recipeId
       ? axios.put(`${API_URL}/recipes/${recipeId}`, body, { withCredentials: true })
       : axios.post(`${API_URL}/recipes`, body, { withCredentials: true });
-    req.then((r) => navigate(`/recipes/${r.data.id}`));
+    req
+      .then((r) => navigate(`/recipes/${r.data.id}`))
+      .catch(() => setSaveError('Kunde inte spara receptet.'));
   }
 
   return (
+    <>
+    {saveError && <Toast message={saveError} onDismiss={() => setSaveError(null)} />}
     <div data-testid="recipe-form" className="recipe-form">
       <h1 className="recipe-form__title">{recipeId ? 'Redigera recept' : 'Nytt recept'}</h1>
       <form onSubmit={handleSubmit}>
@@ -276,5 +282,6 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
         </div>
       </form>
     </div>
+    </>
   );
 }

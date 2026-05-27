@@ -152,7 +152,14 @@ export class RecipeRepository {
 
   private async saveIngredients(recipeId: number, ingredients: Ingredient[], query: QueryFn): Promise<void> {
     if (ingredients.length === 0) return;
-    const names = ingredients.map((i) => i.name.toLowerCase());
+    const seen = new Set<string>();
+    const unique = ingredients.filter((i) => {
+      const key = i.name.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    const names = unique.map((i) => i.name.toLowerCase());
 
     const { rows } = await query(
       `INSERT INTO ingredients (name) SELECT unnest($1::text[])
@@ -169,8 +176,8 @@ export class RecipeRepository {
       [
         recipeId,
         names.map((n) => nameToId.get(n)),
-        ingredients.map((i) => i.quantity),
-        ingredients.map((i) => i.unit),
+        unique.map((i) => i.quantity),
+        unique.map((i) => i.unit),
       ]
     );
   }

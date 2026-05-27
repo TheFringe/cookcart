@@ -78,6 +78,9 @@ function extractSteps(instructions: unknown): string[] {
       if (item && typeof item === 'object') {
         const obj = item as Record<string, unknown>;
         if (obj.text) return [String(obj.text).trim()];
+        if (obj['@type'] === 'HowToSection' && obj.name && obj.itemListElement) {
+          return [`# ${String(obj.name)}`, ...extractSteps(obj.itemListElement)];
+        }
         if (obj.itemListElement) return extractSteps(obj.itemListElement);
       }
       return [];

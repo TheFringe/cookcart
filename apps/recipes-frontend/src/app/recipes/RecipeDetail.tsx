@@ -6,6 +6,28 @@ import { Toast } from '../shared/Toast';
 import { getPreferredListId, setPreferredListId } from '../settings/preferences';
 import type { Recipe } from './types';
 
+interface StepGroup {
+  heading: string | null;
+  headingIndex: number | null;
+  steps: { text: string; index: number }[];
+}
+
+function groupStepsBySection(steps: string[]): StepGroup[] {
+  const groups: StepGroup[] = [];
+  let current: StepGroup = { heading: null, headingIndex: null, steps: [] };
+  for (let i = 0; i < steps.length; i++) {
+    const step = steps[i];
+    if (step.startsWith('# ')) {
+      if (current.steps.length > 0 || current.heading !== null) groups.push(current);
+      current = { heading: step.slice(2), headingIndex: i, steps: [] };
+    } else {
+      current.steps.push({ text: step, index: i });
+    }
+  }
+  if (current.steps.length > 0 || current.heading !== null) groups.push(current);
+  return groups;
+}
+
 export function RecipeDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -228,18 +250,32 @@ export function RecipeDetail() {
         </ul>
       )}
       {recipe.steps.length > 0 && (
-        <ol className="recipe-detail__steps">
-          {recipe.steps.map((step, i) => (
-            <li
-              key={i}
-              data-testid={`step-${i}`}
-              className={`recipe-detail__step${mode === 'cooking' && checkedSteps.has(i) ? ' recipe-detail__step--checked' : ''}`}
-              onClick={mode === 'cooking' ? () => toggleCookingStep(i) : undefined}
-            >
-              {step}
-            </li>
+        <div className="recipe-detail__steps">
+          {groupStepsBySection(recipe.steps).map((group) => (
+            <div key={group.headingIndex ?? 'root'}>
+              {group.heading !== null && (
+                <h2
+                  data-testid={`step-section-${group.headingIndex}`}
+                  className="recipe-detail__step-section"
+                >
+                  {group.heading}
+                </h2>
+              )}
+              <ol>
+                {group.steps.map(({ text, index }) => (
+                  <li
+                    key={index}
+                    data-testid={`step-${index}`}
+                    className={`recipe-detail__step${mode === 'cooking' && checkedSteps.has(index) ? ' recipe-detail__step--checked' : ''}`}
+                    onClick={mode === 'cooking' ? () => toggleCookingStep(index) : undefined}
+                  >
+                    {text}
+                  </li>
+                ))}
+              </ol>
+            </div>
           ))}
-        </ol>
+        </div>
       )}
       {mode === 'cooking' && (recipe.ingredients.length > 0 || recipe.steps.length > 0) && (
         <button

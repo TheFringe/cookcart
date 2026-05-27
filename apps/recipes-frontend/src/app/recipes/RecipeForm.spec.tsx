@@ -330,6 +330,16 @@ describe('RecipeForm — import', () => {
 });
 
 describe('RecipeForm — skapa', () => {
+  it('visar ett felmeddelande när sparande misslyckas', async () => {
+    mockedAxios.post.mockRejectedValue({ response: { status: 500 } });
+
+    renderForm();
+    fireEvent.change(screen.getByTestId('input-name'), { target: { value: 'Pasta' } });
+    fireEvent.click(screen.getByTestId('submit-btn'));
+
+    expect(await screen.findByRole('status')).toBeInTheDocument();
+  });
+
   it('visar en avbryt-länk som leder till receptlistan', () => {
     renderForm();
 

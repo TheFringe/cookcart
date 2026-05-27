@@ -96,6 +96,36 @@ describe('parseRecipeFromUrl', () => {
     expect(result.ingredients?.[0]).toEqual({ quantity: '400', unit: 'g', name: 'pasta' });
   });
 
+  it('prefixar sektionsnamn med "# " när stegen är HowToSection-objekt', async () => {
+    const json = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Recipe',
+      name: 'Pastasallad',
+      recipeIngredient: [],
+      recipeInstructions: [
+        {
+          '@type': 'HowToSection',
+          name: 'Pastasallad',
+          itemListElement: [
+            { '@type': 'HowToStep', text: 'Koka pastan.' },
+          ],
+        },
+        {
+          '@type': 'HowToSection',
+          name: 'Pesto',
+          itemListElement: [
+            { '@type': 'HowToStep', text: 'Mixa basilika.' },
+          ],
+        },
+      ],
+    });
+    mockedAxios.get.mockResolvedValue({ data: makeHtml(json) });
+
+    const result = await parseRecipeFromUrl('https://example.com/pastasallad');
+
+    expect(result.steps).toEqual(['# Pastasallad', 'Koka pastan.', '# Pesto', 'Mixa basilika.']);
+  });
+
   it('kastar fel när ingen Recipe-schema finns', async () => {
     mockedAxios.get.mockResolvedValue({ data: '<html><head></head></html>' });
 
