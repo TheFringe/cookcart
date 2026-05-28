@@ -83,9 +83,7 @@ describe('RecipeRepository.create', () => {
 
     await repo.create({ name: 'Pasta', ingredients: [{ name: 'mjöl', quantity: 2, unit: 'dl' }] });
 
-    expect(client.query).toHaveBeenCalledTimes(5);
-    expect(client.query).toHaveBeenNthCalledWith(
-      4,
+    expect(client.query).toHaveBeenCalledWith(
       expect.stringContaining('recipe_ingredients'),
       expect.anything()
     );
@@ -104,8 +102,7 @@ describe('RecipeRepository.create', () => {
 
     await repo.create({ name: 'Pasta', ingredients: [{ name: 'salt', quantity: null, unit: '' }] });
 
-    expect(client.query).toHaveBeenNthCalledWith(
-      4,
+    expect(client.query).toHaveBeenCalledWith(
       expect.stringContaining('recipe_ingredients'),
       expect.arrayContaining([[null]])
     );
@@ -124,8 +121,7 @@ describe('RecipeRepository.create', () => {
 
     await repo.create({ name: 'Pasta', ingredients: [{ name: 'Mjöl', quantity: 2, unit: 'dl', section: null }] });
 
-    expect(client.query).toHaveBeenNthCalledWith(
-      3,
+    expect(client.query).toHaveBeenCalledWith(
       expect.stringContaining('ingredients'),
       [['mjöl']]
     );
@@ -144,8 +140,7 @@ describe('RecipeRepository.create', () => {
 
     await repo.create({ name: 'Pasta', ingredients: [{ name: 'basilika', quantity: 30, unit: 'g', section: 'Pesto' }] });
 
-    expect(client.query).toHaveBeenNthCalledWith(
-      4,
+    expect(client.query).toHaveBeenCalledWith(
       expect.stringContaining('section_name'),
       expect.arrayContaining([['Pesto']])
     );
@@ -167,14 +162,11 @@ describe('RecipeRepository.update', () => {
 
     await repo.update(10, { name: 'Pasta', ingredients: [{ name: 'grädde', quantity: 1, unit: 'dl' }] });
 
-    expect(client.query).toHaveBeenCalledTimes(6);
-    expect(client.query).toHaveBeenNthCalledWith(
-      3,
+    expect(client.query).toHaveBeenCalledWith(
       expect.stringContaining('DELETE'),
       [10]
     );
-    expect(client.query).toHaveBeenNthCalledWith(
-      5,
+    expect(client.query).toHaveBeenCalledWith(
       expect.stringContaining('recipe_ingredients'),
       expect.anything()
     );

@@ -21,12 +21,12 @@ beforeEach(() => {
 
 describe('App', () => {
   it('renderar utan fel', () => {
-    const { baseElement } = render(
+    render(
       <MemoryRouter>
         <App />
       </MemoryRouter>
     );
-    expect(baseElement).toBeTruthy();
+    expect(screen.getByTestId('login-page')).toBeInTheDocument();
   });
 
   it('visar inloggningssidan när ingen användare är inloggad', () => {
@@ -36,7 +36,7 @@ describe('App', () => {
       </MemoryRouter>
     );
 
-    screen.getByTestId('login-page');
+    expect(screen.getByTestId('login-page')).toBeInTheDocument();
   });
 
   it('visar startsidan när användaren är inloggad', () => {
@@ -52,7 +52,7 @@ describe('App', () => {
       </MemoryRouter>
     );
 
-    screen.getByTestId('home-page');
+    expect(screen.getByTestId('home-page')).toBeInTheDocument();
   });
 
   it('renderar utan fel på /shopping-lists', () => {
@@ -62,13 +62,13 @@ describe('App', () => {
       logout: jest.fn(),
     });
 
-    const { baseElement } = render(
+    render(
       <MemoryRouter initialEntries={['/shopping-lists']}>
         <App />
       </MemoryRouter>
     );
 
-    expect(baseElement).toBeTruthy();
+    expect(screen.getByTestId('app-header')).toBeInTheDocument();
   });
 
   it('visar navigationsmenyn på /shopping-lists', () => {

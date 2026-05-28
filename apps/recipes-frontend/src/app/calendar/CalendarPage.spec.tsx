@@ -7,6 +7,7 @@ jest.mock('axios');
 const mockedAxios = jest.mocked(axios);
 
 beforeEach(() => jest.resetAllMocks());
+afterEach(() => jest.useRealTimers());
 
 function LocationDisplay() {
   const { search } = useLocation();
