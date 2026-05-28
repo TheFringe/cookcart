@@ -51,6 +51,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-039 | Sektionsrubriker för tillagningssteg                      | ✅ |
 | US-040 | Sektionsrubriker för ingredienser                         | ✅ |
 | US-041 | Ordna ingredienser med drag-and-drop                      | ⬜ |
+| US-042 | Sök recept på namn                                        | ⬜ |
 
 **Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
 
@@ -292,3 +293,7 @@ Temabytaren nås via en solikon i appens header. Valt tema sparas persistent i `
 ### US-041 — Ordna ingredienser med drag-and-drop
 
 Användare ska kunna ändra ordningen på ingrediensrader i receptformuläret genom att dra och släppa. Sektionsrubriker (US-040) ska kunna flyttas tillsammans med sina tillhörande ingredienser.
+
+### US-042 — Sök recept på namn
+
+Användare ska kunna söka i receptlistan via ett sökfält. Sökningen filtrerar listan i realtid på receptnamn (skiftlägesokänsligt). Sökfältet visas ovanför receptlistan och rensas med ett ×-knapptryck. Inga träffar visar ett tomt tillstånd med en hjälptext.
