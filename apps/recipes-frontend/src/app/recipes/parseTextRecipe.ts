@@ -1,4 +1,4 @@
-type IngredientDraft = { quantity: string; unit: string; name: string };
+type IngredientDraft = { quantity: string; unit: string; name: string; isSection: boolean };
 
 const WITH_UNIT = /^([\d.,½¼¾\s/]+)\s+(dl|cl|ml|l|kg|g|mg|msk|tsk|krm|st|stk|port|cm|mm)\s+(.+)$/i;
 const WITHOUT_UNIT = /^([\d.,½¼¾/]+)\s+(.+)$/;
@@ -7,13 +7,13 @@ export function parseIngredientLine(line: string): IngredientDraft {
   const raw = line.replace(/^[•]\s*/, '').trim();
   const withUnit = WITH_UNIT.exec(raw);
   if (withUnit) {
-    return { quantity: withUnit[1].trim(), unit: withUnit[2], name: withUnit[3].trim() };
+    return { quantity: withUnit[1].trim(), unit: withUnit[2], name: withUnit[3].trim(), isSection: false };
   }
   const withoutUnit = WITHOUT_UNIT.exec(raw);
   if (withoutUnit) {
-    return { quantity: withoutUnit[1].trim(), unit: '', name: withoutUnit[2].trim() };
+    return { quantity: withoutUnit[1].trim(), unit: '', name: withoutUnit[2].trim(), isSection: false };
   }
-  return { quantity: '', unit: '', name: raw };
+  return { quantity: '', unit: '', name: raw, isSection: false };
 }
 
 type ParsedRecipe = {
@@ -63,12 +63,20 @@ export function parseTextRecipe(text: string): ParsedRecipe {
       }
     }
 
-    if (section === 'ingredients' && trimmed.startsWith('•')) {
-      result.ingredients.push(parseIngredientLine(trimmed));
+    if (section === 'ingredients') {
+      if (trimmed.startsWith('# ')) {
+        result.ingredients.push({ quantity: '', unit: '', name: trimmed.slice(2).trim(), isSection: true });
+      } else if (trimmed.startsWith('•')) {
+        result.ingredients.push(parseIngredientLine(trimmed));
+      }
       continue;
     }
 
     if (section === 'steps') {
+      if (trimmed.startsWith('# ')) {
+        result.steps.push(trimmed);
+        continue;
+      }
       const stepMatch = /^\d+\.\s+(.+)/.exec(trimmed);
       if (stepMatch) {
         result.steps.push(stepMatch[1]);

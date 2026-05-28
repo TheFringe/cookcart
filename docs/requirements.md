@@ -44,7 +44,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-032 | Import av recept via URL                                  | ✅ |
 | US-033 | Användarinställningar                                     | ✅ |
 | US-034 | Tema                                                      | ✅ |
-| US-035 | Import av text                                            | ✅ |
+| US-035 | Import av text                                            | 🔄 |
 | US-036 | Kalender - månadsvy på små enheter                        | ✅ |
 | US-037 | Klick på veckonummer i månadsvy navigerar till veckovyn   | ✅ |
 | US-038 | Kalendernavigering sparas i URL-historik                  | ✅ |
@@ -113,7 +113,8 @@ Om webbplatsen använder klientrendering (t.ex. kokaihop.se) och inte kan import
 ### US-035 — Import av recept via textfil
 
 Användare kan importera recept från lokala textfiler (`.txt`, `.md`). Filen tolkas enligt ett definierat format med rubrik, portioner, ingredienser och tillagningssteg.
-
+Vid import av textfil ska rader som inled med `# ` tolkas som sektionsrubriker och renderas som `h2`-rubriker, se [Gremolata.txt](Gremolata.txt).
+I ingredienslistan finns också rader som inleds med `# ` dessa ska tolkas som en sektionsrubrik enligt US-040.
 ### US-039 — Sektionsrubriker för tillagningssteg
 
 Tillagningssteg kan grupperas under namngivna sektioner. En rad som börjar med `# ` tolkas som en sektionsrubrik och renderas som en `h2`-rubrik med en egen numrerad lista för efterföljande steg. Vid URL-import omvandlas `HowToSection`-objekt automatiskt till sektionsrubriker.

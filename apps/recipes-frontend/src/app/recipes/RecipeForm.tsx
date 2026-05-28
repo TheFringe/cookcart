@@ -91,7 +91,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
           quantity: ing.quantity,
           unit: ing.unit,
           name: ing.name,
-          isSection: false,
+          isSection: ing.isSection ?? false,
         })));
       }
       setImportError(null);
