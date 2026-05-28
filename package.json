@@ -15,7 +15,8 @@
     "e2e": "nx run-many --target=e2e --projects=@recipes/recipes-frontend,@recipes/backend --parallel",
     "format": "nx format:write --uncommitted",
     "generate": "nx g @nx/react:component recipes",
-    "generate-api": "nx g @nx/node:library api"
+    "generate-api": "nx g @nx/node:library api",
+    "test:coverage": "nx run-many --target=test --projects=@recipes/recipes-frontend,@recipes/backend --parallel --coverage"
   },
   "private": true,
   "dependencies": {
