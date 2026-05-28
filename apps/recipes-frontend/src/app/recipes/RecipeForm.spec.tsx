@@ -321,6 +321,16 @@ describe('RecipeForm — import', () => {
     expect(await screen.findByDisplayValue('Krämig Kycklinggryta')).toBeInTheDocument();
   });
 
+  it('visar varning när kokaihop.se-URL klistras in', () => {
+    renderForm();
+
+    fireEvent.change(screen.getByTestId('import-url-input'), {
+      target: { value: 'https://www.kokaihop.se/recept/kebabsas-rosa' },
+    });
+
+    expect(screen.getByTestId('import-warning')).toBeInTheDocument();
+  });
+
   it('visar felmeddelande när import misslyckas', async () => {
     mockedAxios.post.mockRejectedValue(new Error('422'));
 
@@ -328,7 +338,21 @@ describe('RecipeForm — import', () => {
     fireEvent.change(screen.getByTestId('import-url-input'), { target: { value: 'https://example.com' } });
     fireEvent.click(screen.getByTestId('import-btn'));
 
-    expect(await screen.findByTestId('import-error')).toBeInTheDocument();
+    expect(await screen.findByRole('status')).toBeInTheDocument();
+  });
+
+  it('visar serverfelmeddelandet i toasten vid 422', async () => {
+    const axiosError = Object.assign(new Error('Request failed with status code 422'), {
+      isAxiosError: true,
+      response: { status: 422, data: { error: 'Inget recept hittades på sidan' } },
+    });
+    mockedAxios.post.mockRejectedValue(axiosError);
+
+    renderForm();
+    fireEvent.change(screen.getByTestId('import-url-input'), { target: { value: 'https://example.com/recept' } });
+    fireEvent.click(screen.getByTestId('import-btn'));
+
+    expect(await screen.findByRole('status')).toHaveTextContent('Inget recept hittades på sidan');
   });
 
   it('visar en filvalrad i skapaläge', () => {

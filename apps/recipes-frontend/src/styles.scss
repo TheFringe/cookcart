@@ -11,6 +11,7 @@
   --c-muted:         #5C6B7A;
   --c-accent:        #C8904A;
   --c-accent-dim:    rgba(200, 144, 74, 0.08);
+  --c-warning:       #EBCB8B;
 
   --f-display: 'Fraunces', 'Georgia', serif;
   --f-ui:      'DM Sans', system-ui, sans-serif;
@@ -28,6 +29,7 @@
   --c-muted:        #7B88A1;
   --c-accent:       #88C0D0;
   --c-accent-dim:   rgba(136, 192, 208, 0.10);
+  --c-warning:      #EBCB8B;
 }
 
 // Nord Snow Storm (light)
@@ -40,6 +42,7 @@
   --c-muted:        #4C566A;
   --c-accent:       #2E5880;
   --c-accent-dim:   rgba(46, 88, 128, 0.10);
+  --c-warning:      #D08770;
 }
 
 // ─── Reset & Base ──────────────────────────────────────────────────────────────
@@ -754,7 +757,7 @@ button {
 
 .toast {
   position: fixed;
-  bottom: 1.5rem;
+  top: 4.5rem;
   right: 1.5rem;
   z-index: 1000;
   background: var(--c-surface);
@@ -1045,6 +1048,12 @@ button {
     margin-top: 0.5rem;
     font-size: 0.8125rem;
     color: var(--c-danger, #e05252);
+  }
+
+  &__import-warning {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--c-warning);
   }
 
   &__ingredient-header,

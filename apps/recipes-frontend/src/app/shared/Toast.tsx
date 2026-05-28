@@ -6,7 +6,7 @@ interface ToastProps {
   duration?: number;
 }
 
-export function Toast({ message, onDismiss, duration = 4000 }: ToastProps) {
+export function Toast({ message, onDismiss, duration = 6000 }: ToastProps) {
   useEffect(() => {
     const timer = setTimeout(onDismiss, duration);
     return () => clearTimeout(timer);

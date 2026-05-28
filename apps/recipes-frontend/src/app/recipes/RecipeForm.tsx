@@ -122,8 +122,9 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
           isSection: false,
         })));
       }
-    } catch {
-      setImportError('Kunde inte importera receptet.');
+    } catch (err) {
+      const axiosMessage = (err as { response?: { data?: { error?: string } } })?.response?.data?.error;
+      setImportError(axiosMessage ?? 'Kunde inte importera receptet.');
     } finally {
       setImporting(false);
     }
@@ -158,6 +159,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
   return (
     <>
     {saveError && <Toast message={saveError} onDismiss={() => setSaveError(null)} />}
+    {importError && <Toast message={importError} onDismiss={() => setImportError(null)} />}
     <div data-testid="recipe-form" className="recipe-form">
       <h1 className="recipe-form__title">{recipeId ? 'Redigera recept' : 'Nytt recept'}</h1>
       <form onSubmit={handleSubmit}>
@@ -192,7 +194,11 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
                 onChange={handleFileImport}
               />
             </div>
-            {importError && <p data-testid="import-error" className="recipe-form__import-error">{importError}</p>}
+            {importUrl.includes('kokaihop.se') && (
+              <p data-testid="import-warning" className="recipe-form__import-warning">
+                Importering från kokaihop.se fungerar inte alltid — lägg i så fall in receptet manuellt.
+              </p>
+            )}
           </div>
         )}
         <div className="recipe-form__field">
