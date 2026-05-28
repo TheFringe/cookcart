@@ -108,6 +108,8 @@ Klickar man på ett recept visas hela receptet med ingredienser och instruktione
 
 Användare kan ange en URL till ett recept på en extern sida (t.ex. koket.se) och få receptet automatiskt importerat. Importerad data fylls i formuläret där användaren kan granska och spara.
 
+Om webbplatsen använder klientrendering (t.ex. kokaihop.se) och inte kan importeras automatiskt visas en varning direkt när URL:en skrivs in. Om importen ändå misslyckas visas ett felmeddelande som toast med serverns felbeskrivning.
+
 ### US-035 — Import av recept via textfil
 
 Användare kan importera recept från lokala textfiler (`.txt`, `.md`). Filen tolkas enligt ett definierat format med rubrik, portioner, ingredienser och tillagningssteg.
