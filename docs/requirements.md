@@ -52,6 +52,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-040 | Sektionsrubriker för ingredienser                         | ✅ |
 | US-041 | Ordna ingredienser med drag-and-drop                      | ⬜ |
 | US-042 | Sök recept på namn                                        | ⬜ |
+| US-043 | Bild på recept                                            | ⬜ |
 
 **Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
 
@@ -293,6 +294,10 @@ Temabytaren nås via en solikon i appens header. Valt tema sparas persistent i `
 ### US-041 — Ordna ingredienser med drag-and-drop
 
 Användare ska kunna ändra ordningen på ingrediensrader i receptformuläret genom att dra och släppa. Sektionsrubriker (US-040) ska kunna flyttas tillsammans med sina tillhörande ingredienser.
+
+### US-043 — Bild på recept
+
+Användare ska kunna ladda upp en bild till ett recept. Bilden visas i receptdetaljvyn. I receptformuläret finns ett uppladdningsfält som accepterar vanliga bildformat (JPEG, PNG, WebP). Bilden lagras på servern och refereras via URL i databasen. En befintlig bild kan ersättas eller tas bort.
 
 ### US-042 — Sök recept på namn
 
