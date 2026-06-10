@@ -104,6 +104,22 @@ describe('parseTextRecipe', () => {
     expect(result.steps).toEqual(['# Förberedelser', 'Hacka persiljan.', '# Tillagning', 'Blanda allt.']);
   });
 
+  it('slår ihop fortsättningsrader med föregående steg', () => {
+    const text = [
+      'Rätt',
+      '',
+      'PREPARATION STEPS',
+      '1. Rosta tomater i ugnen.',
+      'Öppna luckan då och då.',
+      '2. Hacka persiljan.',
+    ].join('\n');
+    const result = parseTextRecipe(text);
+    expect(result.steps).toEqual([
+      'Rosta tomater i ugnen.\nÖppna luckan då och då.',
+      'Hacka persiljan.',
+    ]);
+  });
+
   it('hanterar fil utan valfria sektioner', () => {
     const minimal = `Enkel pasta\n\nINGREDIENTS\n• 200 g pasta\n\nPREPARATION STEPS\n1. Koka pastan.`;
     const result = parseTextRecipe(minimal);

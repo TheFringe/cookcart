@@ -39,8 +39,7 @@ export function parseTextRecipe(text: string): ParsedRecipe {
   type Section = 'header' | 'ingredients' | 'steps' | 'source_url';
   let section: Section = 'header';
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
+  for (const line of lines) {
     const trimmed = line.trim();
 
     if (trimmed === 'INGREDIENTS') { section = 'ingredients'; continue; }
@@ -80,6 +79,8 @@ export function parseTextRecipe(text: string): ParsedRecipe {
       const stepMatch = /^\d+\.\s+(.+)/.exec(trimmed);
       if (stepMatch) {
         result.steps.push(stepMatch[1]);
+      } else if (trimmed && result.steps.length > 0 && !result.steps[result.steps.length - 1].startsWith('# ')) {
+        result.steps[result.steps.length - 1] += '\n' + trimmed;
       }
       continue;
     }
