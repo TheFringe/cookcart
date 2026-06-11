@@ -74,11 +74,13 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
     setIngredients((prev) => prev.filter((_, j) => j !== i));
   }
 
+  function closePasteOverlay() { setShowPasteOverlay(false); }
+
   function handleIngredientPaste(e: React.ClipboardEvent<HTMLTextAreaElement>) {
     e.preventDefault();
     const parsed = parsePastedIngredients(e.clipboardData.getData('text'));
     if (parsed.length) setIngredients(parsed);
-    setShowPasteOverlay(false);
+    closePasteOverlay();
   }
 
   function handleFileImport(e: React.ChangeEvent<HTMLInputElement>) {
@@ -316,7 +318,13 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
         ))}
         <button type="button" data-testid="open-paste-overlay-btn" className="recipe-form__paste-btn" onClick={() => setShowPasteOverlay(true)}>Klistra in ingredienser</button>
         {showPasteOverlay && (
-          <textarea data-testid="paste-ingredients" className="recipe-form__paste-ingredients" onPaste={handleIngredientPaste} placeholder="Klistra in ingredienser…" />
+          <>
+            <div data-testid="paste-overlay-backdrop" className="recipe-form__paste-backdrop" onClick={closePasteOverlay} />
+            <div data-testid="paste-overlay" className="recipe-form__paste-overlay">
+              <button type="button" data-testid="close-paste-overlay-btn" className="recipe-form__paste-overlay-close" onClick={closePasteOverlay}>×</button>
+              <textarea data-testid="paste-ingredients" className="recipe-form__paste-ingredients" onPaste={handleIngredientPaste} placeholder="Klistra in ingredienser…" autoFocus />
+            </div>
+          </>
         )}
         <button className="recipe-form__add-ingredient" data-testid="add-ingredient-btn" type="button" onClick={addIngredient}>+ Lägg till ingrediens</button>
         <div className="recipe-form__actions">

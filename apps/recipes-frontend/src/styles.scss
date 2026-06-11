@@ -1148,6 +1148,42 @@ button {
     &:hover { color: var(--c-accent); }
   }
 
+  &__paste-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 100;
+  }
+
+  &__paste-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101;
+    background: var(--c-surface, #fff);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    width: min(480px, 90vw);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  &__paste-overlay-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--c-muted);
+    border-radius: 0.25rem;
+    transition: color 0.2s, background 0.2s;
+
+    &:hover {
+      color: var(--c-text);
+      background: rgba(0, 0, 0, 0.06);
+    }
+  }
+
   &__paste-ingredients {
     @include form-control;
     display: block;
@@ -1156,7 +1192,7 @@ button {
     resize: vertical;
     font-family: var(--font-mono, monospace);
     font-size: 0.8125rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0;
   }
 
   &__add-ingredient {

@@ -509,4 +509,24 @@ describe('RecipeForm — klistra in ingredienser', () => {
     });
     expect(screen.queryByTestId('paste-ingredients')).not.toBeInTheDocument();
   });
+
+  it('stänger overlayan när stängknappen klickas', () => {
+    renderForm();
+    fireEvent.click(screen.getByTestId('open-paste-overlay-btn'));
+    fireEvent.click(screen.getByTestId('close-paste-overlay-btn'));
+    expect(screen.queryByTestId('paste-ingredients')).not.toBeInTheDocument();
+  });
+
+  it('stänger overlayan när man klickar på bakgrunden utanför', () => {
+    renderForm();
+    fireEvent.click(screen.getByTestId('open-paste-overlay-btn'));
+    fireEvent.click(screen.getByTestId('paste-overlay-backdrop'));
+    expect(screen.queryByTestId('paste-ingredients')).not.toBeInTheDocument();
+  });
+
+  it('fokuserar textarean när overlayan öppnas', () => {
+    renderForm();
+    fireEvent.click(screen.getByTestId('open-paste-overlay-btn'));
+    expect(screen.getByTestId('paste-ingredients')).toHaveFocus();
+  });
 });
