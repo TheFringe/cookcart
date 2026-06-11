@@ -483,3 +483,13 @@ describe('RecipeForm — skapa', () => {
     );
   });
 });
+
+describe('RecipeForm — klistra in ingredienser', () => {
+  it('lägger till ingredienser från inklistrad text', () => {
+    renderForm();
+    fireEvent.paste(screen.getByTestId('paste-ingredients'), {
+      clipboardData: { getData: () => '* 2 dl grädde' },
+    });
+    expect(screen.getByTestId('ingredient-name-0')).toHaveValue('grädde');
+  });
+});

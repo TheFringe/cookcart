@@ -1,4 +1,4 @@
-type IngredientDraft = { quantity: string; unit: string; name: string; isSection: boolean };
+export type IngredientDraft = { quantity: string; unit: string; name: string; isSection: boolean };
 
 const WITH_UNIT = /^([\d.,½¼¾\s/]+)\s+(dl|cl|ml|l|kg|g|mg|msk|tsk|krm|st|stk|port|cm|mm)\s+(.+)$/i;
 const WITHOUT_UNIT = /^([\d.,½¼¾/]+)\s+(.+)$/;

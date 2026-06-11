@@ -4,9 +4,8 @@ import axios from 'axios';
 import { API_URL } from '../../config';
 import { Toast } from '../shared/Toast';
 import type { Recipe } from './types';
-import { parseTextRecipe } from './parseTextRecipe';
-
-type IngredientDraft = { quantity: string; unit: string; name: string; isSection: boolean };
+import { parseTextRecipe, IngredientDraft } from './parseTextRecipe';
+import { parsePastedIngredients } from './parsePastedIngredients';
 
 const EMPTY_INGREDIENT: IngredientDraft = { quantity: '', unit: '', name: '', isSection: false };
 
@@ -72,6 +71,12 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
 
   function removeIngredient(i: number) {
     setIngredients((prev) => prev.filter((_, j) => j !== i));
+  }
+
+  function handleIngredientPaste(e: React.ClipboardEvent<HTMLTextAreaElement>) {
+    e.preventDefault();
+    const parsed = parsePastedIngredients(e.clipboardData.getData('text'));
+    if (parsed.length) setIngredients(parsed);
   }
 
   function handleFileImport(e: React.ChangeEvent<HTMLInputElement>) {
@@ -307,6 +312,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
             <button type="button" data-testid={`remove-ingredient-${i}`} className="recipe-form__remove-ingredient" onClick={() => removeIngredient(i)}>×</button>
           </div>
         ))}
+        <textarea data-testid="paste-ingredients" className="recipe-form__paste-ingredients" onPaste={handleIngredientPaste} placeholder="Klistra in ingredienser…" />
         <button className="recipe-form__add-ingredient" data-testid="add-ingredient-btn" type="button" onClick={addIngredient}>+ Lägg till ingrediens</button>
         <div className="recipe-form__actions">
           <button className="recipe-form__submit" data-testid="submit-btn" type="submit">Spara</button>
