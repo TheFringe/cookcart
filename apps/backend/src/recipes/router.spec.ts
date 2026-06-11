@@ -74,6 +74,17 @@ describe('PUT /recipes/:id', () => {
     expect(res.status).toBe(200);
     expect(res.body).toEqual(updated);
   });
+
+  it('normaliserar tom quantity-sträng till null innan det skickas till repository', async () => {
+    const updated = { id: 1, name: 'Pasta', description: null, steps: [], cook_time_minutes: null, servings: null };
+    mockRepo.update.mockResolvedValue(updated);
+
+    await request(app).put('/recipes/1').send({ name: 'Pasta', ingredients: [{ name: 'salt', quantity: '', unit: '' }] });
+
+    expect(mockRepo.update).toHaveBeenCalledWith(1, expect.objectContaining({
+      ingredients: [{ name: 'salt', quantity: null, unit: '' }],
+    }));
+  });
 });
 
 describe('DELETE /recipes/:id', () => {

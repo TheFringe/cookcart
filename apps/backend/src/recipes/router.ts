@@ -15,6 +15,16 @@ function parseId(param: string): number | null {
   return isNaN(id) ? null : id;
 }
 
+function normalizeBody(body: { ingredients?: { name: string; quantity: string; unit: string }[] }) {
+  return {
+    ...body,
+    ingredients: (body.ingredients ?? []).map((ing) => ({
+      ...ing,
+      quantity: ing.quantity !== '' && ing.quantity != null ? Number(ing.quantity) : null,
+    })),
+  };
+}
+
 export function createRecipesRouter(repo: RecipeRepository): Router {
   const router = Router();
 
@@ -47,13 +57,7 @@ export function createRecipesRouter(repo: RecipeRepository): Router {
       res.status(400).json(NAME_REQUIRED);
       return;
     }
-    const body = {
-      ...req.body,
-      ingredients: (req.body.ingredients ?? []).map((ing: { name: string; quantity: string; unit: string }) => ({
-        ...ing,
-        quantity: ing.quantity !== '' && ing.quantity != null ? Number(ing.quantity) : null,
-      })),
-    };
+    const body = normalizeBody(req.body);
     const recipe = await repo.create(body);
     res.status(201).json(recipe);
   }));
@@ -76,7 +80,8 @@ export function createRecipesRouter(repo: RecipeRepository): Router {
       res.status(400).json(NAME_REQUIRED);
       return;
     }
-    const recipe = await repo.update(id, req.body);
+    const body = normalizeBody(req.body);
+    const recipe = await repo.update(id, body);
     if (!recipe) {
       res.status(404).json(NOT_FOUND);
       return;
