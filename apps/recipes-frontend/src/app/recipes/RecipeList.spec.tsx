@@ -85,6 +85,57 @@ describe('RecipeList', () => {
     expect(screen.getAllByTestId('recipe-item')).toHaveLength(2);
   });
 
+  it('filtrerar recepten när sökfältet används', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: [
+        { id: 1, name: 'Pasta Carbonara', description: null, cook_time_minutes: null, servings: null },
+        { id: 2, name: 'Köttbullar', description: null, cook_time_minutes: null, servings: null },
+      ],
+    });
+
+    render(<MemoryRouter><RecipeList /></MemoryRouter>);
+    await screen.findAllByTestId('recipe-item');
+
+    fireEvent.change(screen.getByTestId('search-input'), { target: { value: 'pasta' } });
+
+    expect(screen.getAllByTestId('recipe-item')).toHaveLength(1);
+    expect(screen.getByText('Pasta Carbonara')).toBeInTheDocument();
+    expect(screen.queryByText('Köttbullar')).not.toBeInTheDocument();
+  });
+
+  it('rensar sökfältet och visar alla recept när ×-knappen klickas', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: [
+        { id: 1, name: 'Pasta Carbonara', description: null, cook_time_minutes: null, servings: null },
+        { id: 2, name: 'Köttbullar', description: null, cook_time_minutes: null, servings: null },
+      ],
+    });
+
+    render(<MemoryRouter><RecipeList /></MemoryRouter>);
+    await screen.findAllByTestId('recipe-item');
+
+    fireEvent.change(screen.getByTestId('search-input'), { target: { value: 'pasta' } });
+    expect(screen.getAllByTestId('recipe-item')).toHaveLength(1);
+
+    fireEvent.click(screen.getByTestId('search-clear-btn'));
+
+    expect(screen.getAllByTestId('recipe-item')).toHaveLength(2);
+  });
+
+  it('visar hjälptext när sökning ger inga träffar', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: [{ id: 1, name: 'Pasta Carbonara', description: null, cook_time_minutes: null, servings: null }],
+    });
+
+    render(<MemoryRouter><RecipeList /></MemoryRouter>);
+    await screen.findAllByTestId('recipe-item');
+
+    fireEvent.change(screen.getByTestId('search-input'), { target: { value: 'xyzxyz' } });
+
+    expect(screen.getByTestId('search-empty')).toBeInTheDocument();
+    expect(screen.queryAllByTestId('recipe-item')).toHaveLength(0);
+  });
+
   it('lenkar varje recept till dess detaljsida', async () => {
     mockedAxios.get.mockResolvedValue({
       data: [{ id: 42, name: 'Pasta', description: null, cook_time_minutes: null, servings: null }],
