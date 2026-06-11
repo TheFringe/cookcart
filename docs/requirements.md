@@ -44,7 +44,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-032 | Import av recept via URL                                  | ✅ |
 | US-033 | Användarinställningar                                     | ✅ |
 | US-034 | Tema                                                      | ✅ |
-| US-035 | Import av text                                            | 🔄 |
+| US-035 | Import av text                                            | ✅ |
 | US-036 | Kalender - månadsvy på små enheter                        | ✅ |
 | US-037 | Klick på veckonummer i månadsvy navigerar till veckovyn   | ✅ |
 | US-038 | Kalendernavigering sparas i URL-historik                  | ✅ |
