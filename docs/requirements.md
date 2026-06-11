@@ -53,6 +53,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-041 | Ordna ingredienser med drag-and-drop                      | ⬜ |
 | US-042 | Sök recept på namn                                        | ⬜ |
 | US-043 | Bild på recept                                            | ⬜ |
+| US-044 | Lägg till ingredienser genom att klistra in dem           | ✅ |
 
 **Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
 
@@ -117,6 +118,7 @@ Om webbplatsen använder klientrendering (t.ex. kokaihop.se) och inte kan import
 Användare kan importera recept från lokala textfiler (`.txt`, `.md`). Filen tolkas enligt ett definierat format med rubrik, portioner, ingredienser och tillagningssteg.
 Vid import av textfil ska rader som inled med `# ` tolkas som sektionsrubriker och renderas som `h2`-rubriker, se [Gremolata.txt](Gremolata.txt).
 I ingredienslistan finns också rader som inleds med `# ` dessa ska tolkas som en sektionsrubrik enligt US-040.
+
 ### US-039 — Sektionsrubriker för tillagningssteg
 
 Tillagningssteg kan grupperas under namngivna sektioner. En rad som börjar med `# ` tolkas som en sektionsrubrik och renderas som en `h2`-rubrik med en egen numrerad lista för efterföljande steg. Vid URL-import omvandlas `HowToSection`-objekt automatiskt till sektionsrubriker.
@@ -302,3 +304,23 @@ Användare ska kunna ladda upp en bild till ett recept. Bilden visas i receptdet
 ### US-042 — Sök recept på namn
 
 Användare ska kunna söka i receptlistan via ett sökfält. Sökningen filtrerar listan i realtid på receptnamn (skiftlägesokänsligt). Sökfältet visas ovanför receptlistan och rensas med ett ×-knapptryck. Inga träffar visar ett tomt tillstånd med en hjälptext.
+
+### US-044 — Lägg till ingredienser genom att klistra in dem
+
+Det ska gå att lägga till ingredienser genom att klistra in dem i receptformuläret. Användaren kan klistra in ingredienser från en extern källa, t.ex. en textfil eller en webbsida. Appen ska identifiera och formatera ingredienser korrekt och lägga till dem i receptet. Detta kan göra att användaren snabbt kan lägga till många ingredienser samtidigt.
+Exempel på ingredienser
+```plaintext
+* 1 gurka
+*   1 broccoli
+*   1 avokado
+*   en näve mynta
+*  gräslök eller salladslök (typ 2 st!)
+*   en nave notter, jag valde mandlar!
+# Lime- och vitlöksdressing
+*   2 msk majo
+*   2 msk grekisk yoghurt
+*   1 tsk dijon
+*   2 lime, juice & zest
+*   2 rivna vitlöksklyftor
+*   salt
+```
