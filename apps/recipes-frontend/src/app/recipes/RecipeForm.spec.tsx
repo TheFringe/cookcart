@@ -487,9 +487,26 @@ describe('RecipeForm — skapa', () => {
 describe('RecipeForm — klistra in ingredienser', () => {
   it('lägger till ingredienser från inklistrad text', () => {
     renderForm();
+    fireEvent.click(screen.getByTestId('open-paste-overlay-btn'));
     fireEvent.paste(screen.getByTestId('paste-ingredients'), {
       clipboardData: { getData: () => '* 2 dl grädde' },
     });
     expect(screen.getByTestId('ingredient-name-0')).toHaveValue('grädde');
+  });
+
+  it('visar inte paste-textarea förrän knappen klickas', () => {
+    renderForm();
+    expect(screen.queryByTestId('paste-ingredients')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByTestId('open-paste-overlay-btn'));
+    expect(screen.getByTestId('paste-ingredients')).toBeInTheDocument();
+  });
+
+  it('stänger overlayan efter att ingredienser klistrats in', () => {
+    renderForm();
+    fireEvent.click(screen.getByTestId('open-paste-overlay-btn'));
+    fireEvent.paste(screen.getByTestId('paste-ingredients'), {
+      clipboardData: { getData: () => '* 2 dl grädde' },
+    });
+    expect(screen.queryByTestId('paste-ingredients')).not.toBeInTheDocument();
   });
 });

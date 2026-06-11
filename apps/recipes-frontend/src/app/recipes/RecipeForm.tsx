@@ -25,6 +25,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
   const [importing, setImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [showPasteOverlay, setShowPasteOverlay] = useState(false);
 
   useEffect(() => {
     lastNameInputRef.current?.focus();
@@ -77,6 +78,7 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
     e.preventDefault();
     const parsed = parsePastedIngredients(e.clipboardData.getData('text'));
     if (parsed.length) setIngredients(parsed);
+    setShowPasteOverlay(false);
   }
 
   function handleFileImport(e: React.ChangeEvent<HTMLInputElement>) {
@@ -312,7 +314,10 @@ export function RecipeForm({ recipeId }: { recipeId?: string }) {
             <button type="button" data-testid={`remove-ingredient-${i}`} className="recipe-form__remove-ingredient" onClick={() => removeIngredient(i)}>×</button>
           </div>
         ))}
-        <textarea data-testid="paste-ingredients" className="recipe-form__paste-ingredients" onPaste={handleIngredientPaste} placeholder="Klistra in ingredienser…" />
+        <button type="button" data-testid="open-paste-overlay-btn" className="recipe-form__paste-btn" onClick={() => setShowPasteOverlay(true)}>Klistra in ingredienser</button>
+        {showPasteOverlay && (
+          <textarea data-testid="paste-ingredients" className="recipe-form__paste-ingredients" onPaste={handleIngredientPaste} placeholder="Klistra in ingredienser…" />
+        )}
         <button className="recipe-form__add-ingredient" data-testid="add-ingredient-btn" type="button" onClick={addIngredient}>+ Lägg till ingrediens</button>
         <div className="recipe-form__actions">
           <button className="recipe-form__submit" data-testid="submit-btn" type="submit">Spara</button>

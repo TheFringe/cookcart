@@ -1133,6 +1133,32 @@ button {
     }
   }
 
+  &__paste-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--c-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    transition: color 0.2s;
+
+    &::before { content: '📋'; font-style: normal; }
+    &:hover { color: var(--c-accent); }
+  }
+
+  &__paste-ingredients {
+    @include form-control;
+    display: block;
+    width: 100%;
+    min-height: 7rem;
+    resize: vertical;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8125rem;
+    margin-bottom: 0.75rem;
+  }
+
   &__add-ingredient {
     display: block;
     font-size: 0.8125rem;
