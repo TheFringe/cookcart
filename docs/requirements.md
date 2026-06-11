@@ -56,7 +56,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-044 | Lägg till ingredienser genom att klistra in dem          | ✅ |
 | US-045 | UX för klistra in ingredienser                           | ✅ |
 | US-046 | Uppdatera inköpslista, flera användare                   | ✅ |
-| US-047 | Gör applikationen till en progressive web app            | ⬜ |
+| US-047 | Gör applikationen till en progressive web app            | ✅ |
 
 **Status:** ✅ Klar &nbsp;·&nbsp; 🔄 Delvis &nbsp;·&nbsp; ⬜ Ej påbörjad
 
