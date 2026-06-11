@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction, RequestHandler } from 'express';
-import { RecipeRepository } from './recipe.repository';
+import { RecipeRepository, RecipeInput } from './recipe.repository';
 import { parseRecipeFromUrl } from './import';
 
 const NOT_FOUND = { error: 'Receptet hittades inte' };
@@ -15,11 +15,16 @@ function parseId(param: string): number | null {
   return isNaN(id) ? null : id;
 }
 
-function normalizeBody(body: { ingredients?: { name: string; quantity: string; unit: string }[] }) {
+type RawIngredient = { name: string; quantity: string | null; unit: string; section?: string | null };
+type RawBody = Omit<RecipeInput, 'ingredients'> & { ingredients?: RawIngredient[] };
+
+function normalizeBody(body: RawBody): RecipeInput {
   return {
     ...body,
     ingredients: (body.ingredients ?? []).map((ing) => ({
-      ...ing,
+      name: ing.name,
+      unit: ing.unit,
+      section: ing.section ?? null,
       quantity: ing.quantity !== '' && ing.quantity != null ? Number(ing.quantity) : null,
     })),
   };

@@ -82,7 +82,7 @@ describe('PUT /recipes/:id', () => {
     await request(app).put('/recipes/1').send({ name: 'Pasta', ingredients: [{ name: 'salt', quantity: '', unit: '' }] });
 
     expect(mockRepo.update).toHaveBeenCalledWith(1, expect.objectContaining({
-      ingredients: [{ name: 'salt', quantity: null, unit: '' }],
+      ingredients: [{ name: 'salt', quantity: null, unit: '', section: null }],
     }));
   });
 });
@@ -172,7 +172,7 @@ describe('POST /recipes', () => {
     await request(app).post('/recipes').send(input);
 
     expect(mockRepo.create).toHaveBeenCalledWith(expect.objectContaining({
-      ingredients: [{ name: 'salt', quantity: null, unit: '' }],
+      ingredients: [{ name: 'salt', quantity: null, unit: '', section: null }],
     }));
   });
 
