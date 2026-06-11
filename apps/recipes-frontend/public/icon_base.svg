@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <clipPath id="rounded"><rect width="512" height="512" rx="112"/></clipPath>
+  </defs>
+
+  <!-- background -->
+  <rect width="512" height="512" rx="112" fill="#5e81ac"/>
+
+  <g clip-path="url(#rounded)">
+    <!-- card background -->
+    <rect x="72" y="100" width="368" height="312" rx="28" fill="#ededed" opacity="0.12"/>
+    <rect x="72" y="100" width="368" height="312" rx="28" fill="none" stroke="#88c0d0" stroke-width="5"/>
+    <!-- spine -->
+    <line x1="256" y1="100" x2="256" y2="412" stroke="#88c0d0" stroke-width="4" opacity="0.5"/>
+
+    <!-- FORK: tines -->
+    <rect x="152" y="126" width="10" height="64" rx="5" fill="#ededed" opacity="0.95"/>
+    <rect x="136" y="126" width="10" height="48" rx="5" fill="#ededed" opacity="0.80"/>
+    <rect x="168" y="126" width="10" height="48" rx="5" fill="#ededed" opacity="0.80"/>
+    <rect x="120" y="126" width="10" height="36" rx="5" fill="#ededed" opacity="0.60"/>
+    <rect x="184" y="126" width="10" height="36" rx="5" fill="#ededed" opacity="0.60"/>
+    <!-- fork neck -->
+    <rect x="149" y="188" width="16" height="80" rx="8" fill="#ededed" opacity="0.90"/>
+    <!-- fork handle -->
+    <rect x="143" y="264" width="28" height="112" rx="14" fill="#a3be8c"/>
+
+    <!-- SPOON: bowl -->
+    <ellipse cx="346" cy="174" rx="32" ry="42" fill="#ededed" opacity="0.95"/>
+    <ellipse cx="346" cy="178" rx="20" ry="28" fill="#d08770" opacity="0.55"/>
+    <!-- spoon neck -->
+    <rect x="339" y="214" width="14" height="60" rx="7" fill="#ededed" opacity="0.90"/>
+    <!-- spoon handle -->
+    <rect x="333" y="270" width="26" height="108" rx="13" fill="#b48ead"/>
+
+    <!-- ingredient lines (left bottom) -->
+    <rect x="100" y="290" width="120" height="10" rx="5" fill="#8fbcbb" opacity="0.70"/>
+    <rect x="100" y="310" width="90"  height="10" rx="5" fill="#8fbcbb" opacity="0.50"/>
+    <rect x="100" y="330" width="104" height="10" rx="5" fill="#8fbcbb" opacity="0.60"/>
+    <rect x="100" y="350" width="70"  height="10" rx="5" fill="#8fbcbb" opacity="0.40"/>
+
+    <!-- CHECKLIST row 1: checked -->
+    <rect x="272" y="148" width="148" height="40" rx="10" fill="#81a1c1" opacity="0.25"/>
+    <rect x="284" y="160" width="18" height="18" rx="5" fill="none" stroke="#a3be8c" stroke-width="5"/>
+    <polyline points="288,169 293,175 304,162" stroke="#a3be8c" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="312" y="164" width="96" height="10" rx="5" fill="#ededed" opacity="0.80"/>
+
+    <!-- row 2: checked -->
+    <rect x="272" y="198" width="148" height="40" rx="10" fill="#81a1c1" opacity="0.25"/>
+    <rect x="284" y="210" width="18" height="18" rx="5" fill="none" stroke="#a3be8c" stroke-width="5"/>
+    <polyline points="288,219 293,225 304,212" stroke="#a3be8c" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="312" y="214" width="72" height="10" rx="5" fill="#ededed" opacity="0.80"/>
+
+    <!-- row 3: unchecked -->
+    <rect x="272" y="248" width="148" height="40" rx="10" fill="#81a1c1" opacity="0.12"/>
+    <rect x="284" y="260" width="18" height="18" rx="5" fill="none" stroke="#88c0d0" stroke-width="5" opacity="0.55"/>
+    <rect x="312" y="264" width="88" height="10" rx="5" fill="#ededed" opacity="0.45"/>
+
+    <!-- row 4: unchecked -->
+    <rect x="272" y="298" width="148" height="40" rx="10" fill="#81a1c1" opacity="0.12"/>
+    <rect x="284" y="310" width="18" height="18" rx="5" fill="none" stroke="#88c0d0" stroke-width="5" opacity="0.55"/>
+    <rect x="312" y="314" width="60" height="10" rx="5" fill="#ededed" opacity="0.45"/>
+
+    <!-- row 5: unchecked -->
+    <rect x="272" y="348" width="148" height="40" rx="10" fill="#81a1c1" opacity="0.12"/>
+    <rect x="284" y="360" width="18" height="18" rx="5" fill="none" stroke="#88c0d0" stroke-width="5" opacity="0.55"/>
+    <rect x="312" y="364" width="80" height="10" rx="5" fill="#ededed" opacity="0.45"/>
+  </g>
+</svg>
