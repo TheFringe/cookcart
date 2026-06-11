@@ -291,6 +291,20 @@ describe('ShoppingListDetail', () => {
     expect(screen.getByTestId('item-quantity-11')).toHaveTextContent('12 st');
   });
 
+  it('hämtar listan igen efter 10 sekunder', async () => {
+    jest.useFakeTimers();
+    mockedAxios.get.mockResolvedValue({ data: listData });
+
+    renderAt('/shopping-lists/1');
+    await screen.findByText('Mjölk');
+
+    const callsBefore = mockedAxios.get.mock.calls.length;
+    jest.advanceTimersByTime(10_000);
+    expect(mockedAxios.get.mock.calls.length).toBeGreaterThan(callsBefore);
+
+    jest.useRealTimers();
+  });
+
   it('kryssad vara visas i plockade varor-sektionen och inte i aktiva varor', async () => {
     mockedAxios.get.mockResolvedValue({ data: listData });
     mockedAxios.patch.mockResolvedValue({ data: {} });

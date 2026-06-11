@@ -36,6 +36,15 @@ export function ShoppingListDetail() {
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   useEffect(() => {
+    const POLL_INTERVAL = 10_000;
+
+    function fetchList() {
+      axios
+        .get<ShoppingListFull>(`${API_URL}/shopping-lists/${id}`, { withCredentials: true })
+        .then((r) => setList(r.data))
+        .catch(() => undefined);
+    }
+
     axios
       .get<ShoppingListSummary[]>(`${API_URL}/shopping-lists`, { withCredentials: true })
       .then((r) => setAllLists(Array.isArray(r.data) ? r.data : []))
@@ -48,6 +57,9 @@ export function ShoppingListDetail() {
       .get<{ id: number; name: string }[]>(`${API_URL}/ingredients`, { withCredentials: true })
       .then((r) => setSuggestions(r.data.map((i) => i.name)))
       .catch(() => undefined);
+
+    const timer = setInterval(fetchList, POLL_INTERVAL);
+    return () => clearInterval(timer);
   }, [id]);
 
   function patchChecked(itemId: number, checked: boolean) {
