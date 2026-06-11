@@ -54,7 +54,7 @@ Applikationen riktar sig till hushåll där flera personer delar på matplanerin
 | US-042 | Sök recept på namn                                       | ✅ |
 | US-043 | Bild på recept                                           | ⬜ |
 | US-044 | Lägg till ingredienser genom att klistra in dem          | ✅ |
-| US-045 | UX för klistra in ingredienser                           | ⬜ |
+| US-045 | UX för klistra in ingredienser                           | ✅ |
 | US-046 | Uppdatera inköpslista, flera användare                   | ⬜ |
 | US-047 | Gör applikationen till en progressive web app            | ⬜ |
 
@@ -326,6 +326,34 @@ Exempel på ingredienser
 *   2 lime, juice & zest
 *   2 rivna vitlöksklyftor
 *   salt
+```
+```plaintext
+# Ingredienser`
+1 gurka
+ 1 broccoli
+  1 avokado
+ 1 näve mynta
+ gräslök eller salladslök (typ 2 st!)
+  en nave nötter, jag valde mandlar!
+# Lime- och vitlöksdressing
+  2 msk  majo
+  2 msk grekisk yoghurt
+  1 tsk dijon
+  2 lime, juice & zest
+  2 rivna vitlöksklyftor             
+  salt
+```
+
+```plaintext
+# Ingredienser
+- 1 st gurka
+-  1 broccoli
+```
+
+```plaintext
+# Ingredienser
+1. 1 st gurka
+2. 1 broccoli
 ```
 
 ### US-045 UX för klistra in ingredienser
